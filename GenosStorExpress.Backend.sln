@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35818.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.API", "GenosStorExpress.API\GenosStorExpress.API.csproj", "{D59887E7-1778-45D4-B065-E97A6C1C876A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Domain", "GenosStorExpress.Domain\GenosStorExpress.Domain.csproj", "{F5E7BF4A-E703-4721-B76D-121B56BF7366}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Infrastructure", "GenosStorExpress.Infrastructure\GenosStorExpress.Infrastructure.csproj", "{5CA4F274-95ED-4775-9114-3AAC11CFDEF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Application", "GenosStorExpress.Application\GenosStorExpress.Application.csproj", "{2E4BDC76-10F5-4E96-A06A-3B94721F367A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Utils", "GenosStorExpress.Utils\GenosStorExpress.Utils.csproj", "{690AC603-F1E2-49FC-85EC-BB69940728C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Tests", "GenosStorExpress.Tests\GenosStorExpress.Tests.csproj", "{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D59887E7-1778-45D4-B065-E97A6C1C876A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D59887E7-1778-45D4-B065-E97A6C1C876A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D59887E7-1778-45D4-B065-E97A6C1C876A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D59887E7-1778-45D4-B065-E97A6C1C876A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5E7BF4A-E703-4721-B76D-121B56BF7366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5E7BF4A-E703-4721-B76D-121B56BF7366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5E7BF4A-E703-4721-B76D-121B56BF7366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5E7BF4A-E703-4721-B76D-121B56BF7366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CA4F274-95ED-4775-9114-3AAC11CFDEF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CA4F274-95ED-4775-9114-3AAC11CFDEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CA4F274-95ED-4775-9114-3AAC11CFDEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CA4F274-95ED-4775-9114-3AAC11CFDEF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E4BDC76-10F5-4E96-A06A-3B94721F367A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E4BDC76-10F5-4E96-A06A-3B94721F367A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E4BDC76-10F5-4E96-A06A-3B94721F367A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E4BDC76-10F5-4E96-A06A-3B94721F367A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{690AC603-F1E2-49FC-85EC-BB69940728C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{690AC603-F1E2-49FC-85EC-BB69940728C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{690AC603-F1E2-49FC-85EC-BB69940728C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{690AC603-F1E2-49FC-85EC-BB69940728C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E89A3550-3849-4D48-A399-B6D64F32F902}
+	EndGlobalSection
+EndGlobal

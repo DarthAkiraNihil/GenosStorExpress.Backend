@@ -1,0 +1,6 @@
+@GenosStorExpress.API_HostAddress = http://localhost:5196
+
+GET {{GenosStorExpress.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

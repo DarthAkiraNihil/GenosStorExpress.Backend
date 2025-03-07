@@ -3,7 +3,7 @@ using GenosStorExpress.Application.Wrappers.Entity.Item.Orders;
 
 namespace GenosStorExpress.Application.Wrappers.Entity.Item;
 
-public class ItemWrapper: WithModelWrapper {
+public abstract class ItemWrapper: WithModelWrapper {
     public int Id { get; set; }
     public double Price { get; set; }
     public string Description { get; set; }

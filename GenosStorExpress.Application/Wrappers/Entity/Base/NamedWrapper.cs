@@ -1,5 +1,7 @@
-﻿namespace GenosStorExpress.Application.Wrappers.Entity.Base;
+﻿using GenosStorExpress.Domain.Entity.Base;
 
-public class NamedWrapper {
+namespace GenosStorExpress.Application.Wrappers.Entity.Base;
+
+public abstract class NamedWrapper {
     public string Name { get; set; }
 }

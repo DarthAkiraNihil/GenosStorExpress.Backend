@@ -2,6 +2,7 @@
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IDPIModeService: ISupportsList<DPIMode> {
+    public interface IDPIModeService {
+        List<int> List();
     }
 }

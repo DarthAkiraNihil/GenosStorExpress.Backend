@@ -15,7 +15,7 @@ namespace GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent {
 		public virtual List<Motherboard> Motherboards { get; set; }
 
 		public CPUCore() {
-			//Motherboards = new List<Motherboard>();
+			Motherboards = new List<Motherboard>();
 		}
 	}
 }

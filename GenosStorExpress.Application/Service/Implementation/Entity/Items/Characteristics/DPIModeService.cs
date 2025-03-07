@@ -10,8 +10,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _repositories = repositories;
         }
 
-        public List<DPIMode> List() {
-            return _repositories.Items.Characteristics.DPIModes.List();
+        public List<int> List() {
+            return _repositories.Items.Characteristics.DPIModes.List().Select(i => i.DPI).ToList();
         }
         
     }

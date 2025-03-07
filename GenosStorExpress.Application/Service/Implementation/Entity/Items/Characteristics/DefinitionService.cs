@@ -1,27 +1,47 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
+using GenosStorExpress.Application.Wrappers.Entity.Item.Characteristic;
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 using GenosStorExpress.Domain.Interface;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Characteristics {
     public class DefinitionService: IDefinitionService {
-        private IGenosStorExpressRepositories _repositories;
 
-        public void Create(string item) {
-            var created = new Definition { Name = item };
-            _repositories.Items.Characteristics.Definitions.Create(created);
+        private readonly IGenosStorExpressRepositories _repositories;
+
+        public DefinitionService(IGenosStorExpressRepositories repositories) {
+            _repositories = repositories;
         }
 
-        public string Get(int id) {
-            return _repositories.Items.Characteristics.Definitions.Get(id).Name;
+        public void Create(DefinitionWrapper item) {
+            var obj = new Definition { Width = item.Width, Height = item.Height};
+            _repositories.Items.Characteristics.Definitions.Create(obj);
         }
 
-        public List<string> List() {
-            return _repositories.Items.Characteristics.Definitions.List().Select(c => c.Name).ToList();
-        }
-
-        public void Update(int id, string item) {
+        public DefinitionWrapper Get(int id) {
             Definition obj = _repositories.Items.Characteristics.Definitions.Get(id);
-            obj.Name = item;
+            return new DefinitionWrapper { Width = obj.Width, Height = obj.Height };
+        }
+
+        public List<DefinitionWrapper> List() {
+            return _repositories
+                   .Items
+                   .Characteristics
+                   .Definitions
+                   .List()
+                   .Select(item => new DefinitionWrapper { Width = item.Width, Height = item.Height })
+                   .ToList();
+        }
+
+        public void Update(int id, DefinitionWrapper item) {
+            Definition obj = _repositories.Items.Characteristics.Definitions.Get(id);
+            
+            if (obj.Height != item.Height) {
+                obj.Height = item.Height;
+            }
+            if (obj.Width != item.Width) {
+                obj.Width = item.Width;
+            }
+            
             _repositories.Items.Characteristics.Definitions.Update(obj);
         }
 
@@ -31,10 +51,6 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
 
         public int Save() {
             return _repositories.Save();
-        }
-
-        public bool BelongsToEnum(string value) {
-            return _repositories.Items.Characteristics.Definitions.List().Exists(c => c.Name == value);
         }
     }
 }

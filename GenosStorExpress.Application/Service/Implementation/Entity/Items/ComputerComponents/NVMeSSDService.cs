@@ -1,40 +1,59 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+﻿using GenosStorExpress.Application.Service.Implementation.Base;
+using GenosStorExpress.Application.Service.Interface.Entity.Items;
+using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
+using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
+using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.ComputerComponents {
-    public class NVMeSSDService: INVMeSSDService {
-        private IGenosStorExpressRepositories _repositories;
+    public class NVMeSSDService: AbstractSSDService, INVMeSSDService {
+        private readonly IGenosStorExpressRepositories _repositories;
+        private readonly INVMeSSDRepository _nvmeSSDs;
 
-        public NVMeSSDService(IGenosStorExpressRepositories repositories) {
+        public NVMeSSDService(IItemTypeService itemTypeService, IVendorService vendorService, ISSDControllerService ssdControllerService, IGenosStorExpressRepositories repositories) : base(itemTypeService, vendorService, ssdControllerService) {
             _repositories = repositories;
+            _nvmeSSDs = _repositories.Items.ComputerComponents.NVMeSSDs;
+        }
+        
+        public void Create(NVMeSSDWrapper item) {
+            var created = new NVMeSSD();
+            _setEntityPropertiesFromWrapper(created, item);
+            _nvmeSSDs.Create(created);
         }
 
-        public void Create(NVMeSSD item) {
-            _repositories.Items.ComputerComponents.NVMeSSDs.Create(item);
+        public NVMeSSDWrapper Get(int id) {
+            NVMeSSD obj = _nvmeSSDs.Get(id);
+            var wrapped = new NVMeSSDWrapper();
+            _setWrapperPropertiesFromEntity(obj, wrapped);
+            return wrapped;
         }
 
-        public NVMeSSD Get(int id) {
-            return _repositories.Items.ComputerComponents.NVMeSSDs.Get(id);
+        public List<NVMeSSDWrapper> List() {
+            return _nvmeSSDs.List().Select(obj => {
+                var wrapped = new NVMeSSDWrapper();
+                _setWrapperPropertiesFromEntity(obj, wrapped);
+                return wrapped;
+            }).ToList();
         }
 
-        public List<NVMeSSD> List() {
-            return _repositories.Items.ComputerComponents.NVMeSSDs.List();
-        }
-
-        public void Update(NVMeSSD item) {
-            _repositories.Items.ComputerComponents.NVMeSSDs.Update(item);
+        public void Update(int id, NVMeSSDWrapper item) {
+            var obj = _nvmeSSDs.Get(id);
+            _setEntityPropertiesFromWrapper(obj, item);
+            _nvmeSSDs.Update(obj);
         }
 
         public void Delete(int id) {
-            _repositories.Items.ComputerComponents.NVMeSSDs.Delete(id);
+            _nvmeSSDs.Delete(id);
         }
 
         public int Save() {
             return _repositories.Save();
         }
         
-        public List<NVMeSSD> Filter(List<Func<NVMeSSD, bool>> filters) {
+        public List<NVMeSSDWrapper> Filter(List<Func<NVMeSSDWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {
                 result = result.Where(filter).ToList();

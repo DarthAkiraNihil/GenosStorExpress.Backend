@@ -1,6 +1,8 @@
-﻿namespace GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
+﻿using GenosStorExpress.Application.Wrappers.Entity.Base;
 
-public abstract class SimpleComputerComponentWrapper {
+namespace GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
+
+public abstract class SimpleComputerComponentWrapper: WithModelWrapper {
     public long Id { get; set; }
     public string Type { get; set; }
 }

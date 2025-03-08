@@ -1,45 +1,65 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+﻿using GenosStorExpress.Application.Service.Implementation.Base;
+using GenosStorExpress.Application.Service.Interface.Entity.Items;
+using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
+using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
+using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.ComputerComponents {
-    public class SataSSDService: ISataSSDService {
-        private IGenosStorExpressRepositories _repositories;
+    public class SataSSDService: AbstractSSDService, ISataSSDService {
+        private readonly IGenosStorExpressRepositories _repositories;
+        private readonly ISataSSDRepository _sataSSDs;
 
-        public void Create(SataSSD item) {
-            _repositories.Items.ComputerComponents.SataSSDs.Create(item);
+        public SataSSDService(IItemTypeService itemTypeService, IVendorService vendorService, ISSDControllerService ssdControllerService, IGenosStorExpressRepositories repositories) : base(itemTypeService, vendorService, ssdControllerService) {
+            _repositories = repositories;
+            _sataSSDs = _repositories.Items.ComputerComponents.SataSSDs;
         }
 
-        public SataSSD Get(int id) {
-            return _repositories.Items.ComputerComponents.SataSSDs.Get(id);
+        public void Create(SataSSDWrapper item) {
+            var created = new SataSSD();
+            _setEntityPropertiesFromWrapper(created, item);
+            _sataSSDs.Create(created);
         }
 
-        public List<SataSSD> List() {
-            return _repositories.Items.ComputerComponents.SataSSDs.List();
+        public SataSSDWrapper Get(int id) {
+            SataSSD obj = _sataSSDs.Get(id);
+            var wrapped = new SataSSDWrapper();
+            _setWrapperPropertiesFromEntity(obj, wrapped);
+            return wrapped;
         }
 
-        public void Update(SataSSD item) {
-            _repositories.Items.ComputerComponents.SataSSDs.Update(item);
+        public List<SataSSDWrapper> List() {
+            return _sataSSDs.List().Select(obj => {
+                var wrapped = new SataSSDWrapper();
+                _setWrapperPropertiesFromEntity(obj, wrapped);
+                return wrapped;
+            }).ToList();
+        }
+
+        public void Update(int id, SataSSDWrapper item) {
+            var obj = _sataSSDs.Get(id);
+            _setEntityPropertiesFromWrapper(obj, item);
+            _sataSSDs.Update(obj);
         }
 
         public void Delete(int id) {
-            _repositories.Items.ComputerComponents.SataSSDs.Delete(id);
+            _sataSSDs.Delete(id);
         }
 
         public int Save() {
             return _repositories.Save();
         }
         
-        public List<SataSSD> Filter(List<Func<SataSSD, bool>> filters) {
+        public List<SataSSDWrapper> Filter(List<Func<SataSSDWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {
                 result = result.Where(filter).ToList();
             }
             return result;
         }
-
-        public SataSSDService(IGenosStorExpressRepositories repositories) {
-            _repositories = repositories;
-        }
+        
     }
 }

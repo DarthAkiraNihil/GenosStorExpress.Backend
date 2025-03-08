@@ -1,7 +1,8 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Base;
+using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IMotherboardFormFactorService: IEnumService {
+    public interface IMotherboardFormFactorService: IEnumService<MotherboardFormFactor> {
 		
     }
 }

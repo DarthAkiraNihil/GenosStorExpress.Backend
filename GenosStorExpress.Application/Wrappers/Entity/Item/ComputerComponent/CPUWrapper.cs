@@ -1,8 +1,10 @@
-﻿namespace GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+﻿using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
+
+namespace GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 
 public class CPUWrapper: ComputerComponentWrapper {
-    public string CPUCore { get; set; }
-    public string CPUSocket { get; set; }
+    public CPUCoreWrapper Core { get; set; }
+    public string Socket { get; set; }
     
     public int CoresCount { get; set; }
     public int ThreadsCount { get; set; }

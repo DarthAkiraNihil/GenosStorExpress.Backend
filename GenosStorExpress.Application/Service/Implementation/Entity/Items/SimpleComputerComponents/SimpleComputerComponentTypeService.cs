@@ -1,41 +1,52 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
 using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Interface;
+using GenosStorExpress.Domain.Interface.Item.SimpleComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.SimpleComputerComponents {
     public class SimpleComputerComponentTypeService: ISimpleComputerComponentTypeService {
-        private IGenosStorExpressRepositories _repositories;
+
+        private readonly IGenosStorExpressRepositories _repositories;
+        private readonly ISimpleComputerComponentTypeRepository _simpleComputerComponentTypes;
 
         public SimpleComputerComponentTypeService(IGenosStorExpressRepositories repositories) {
             _repositories = repositories;
+            _simpleComputerComponentTypes = _repositories.Items.SimpleComputerComponents.SimpleComputerComponentTypes;
         }
 
-        public void Create(SimpleComputerComponentType item) {
-            _repositories.Items.SimpleComputerComponents.SimpleComputerComponentTypes.Create(item);
+        public void Create(string item) {
+            var created = new SimpleComputerComponentType { Name = item };
+            _simpleComputerComponentTypes.Create(created);
         }
 
-        public SimpleComputerComponentType Get(int id) {
-            return _repositories.Items.SimpleComputerComponents.SimpleComputerComponentTypes.Get(id);
+        public string Get(int id) {
+            return _simpleComputerComponentTypes.Get(id).Name;
         }
 
-        public List<SimpleComputerComponentType> List() {
-            return _repositories.Items.SimpleComputerComponents.SimpleComputerComponentTypes.List();
+        public List<string> List() {
+            return _simpleComputerComponentTypes.List().Select(c => c.Name).ToList();
         }
 
-        public void Update(SimpleComputerComponentType item) {
-            _repositories.Items.SimpleComputerComponents.SimpleComputerComponentTypes.Update(item);
+        public void Update(int id, string item) {
+            SimpleComputerComponentType obj = _simpleComputerComponentTypes.Get(id);
+            obj.Name = item;
+            _simpleComputerComponentTypes.Update(obj);
         }
 
         public void Delete(int id) {
-            _repositories.Items.SimpleComputerComponents.SimpleComputerComponentTypes.Delete(id);
+            _simpleComputerComponentTypes.Delete(id);
         }
 
         public int Save() {
             return _repositories.Save();
         }
 
-        public SimpleComputerComponentType GetFromString(string value) {
-            return _repositories.Items.SimpleComputerComponents.SimpleComputerComponentTypes.List().FirstOrDefault(i => i.Name == value);
+        public bool BelongsToEnum(string value) {
+            return _simpleComputerComponentTypes.List().Exists(c => c.Name == value);
+        }
+
+        public SimpleComputerComponentType GetEntityFromString(string value) {
+            return _simpleComputerComponentTypes.List().FirstOrDefault(c => c.Name == value, null);
         }
     }
 }

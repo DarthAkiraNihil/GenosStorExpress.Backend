@@ -3,4 +3,4 @@ using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 
-public interface ICoolerMaterialService : IEnumService;
+public interface ICoolerMaterialService : IEnumService<CoolerMaterial>;

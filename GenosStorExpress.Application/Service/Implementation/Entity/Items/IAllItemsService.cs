@@ -22,7 +22,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
             return _repositories.Items.All.List();
         }
 
-        public void Update(Item item) {
+        public void Update(int id, Item item) {
             _repositories.Items.All.Update(item);
         }
 

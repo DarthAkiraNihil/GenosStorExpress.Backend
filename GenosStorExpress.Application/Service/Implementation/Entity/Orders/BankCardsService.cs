@@ -1,29 +1,66 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Orders;
+using GenosStorExpress.Application.Wrappers.Entity.Item.Orders;
 using GenosStorExpress.Domain.Entity.Orders;
 using GenosStorExpress.Domain.Interface;
+using GenosStorExpress.Domain.Interface.Orders;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
     public class BankCardsService: IBankCardService {
-        private IGenosStorExpressRepositories _repositories;
+        private readonly IGenosStorExpressRepositories _repositories;
+        private readonly IBankCardRepository _bankCards;
+        private readonly IBankSystemService _bankSystemService;
 
-        public BankCardsService(IGenosStorExpressRepositories repositories) {
+        public BankCardsService(IGenosStorExpressRepositories repositories, IBankSystemService bankSystemService) {
             _repositories = repositories;
+            _bankSystemService = bankSystemService;
+            _bankCards = _repositories.Orders.BankCards;
         }
 
-        public void Create(BankCard item) {
-            _repositories.Orders.BankCards.Create(item);
+        public void Create(BankCardWrapper item) {
+            _bankCards.Create(new BankCard {
+                Number = item.Number,
+                ValidThruMonth = item.ValidThruMonth,
+                ValidThruYear = item.ValidThruYear,
+                CVC = item.CVC,
+                Owner = item.Owner,
+                BankSystem = _bankSystemService.GetEntityFromString(item.BankSystem)
+            });
         }
 
-        public BankCard Get(int id) {
-            return _repositories.Orders.BankCards.Get(id);
+        public BankCardWrapper Get(int id) {
+            var obj =  _bankCards.Get(id);
+            return new BankCardWrapper {
+                Id = obj.Id,
+                Number = obj.Number,
+                ValidThruMonth = obj.ValidThruMonth,
+                ValidThruYear = obj.ValidThruYear,
+                CVC = obj.CVC,
+                Owner = obj.Owner,
+                BankSystem = obj.BankSystem.Name
+            };
         }
 
-        public List<BankCard> List() {
-            return _repositories.Orders.BankCards.List();
+        public List<BankCardWrapper> List() {
+            return _bankCards.List().Select(obj => new BankCardWrapper {
+                Id = obj.Id,
+                Number = obj.Number,
+                ValidThruMonth = obj.ValidThruMonth,
+                ValidThruYear = obj.ValidThruYear,
+                CVC = obj.CVC,
+                Owner = obj.Owner,
+                BankSystem = obj.BankSystem.Name
+            }).ToList();
         }
 
-        public void Update(BankCard item) {
-            _repositories.Orders.BankCards.Update(item);
+        public void Update(int id, BankCardWrapper item) {
+            var obj = _bankCards.Get(id);
+            obj.Number = item.Number;
+            obj.ValidThruMonth = item.ValidThruMonth;
+            obj.ValidThruYear = item.ValidThruYear;
+            obj.CVC = item.CVC;
+            obj.Owner = item.Owner;
+            obj.BankSystem = _bankSystemService.GetEntityFromString(item.BankSystem);
+            _bankCards.Update(obj);
         }
 
         public void Delete(int id) {

@@ -5,7 +5,7 @@
         //IComputerComponentRepository ComputerComponents { get; }
         ICPUCoolerRepository CPUCoolers { get; }
         ICPURepository CPUs { get; }
-        //IDiskDriveRepository DiskDrives { get; }
+        IDiskDriveRepository DiskDrives { get; }
         IDisplayRepository Displays { get; }
         IGraphicsCardRepository GraphicsCards { get; }
         IHDDRepository HDDs { get; }

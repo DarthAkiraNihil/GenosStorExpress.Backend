@@ -1,36 +1,39 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 using GenosStorExpress.Domain.Interface;
+using GenosStorExpress.Domain.Interface.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Characteristics {
     public class KeyboardTypeService: IKeyboardTypeService {
         private readonly IGenosStorExpressRepositories _repositories;
+        private readonly IKeyboardTypeRepository _keyboardTypes;
 
         public KeyboardTypeService(IGenosStorExpressRepositories repositories) {
             _repositories = repositories;
+            _keyboardTypes = _repositories.Items.Characteristics.KeyboardTypes;
         }
 
         public void Create(string item) {
             var created = new KeyboardType { Name = item };
-            _repositories.Items.Characteristics.KeyboardTypes.Create(created);
+            _keyboardTypes.Create(created);
         }
 
         public string Get(int id) {
-            return _repositories.Items.Characteristics.KeyboardTypes.Get(id).Name;
+            return _keyboardTypes.Get(id).Name;
         }
 
         public List<string> List() {
-            return _repositories.Items.Characteristics.KeyboardTypes.List().Select(c => c.Name).ToList();
+            return _keyboardTypes.List().Select(c => c.Name).ToList();
         }
 
         public void Update(int id, string item) {
-            KeyboardType obj = _repositories.Items.Characteristics.KeyboardTypes.Get(id);
+            KeyboardType obj = _keyboardTypes.Get(id);
             obj.Name = item;
-            _repositories.Items.Characteristics.KeyboardTypes.Update(obj);
+            _keyboardTypes.Update(obj);
         }
 
         public void Delete(int id) {
-            _repositories.Items.Characteristics.KeyboardTypes.Delete(id);
+            _keyboardTypes.Delete(id);
         }
 
         public int Save() {
@@ -38,7 +41,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public bool BelongsToEnum(string value) {
-            return _repositories.Items.Characteristics.KeyboardTypes.List().Exists(c => c.Name == value);
+            return _keyboardTypes.List().Exists(c => c.Name == value);
+        }
+
+        public KeyboardType GetEntityFromString(string value) {
+            return _keyboardTypes.List().FirstOrDefault(c => c.Name == value, null);
         }
     }
 }

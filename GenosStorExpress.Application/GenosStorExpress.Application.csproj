@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Wrappers\Enum\" />
     <Folder Include="Service\Interface\" />
-    <Folder Include="Service\Implementation\" />
   </ItemGroup>
 
   <ItemGroup>

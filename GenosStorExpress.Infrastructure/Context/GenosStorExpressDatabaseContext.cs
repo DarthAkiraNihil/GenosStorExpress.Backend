@@ -49,6 +49,7 @@ namespace GenosStorExpress.Infrastructure.Context{
 		public DbSet<SataSSD> SataSSDs { get; set; }
 		public DbSet<NVMeSSD> NVMeSSDs { get; set; }
 		public DbSet<HDD> HDDs { get; set; }
+		public DbSet<DiskDrive> DiskDrives { get; set; }
 		public DbSet<Display> Displays { get; set; }
 		public DbSet<ComputerCase> ComputerCases { get; set; }
 		public DbSet<Keyboard> Keyboards { get; set; }
@@ -135,8 +136,8 @@ namespace GenosStorExpress.Infrastructure.Context{
 			
 			var cpuEntity = modelBuilder.Entity<CPU>();
 			
-			cpuEntity.Navigation(c => c.CPUCore).AutoInclude().IsRequired();
-			cpuEntity.Navigation(c => c.CPUSocket).AutoInclude().IsRequired();
+			cpuEntity.Navigation(c => c.Core).AutoInclude().IsRequired();
+			cpuEntity.Navigation(c => c.Socket).AutoInclude().IsRequired();
 			cpuEntity.HasMany(c => c.SupportedRamType)
 			         .WithMany(r => r.CPUs);
 			
@@ -206,13 +207,13 @@ namespace GenosStorExpress.Infrastructure.Context{
 			
 			var ramEntity = modelBuilder.Entity<RAM>();
 			
-			ramEntity.Navigation(r => r.RAMType).AutoInclude().IsRequired();
+			ramEntity.Navigation(r => r.Type).AutoInclude().IsRequired();
 			
 			
 			
 			var ssdEntity = modelBuilder.Entity<SSD>();
 
-			ssdEntity.Navigation(s => s.SSDController).AutoInclude().IsRequired();
+			ssdEntity.Navigation(s => s.Controller).AutoInclude().IsRequired();
 			
 			
 			

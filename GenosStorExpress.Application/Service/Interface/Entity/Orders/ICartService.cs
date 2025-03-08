@@ -4,7 +4,7 @@ using GenosStorExpress.Domain.Entity.Orders;
 using GenosStorExpress.Domain.Entity.User;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
-    public interface ICartService: IStandardService<Cart> {
+    public interface ICartService {
         void AddToCart(Item item, Customer customer);
         void RemoveFromCart(Item item, Customer customer);
         void IncrementCartItemQuantity(Item item, Customer customer);

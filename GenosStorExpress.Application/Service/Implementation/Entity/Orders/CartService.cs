@@ -62,30 +62,6 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             }
         }
 
-        public void Create(Cart item) {
-            _repositories.Orders.Carts.Create(item);
-        }
-
-        public Cart Get(int id) {
-            return _repositories.Orders.Carts.Get(id);
-        }
-
-        public List<Cart> List() {
-            return _repositories.Orders.Carts.List();
-        }
-
-        public void Update(Cart item) {
-            _repositories.Orders.Carts.Update(item);
-        }
-
-        public void Delete(int id) {
-            _repositories.Orders.Carts.Delete(id);
-        }
-
-        public int Save() {
-            return _repositories.Save();
-        }
-
         public CartService(IGenosStorExpressRepositories repositories) {
             _repositories = repositories;
         }

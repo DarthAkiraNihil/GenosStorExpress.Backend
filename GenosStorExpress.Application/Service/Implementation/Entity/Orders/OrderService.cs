@@ -28,7 +28,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             return _repositories.Orders.Orders.List();
         }
 
-        public void Update(Order item) {
+        public void Update(int id, Order item) {
+            _repositories.Orders.Orders.Update(item);
+        }
+
+        private void Update(Order item) {
             _repositories.Orders.Orders.Update(item);
         }
 
@@ -39,7 +43,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         public long CreateOrderFromCart(Customer customer) {
             var cart = customer.Cart;
             var orderItems = new List<OrderItems>();
-            var status = _orderStatusService.GetFromString("Создан");
+            var status = _orderStatusService.GetEntityFromString("Создан");
             var order = new Order {
                 Customer = customer,
                 CreatedAt = DateTime.Now,
@@ -75,13 +79,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         }
 
         public void ReceiveOrder(Order order) {
-            order.OrderStatus = _orderStatusService.GetFromString("Получен");
+            order.OrderStatus = _orderStatusService.GetEntityFromString("Получен");
             Update(order);
             _repositories.Save();
         }
 
         public void CancelOrder(Order order) {
-            order.OrderStatus = _orderStatusService.GetFromString("Отменён");
+            order.OrderStatus = _orderStatusService.GetEntityFromString("Отменён");
             Update(order);
             _repositories.Save();
         }

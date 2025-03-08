@@ -9,7 +9,7 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public int MaxUpdateFrequency { get; set; }
 		[Required]
-		public double ScreedDiagonal { get; set; }
+		public double ScreenDiagonal { get; set; }
 
 		public virtual Definition Definition { get; set; }
 		public virtual MatrixType MatrixType { get; set; }

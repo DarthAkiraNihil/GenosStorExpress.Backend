@@ -10,8 +10,8 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		//public override ItemType Type => ItemType.CPU;
 
 		//public CPUSocket Socket { get; set; }
-		public virtual CPUCore CPUCore { get; set; }
-		public virtual CPUSocket CPUSocket { get; set; }
+		public virtual CPUCore Core { get; set; }
+		public virtual CPUSocket Socket { get; set; }
 
 		[Required]
 		public int CoresCount { get; set; }

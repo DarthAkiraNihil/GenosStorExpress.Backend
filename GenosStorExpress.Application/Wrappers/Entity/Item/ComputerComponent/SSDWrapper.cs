@@ -6,5 +6,5 @@ public abstract class SSDWrapper: DiskDriveWrapper {
     public int TBW { get; set; }
     public float DWPD { get; set; }
     public byte BitsForCell { get; set; }
-    public SSDControllerWrapper SSDController { get; set; }
+    public SSDControllerWrapper Controller { get; set; }
 }

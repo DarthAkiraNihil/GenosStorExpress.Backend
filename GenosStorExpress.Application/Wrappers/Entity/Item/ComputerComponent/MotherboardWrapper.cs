@@ -18,7 +18,7 @@ public class MotherboardWrapper: ComputerComponentWrapper {
     public byte USBPortsCount { get; set; }
     public List<string> VideoPorts { get; set; }
     public byte RJ45PortsCount { get; set; }
-    public byte DigiralAudioPortsCount { get; set; }
+    public byte DigitalAudioPortsCount { get; set; }
 
     public float NetworkAdapterSpeed { get; set; }
 		

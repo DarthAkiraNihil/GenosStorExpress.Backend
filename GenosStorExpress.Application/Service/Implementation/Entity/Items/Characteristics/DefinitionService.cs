@@ -32,6 +32,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
                    .ToList();
         }
 
+        public Definition GetRaw(int id) {
+            return _repositories.Items.Characteristics.Definitions.Get(id);
+        }
+
         public void Update(int id, DefinitionWrapper item) {
             Definition obj = _repositories.Items.Characteristics.Definitions.Get(id);
             

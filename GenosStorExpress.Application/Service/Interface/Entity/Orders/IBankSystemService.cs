@@ -2,7 +2,7 @@
 using GenosStorExpress.Domain.Entity.Orders;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
-    public interface IBankSystemService: IEnumService {
+    public interface IBankSystemService: IEnumService<BankSystem> {
 		
     }
 }

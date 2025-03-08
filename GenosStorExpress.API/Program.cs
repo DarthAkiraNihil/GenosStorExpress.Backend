@@ -58,6 +58,7 @@ builder.Services.AddScoped<IUnderlightService, UnderlightService>();
 builder.Services.AddScoped<IVendorService, VendorsService>();
 builder.Services.AddScoped<IVesaSizeService, VesaSizeService>();
 builder.Services.AddScoped<IVideoPortService, VideoPortService>();
+builder.Services.AddScoped<IPCIEVersionService, PCIEVersionService>();
 builder.Services.AddScoped<ICharacteristicsService, CharacteristicsService>();
 
 builder.Services.AddScoped<IComputerCaseService, ComputerCaseService>();

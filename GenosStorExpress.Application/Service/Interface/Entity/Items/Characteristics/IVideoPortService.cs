@@ -2,7 +2,7 @@
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IVideoPortService: IEnumService {
+    public interface IVideoPortService: IEnumService<VideoPort> {
 		
     }
 }

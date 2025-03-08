@@ -36,7 +36,7 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public byte RJ45PortsCount { get; set; }
 		[Required]
-		public byte DigiralAudioPortsCount { get; set; }
+		public byte DigitalAudioPortsCount { get; set; }
 
 		public float NetworkAdapterSpeed { get; set; }
 		

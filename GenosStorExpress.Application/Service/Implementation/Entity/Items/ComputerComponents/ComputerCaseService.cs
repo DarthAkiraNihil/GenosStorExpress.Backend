@@ -1,108 +1,90 @@
-﻿using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+﻿using GenosStorExpress.Application.Service.Implementation.Base;
+using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
+using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.ComputerComponents {
-    public class ComputerCaseService: IComputerCaseService {
+    public class ComputerCaseService: AbstractComputerComponentService, IComputerCaseService {
         private readonly IGenosStorExpressRepositories _repositories;
-        private readonly IMotherboardFormFactorService _motherboardFormFactorService;
-        private readonly IComputerCaseTypesizeService _caseTypesizeService;
-        private readonly IItemTypeService _itemTypeService;
-        
+        private readonly IComputerCaseRepository _computerCases;
+        private readonly IComputerCaseTypesizeService _computerCaseTypesizeService;
 
-        public ComputerCaseService(
-            IGenosStorExpressRepositories repositories,
-            IMotherboardFormFactorService motherboardFormFactorService,
-            IComputerCaseTypesizeService computerCaseTypesizeService,
-            IItemTypeService itemTypesService
-        ) {
+        public ComputerCaseService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IComputerCaseTypesizeService computerCaseTypesizeService) : base(itemTypeService, vendorService) {
             _repositories = repositories;
-            _motherboardFormFactorService = motherboardFormFactorService;
-            _caseTypesizeService = computerCaseTypesizeService;
-            _itemTypeService = itemTypesService;
+            _computerCases = _repositories.Items.ComputerComponents.ComputerCases;
+            _computerCaseTypesizeService = computerCaseTypesizeService;
         }
-
+        
         public void Create(ComputerCaseWrapper item) {
             
-            List<MotherboardFormFactor> formFactors = _repositories.Items.Characteristics.MotherboardFormFactors.List();
-            Vendor vendor = _repositories.Items.Characteristics.Vendors.List().FirstOrDefault(x => x.Name == item.Vendor);
+            var created = new ComputerCase();
             
-            _repositories.Items.ComputerComponents.ComputerCases.Create(new ComputerCase {
-                Name = item.Name,
-                Model = item.Model,
-                ImageBase64 = "",
-                Price = item.Price,
-                Description = item.Description,
-                ActiveDiscount = null,
-                ItemType = _repositories.Items.ItemTypes.List().FirstOrDefault(x => x.Name == item.ItemType),
-                TDP = item.TDP,
-                Vendor = vendor,
-                Length = item.Length,
-                Width = item.Width,
-                Height = item.Height,
-                HasARGBLighting = item.HasARGBLighting,
-                DrivesSlotsCount = item.DrivesSlotsCount,
-                Typesize = _repositories.Items.Characteristics.ComputerCaseTypesizes.List().FirstOrDefault(x => x.Name == item.Typesize),
-            });
+            _setEntityPropertiesFromWrapper(created, item);
+            
+            created.Length = item.Length;
+            created.Width = item.Width;
+            created.Height = item.Height;
+            created.HasARGBLighting = item.HasARGBLighting;
+            created.DrivesSlotsCount = item.DrivesSlotsCount;
+            created.Typesize = _computerCaseTypesizeService.GetEntityFromString(item.Typesize);
+            
+            _computerCases.Create(created);
+            
         }
 
         public ComputerCaseWrapper Get(int id) {
-            ComputerCase obj =  _repositories.Items.ComputerComponents.ComputerCases.Get(id);
-            return new ComputerCaseWrapper {
-                Id = obj.Id,
-                ActiveDiscount = null,
-                Description = obj.Description,
-                DrivesSlotsCount = obj.DrivesSlotsCount,
-                HasARGBLighting = obj.HasARGBLighting,
-                Height = obj.Height,
-                ItemType = obj.ItemType.Name,
-                Length = obj.Length,
-                Model = obj.Model,
-                Name = obj.Name,
-                TDP = obj.TDP,
-                Price = obj.Price,
-            };
+            ComputerCase obj =  _computerCases.Get(id);
+            var wrapped = new ComputerCaseWrapper();
+            
+            _setWrapperPropertiesFromEntity(obj, wrapped);
+            
+            wrapped.Length = obj.Length;
+            wrapped.Width = obj.Width;
+            wrapped.Height = obj.Height;
+            wrapped.HasARGBLighting = obj.HasARGBLighting;
+            wrapped.DrivesSlotsCount = obj.DrivesSlotsCount;
+            wrapped.Typesize = obj.Typesize.Name;
+
+            return wrapped;
         }
 
         public List<ComputerCaseWrapper> List() {
-            var list = _repositories.Items.ComputerComponents.ComputerCases.List();
-            return _repositories.Items.ComputerComponents.ComputerCases.List().Select(
-                obj => new ComputerCaseWrapper {
-                Id = obj.Id,
-                ActiveDiscount = null,
-                Description = obj.Description,
-                DrivesSlotsCount = obj.DrivesSlotsCount,
-                HasARGBLighting = obj.HasARGBLighting,
-                Height = obj.Height,
-                ItemType = obj.ItemType.Name,
-                Length = obj.Length,
-                Model = obj.Model,
-                Name = obj.Name,
-                TDP = obj.TDP,
-                Price = obj.Price,
-                Vendor = obj.Vendor.Name,
-                Typesize = obj.Typesize.Name
-            }).ToList();
+            return _computerCases.List().Select(
+                obj => {
+                    var wrapped = new ComputerCaseWrapper();
+            
+                    _setWrapperPropertiesFromEntity(obj, wrapped);
+            
+                    wrapped.Length = obj.Length;
+                    wrapped.Width = obj.Width;
+                    wrapped.Height = obj.Height;
+                    wrapped.HasARGBLighting = obj.HasARGBLighting;
+                    wrapped.DrivesSlotsCount = obj.DrivesSlotsCount;
+                    wrapped.Typesize = obj.Typesize.Name;
+
+                    return wrapped;
+                }
+            ).ToList();
         }
 
         public void Update(int id, ComputerCaseWrapper item) {
-            ComputerCase obj = _repositories.Items.ComputerComponents.ComputerCases.Get(id);
-            obj.Description = item.Description;
-            obj.DrivesSlotsCount = item.DrivesSlotsCount;
-            obj.HasARGBLighting = item.HasARGBLighting;
-            obj.Height = item.Height;
-            obj.Name = item.Name;
-            obj.Price = item.Price;
+            ComputerCase obj = _computerCases.Get(id);
+            
+            _setEntityPropertiesFromWrapper(obj, item);
+            
             obj.Length = item.Length;
             obj.Width = item.Width;
-            obj.Model = item.Model;
-            obj.TDP = item.TDP;
-            obj.Price = item.Price;
-            _repositories.Items.ComputerComponents.ComputerCases.Update(obj);
+            obj.Height = item.Height;
+            obj.HasARGBLighting = item.HasARGBLighting;
+            obj.DrivesSlotsCount = item.DrivesSlotsCount;
+            obj.Typesize = _computerCaseTypesizeService.GetEntityFromString(item.Typesize);
+            
+            _computerCases.Update(obj);
         }
 
         public void Delete(int id) {

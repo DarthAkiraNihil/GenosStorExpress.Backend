@@ -11,7 +11,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         //private ComputerComponentRepository _ComputerComponents;
         private CPUCoolerRepository _cpuCoolers;
         private CPURepository _cpus;
-        //private DiskDriveRepository _DiskDrives;
+        private DiskDriveRepository _diskDrives;
         private DisplayRepository _displays;
         private GraphicsCardRepository _graphicsCards;
         private HDDRepository _hdds;
@@ -58,11 +58,14 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
                 return _cpus;
             }
         }
-        // public IDiskDriveRepository DiskDrives {
-        //     get {
-        //         
-        //     }
-        // }
+        public IDiskDriveRepository DiskDrives {
+            get {
+                if (_diskDrives == null) {
+                    _diskDrives = new DiskDriveRepository(_context);
+                }
+                return _diskDrives;
+            }
+        }
         public IDisplayRepository Displays {
             get {
                 if (_displays == null) {

@@ -1,35 +1,64 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
+using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Interface;
+using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
+using GenosStorExpress.Domain.Interface.Item.SimpleComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.SimpleComputerComponents {
     public class CPUCoresService: ICPUCoreService {
-        private IGenosStorExpressRepositories _repositories;
+        private readonly IGenosStorExpressRepositories _repositories;
+        private readonly ICPUCoreRepository _cpuCores;
+        private readonly IVendorService _vendorService;
 
-        public CPUCoresService(IGenosStorExpressRepositories repositories) {
+        public CPUCoresService(IGenosStorExpressRepositories repositories, IVendorService vendorService) {
             _repositories = repositories;
+            _vendorService = vendorService;
+            _cpuCores = _repositories.Items.SimpleComputerComponents.CPUCores;
         }
 
-        public void Create(CPUCore item) {
-            _repositories.Items.SimpleComputerComponents.CPUCores.Create(item);
+        public void Create(CPUCoreWrapper item) {
+            var created = new CPUCore {
+                Name = item.Name,
+                Vendor = _vendorService.GetEntityFromString(item.Vendor),
+            };
+            _cpuCores.Create(created);
         }
 
-        public CPUCore Get(int id) {
-            return _repositories.Items.SimpleComputerComponents.CPUCores.Get(id);
+        public CPUCoreWrapper Get(int id) {
+            CPUCore obj = _cpuCores.Get(id);
+            return new CPUCoreWrapper {
+                Id = obj.Id,
+                Name = obj.Name,
+                Vendor = obj.Vendor.Name
+            };
         }
 
-        public List<CPUCore> List() {
-            return _repositories.Items.SimpleComputerComponents.CPUCores.List();
+        public List<CPUCoreWrapper> List() {
+            return _cpuCores.List().Select(obj => new CPUCoreWrapper {
+                    Id = obj.Id,
+                    Name = obj.Name,
+                    Vendor = obj.Vendor.Name
+                }
+            ).ToList();
         }
 
-        public void Update(CPUCore item) {
-            _repositories.Items.SimpleComputerComponents.CPUCores.Update(item);
+        public void Update(int id, CPUCoreWrapper item) {
+            var obj = _cpuCores.Get(id);
+            obj.Name = item.Name;
+            obj.Vendor = _vendorService.GetEntityFromString(item.Vendor);
+            _cpuCores.Update(obj);
         }
 
         public void Delete(int id) {
             _repositories.Items.SimpleComputerComponents.CPUCores.Delete(id);
         }
-        
+
+        public CPUCore GetRaw(int id) {
+            throw new NotImplementedException();
+        }
+
         public int Save() {
             return _repositories.Save();
         }

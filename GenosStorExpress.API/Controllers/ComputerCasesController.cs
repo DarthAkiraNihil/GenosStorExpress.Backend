@@ -1,5 +1,6 @@
 ﻿using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+using GenosStorExpress.Application.Wrappers.Entity.Item;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -30,8 +31,9 @@ namespace GenosStorExpress.API.Controllers
 
         // POST api/<ComputerCasesController>
         [HttpPost]
-        public ActionResult<ComputerCaseWrapper> Post([FromBody]ComputerCaseWrapper value) {
-            _computerCaseService.Create((ComputerCaseWrapper) value);
+        public ActionResult<ItemWrapper> Post([FromBody]ItemWrapper value) {
+            var amogus = (ComputerCaseWrapper) value;
+            _computerCaseService.Create((ComputerCaseWrapper) amogus);
             _computerCaseService.Save();
             return CreatedAtAction(nameof(Get), new { id = ((ComputerCaseWrapper) value).Id }, value);
         }

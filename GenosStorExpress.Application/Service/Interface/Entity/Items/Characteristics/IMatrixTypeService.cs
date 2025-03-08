@@ -2,7 +2,7 @@
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IMatrixTypeService: IEnumService {
+    public interface IMatrixTypeService: IEnumService<MatrixType> {
 		
     }
 }

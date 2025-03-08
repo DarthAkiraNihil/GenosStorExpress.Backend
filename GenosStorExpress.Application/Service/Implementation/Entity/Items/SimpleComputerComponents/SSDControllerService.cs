@@ -1,33 +1,53 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+﻿using GenosStorExpress.Application.Service.Implementation.Base;
+using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Interface;
+using GenosStorExpress.Domain.Interface.Item.SimpleComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.SimpleComputerComponents {
-    public class SSDControllerService: ISSDControllerService {
-        private IGenosStorExpressRepositories _repositories;
+    public class SSDControllerService: AbstractSimpleComputerComponentService, ISSDControllerService {
+        private readonly IGenosStorExpressRepositories _repositories;
+        private readonly ISSDControllerRepository _ssdControllers;
 
-        public SSDControllerService(IGenosStorExpressRepositories repositories) {
+        public SSDControllerService(ISimpleComputerComponentTypeService simpleComputerComponentTypeService, IGenosStorExpressRepositories repositories) : base(simpleComputerComponentTypeService) {
             _repositories = repositories;
+            _ssdControllers = _repositories.Items.SimpleComputerComponents.SSDControllers;
+        }
+        
+        public void Create(SSDControllerWrapper item) {
+            var created = new SSDController();
+            _setEntityPropertiesFromWrapper(created, item);
+            _ssdControllers.Create(created);
         }
 
-        public void Create(SSDController item) {
-            _repositories.Items.SimpleComputerComponents.SSDControllers.Create(item);
+        public SSDControllerWrapper Get(int id) {
+            SSDController obj = _ssdControllers.Get(id);
+            var wrapped = new SSDControllerWrapper();
+            _setWrapperPropertiesFromEntity(obj, wrapped);
+            return wrapped;
         }
 
-        public SSDController Get(int id) {
-            return _repositories.Items.SimpleComputerComponents.SSDControllers.Get(id);
+        public List<SSDControllerWrapper> List() {
+            return _ssdControllers.List().Select(obj => {
+                var wrapped = new SSDControllerWrapper();
+                _setWrapperPropertiesFromEntity(obj, wrapped);
+                return wrapped;
+            }).ToList();
         }
 
-        public List<SSDController> List() {
-            return _repositories.Items.SimpleComputerComponents.SSDControllers.List();
-        }
-
-        public void Update(SSDController item) {
-            _repositories.Items.SimpleComputerComponents.SSDControllers.Update(item);
+        public void Update(int id, SSDControllerWrapper item) {
+            var obj = _ssdControllers.Get(id);
+            _setEntityPropertiesFromWrapper(obj, item);
+            _ssdControllers.Create(obj);
         }
 
         public void Delete(int id) {
-            _repositories.Items.SimpleComputerComponents.SSDControllers.Delete(id);
+            _ssdControllers.Delete(id);
+        }
+
+        public SSDController GetRaw(int id) {
+            return _ssdControllers.Get(id);
         }
 
         public int Save() {

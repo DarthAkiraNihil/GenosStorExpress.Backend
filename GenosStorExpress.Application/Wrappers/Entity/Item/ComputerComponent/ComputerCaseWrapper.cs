@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+﻿namespace GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 
 public class ComputerCaseWrapper: ComputerComponentWrapper {
     public string Typesize { get; set; }

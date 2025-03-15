@@ -18,8 +18,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _keyboardTypes.Create(created);
         }
 
-        public string Get(int id) {
-            return _keyboardTypes.Get(id).Name;
+        public string? Get(int id) {
+            return _keyboardTypes.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -27,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            KeyboardType obj = _keyboardTypes.Get(id);
+            KeyboardType obj = _keyboardTypes.Get(id)!;
             obj.Name = item;
             _keyboardTypes.Update(obj);
         }
@@ -44,8 +44,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _keyboardTypes.List().Exists(c => c.Name == value);
         }
 
-        public KeyboardType GetEntityFromString(string value) {
-            return _keyboardTypes.List().FirstOrDefault(c => c.Name == value, null);
+        public KeyboardType? GetEntityFromString(string value) {
+            return _keyboardTypes.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

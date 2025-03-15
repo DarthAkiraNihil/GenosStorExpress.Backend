@@ -18,8 +18,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _underlights.Create(created);
         }
 
-        public string Get(int id) {
-            return _underlights.Get(id).Name;
+        public string? Get(int id) {
+            return _underlights.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -27,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            Underlight obj = _underlights.Get(id);
+            Underlight obj = _underlights.Get(id)!;
             obj.Name = item;
             _underlights.Update(obj);
         }
@@ -44,8 +44,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _underlights.List().Exists(c => c.Name == value);
         }
 
-        public Underlight GetEntityFromString(string value) {
-            return _underlights.List().FirstOrDefault(c => c.Name == value, null);
+        public Underlight? GetEntityFromString(string value) {
+            return _underlights.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

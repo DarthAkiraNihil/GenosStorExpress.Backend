@@ -5,11 +5,11 @@ namespace GenosStorExpress.Infrastructure.Repository.User {
     public class UserEntitiesRepository: IUserEntitiesRepository {
         private GenosStorExpressDatabaseContext _context;
         // User
-        private AdministratorRepository _administrators;
+        private AdministratorRepository? _administrators;
         //private CustomerRepository _Customers;
-        private IndividualEntityRepository _individualEntities;
-        private LegalEntityRepository _legalEntities;
-        private UserRepository _users;
+        private IndividualEntityRepository? _individualEntities;
+        private LegalEntityRepository? _legalEntities;
+        private UserRepository? _users;
 
         public UserEntitiesRepository(GenosStorExpressDatabaseContext context) {
             _context = context;

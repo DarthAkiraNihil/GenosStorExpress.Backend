@@ -30,23 +30,43 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             var created = new CPU();
             _setEntityPropertiesFromWrapper(created, item);
 
-            created.Core = _cpuCoreService.GetRaw(item.Core.Id);
-            created.Socket = _cpusSocketService.GetEntityFromString(item.Socket);
+            var core = _cpuCoreService.GetRaw(item.Core.Id);
+            if (core == null) {
+                throw new NullReferenceException($"Ядра процессора с номером {item.Core.Id} ({item.Core.Name} не существует)");
+            }
+            created.Core = core;
+            
+            var socket = _cpusSocketService.GetEntityFromString(item.Socket);
+            if (socket == null) {
+                throw new NullReferenceException($"Сокета {item.Socket} не существует)");
+            }
+            created.Socket = socket;
+            
             created.CoresCount = item.CoresCount;
             created.ThreadsCount = item.ThreadsCount;
             created.L2CahceSize = item.L2CacheSize;
             created.L3CacheSize = item.L3CacheSize;
             created.TechnicalProcess = item.TechnicalProcess;
             created.BaseFrequency = item.BaseFrequency;
-            created.SupportedRamType = item.SupportedRamTypes.Select(i => _ramTypeService.GetEntityFromString(i)).ToList();
+            created.SupportedRamType = item.SupportedRamTypes.Select(i => {
+                var type = _ramTypeService.GetEntityFromString(i);
+                if (type == null) {
+                    throw new NullReferenceException($"Типа ОЗУ {i} не существует)");
+                }
+
+                return type;
+            }).ToList();
             created.SupportedRAMSize = item.SupportedRAMSize;
             created.HasIntegratedGraphics = item.HasIntegratedGraphics;
             
             _cpus.Create(created);
         }
 
-        public CPUWrapper Get(int id) {
-            CPU obj = _cpus.Get(id);
+        public CPUWrapper? Get(int id) {
+            CPU? obj = _cpus.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new CPUWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
@@ -91,17 +111,37 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         public void Update(int id, CPUWrapper item) {
             
             var obj = _cpus.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Процессора с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
+            
+            var core = _cpuCoreService.GetRaw(item.Core.Id);
+            if (core == null) {
+                throw new NullReferenceException($"Ядра процессора с номером {item.Core.Id} ({item.Core.Name} не существует)");
+            }
+            obj.Core = core;
+            
+            var socket = _cpusSocketService.GetEntityFromString(item.Socket);
+            if (socket == null) {
+                throw new NullReferenceException($"Сокета {item.Socket} не существует)");
+            }
+            obj.Socket = socket;
 
-            obj.Core = _cpuCoreService.GetRaw(item.Core.Id);
-            obj.Socket = _cpusSocketService.GetEntityFromString(item.Socket);
             obj.CoresCount = item.CoresCount;
             obj.ThreadsCount = item.ThreadsCount;
             obj.L2CahceSize = item.L2CacheSize;
             obj.L3CacheSize = item.L3CacheSize;
             obj.TechnicalProcess = item.TechnicalProcess;
             obj.BaseFrequency = item.BaseFrequency;
-            obj.SupportedRamType = item.SupportedRamTypes.Select(i => _ramTypeService.GetEntityFromString(i)).ToList();
+            obj.SupportedRamType = item.SupportedRamTypes.Select(i => {
+                var type = _ramTypeService.GetEntityFromString(i);
+                if (type == null) {
+                    throw new NullReferenceException($"Типа ОЗУ {i} не существует)");
+                }
+
+                return type;
+            }).ToList();
             obj.SupportedRAMSize = item.SupportedRAMSize;
             obj.HasIntegratedGraphics = item.HasIntegratedGraphics;
             

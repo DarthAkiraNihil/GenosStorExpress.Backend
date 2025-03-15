@@ -3,14 +3,13 @@
 namespace GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 
 public class MotherboardWrapper: ComputerComponentWrapper {
-    public virtual List<CPUCoreWrapper> SupportedCPUCores { get; set; }
-    public virtual List<string> SupportedRAMTypes { get; set; }
+    public IList<CPUCoreWrapper> SupportedCPUCores { get; set; }
+    public IList<string> SupportedRAMTypes { get; set; }
     
     public byte RAMSlots { get; set; }
     public byte RAMChannels { get; set; }
     public int MaxRAMFrequency { get; set; }
     public byte PCIESlotsCount { get; set; }
-    public int PCIEVersionId { get; set; }
     
     public bool HasNVMeSupport { get; set; }
     public byte M2SlotsCount { get; set; }
@@ -29,4 +28,19 @@ public class MotherboardWrapper: ComputerComponentWrapper {
     public MotherboardChipsetWrapper MotherboardChipset { get; set; }
     public AudioChipsetWrapper AudioChipset { get; set; }
     public NetworkAdapterWrapper NetworkAdapter { get; set; }
+
+    public MotherboardWrapper() {
+	    SupportedCPUCores = new List<CPUCoreWrapper>();
+	    SupportedRAMTypes = new List<string>();
+	    VideoPorts = new List<string>();
+	    
+	    FormFactor = string.Empty;
+	    CPUSocket = string.Empty;
+	    PCIEVersion = string.Empty;
+	    
+	    MotherboardChipset = new MotherboardChipsetWrapper();
+	    AudioChipset = new AudioChipsetWrapper();
+	    NetworkAdapter = new NetworkAdapterWrapper();
+	    
+    }
 }

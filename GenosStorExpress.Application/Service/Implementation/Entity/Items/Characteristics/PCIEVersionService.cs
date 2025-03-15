@@ -19,8 +19,8 @@ public class PCIEVersionService: IPCIEVersionService {
         _pcieVersions.Create(created);
     }
 
-    public string Get(int id) {
-        return _pcieVersions.Get(id).Name;
+    public string? Get(int id) {
+        return _pcieVersions.Get(id)?.Name;
     }
 
     public List<string> List() {
@@ -28,7 +28,7 @@ public class PCIEVersionService: IPCIEVersionService {
     }
 
     public void Update(int id, string item) {
-        PCIEVersion obj = _pcieVersions.Get(id);
+        PCIEVersion obj = _pcieVersions.Get(id)!;
         obj.Name = item;
         _pcieVersions.Update(obj);
     }
@@ -45,7 +45,7 @@ public class PCIEVersionService: IPCIEVersionService {
         return _pcieVersions.List().Exists(c => c.Name == value);
     }
 
-    public PCIEVersion GetEntityFromString(string value) {
-        return _pcieVersions.List().FirstOrDefault(c => c.Name == value, null);
+    public PCIEVersion? GetEntityFromString(string value) {
+        return _pcieVersions.List().FirstOrDefault(c => c.Name == value);
     }
 }

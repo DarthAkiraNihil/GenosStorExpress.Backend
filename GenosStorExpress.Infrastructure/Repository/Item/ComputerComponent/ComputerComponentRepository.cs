@@ -7,21 +7,21 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         private GenosStorExpressDatabaseContext _context;
         // ComputerComponent
-        private ComputerCaseRepository _computerCases;
+        private ComputerCaseRepository? _computerCases;
         //private ComputerComponentRepository _ComputerComponents;
-        private CPUCoolerRepository _cpuCoolers;
-        private CPURepository _cpus;
-        private DiskDriveRepository _diskDrives;
-        private DisplayRepository _displays;
-        private GraphicsCardRepository _graphicsCards;
-        private HDDRepository _hdds;
-        private KeyboardRepository _keyboards;
-        private MotherboardRepository _motherboards;
-        private MouseRepository _mouses;
-        private NVMeSSDRepository _nvmeSSDs;
-        private PowerSupplyRepository _powerSupplies;
-        private RAMRepository _rams;
-        private SataSSDRepository _sataSSDs;
+        private CPUCoolerRepository? _cpuCoolers;
+        private CPURepository? _cpus;
+        private DiskDriveRepository? _diskDrives;
+        private DisplayRepository? _displays;
+        private GraphicsCardRepository? _graphicsCards;
+        private HDDRepository? _hdds;
+        private KeyboardRepository? _keyboards;
+        private MotherboardRepository? _motherboards;
+        private MouseRepository? _mouses;
+        private NVMeSSDRepository? _nvmeSSDs;
+        private PowerSupplyRepository? _powerSupplies;
+        private RAMRepository? _rams;
+        private SataSSDRepository? _sataSSDs;
 
         public ComputerComponentRepository(GenosStorExpressDatabaseContext context) {
             _context = context;

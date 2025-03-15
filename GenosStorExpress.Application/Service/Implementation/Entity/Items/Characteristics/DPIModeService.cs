@@ -17,7 +17,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _repositories.Items.Characteristics.DPIModes.List().Select(i => i.DPI).ToList();
         }
 
-        public DPIMode GetByValue(int dpi) {
+        public DPIMode? GetByValue(int dpi) {
             return _dpiModes.List().FirstOrDefault(i => i.DPI == dpi);
         }
     }

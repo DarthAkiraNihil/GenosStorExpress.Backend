@@ -18,8 +18,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _vesaSizes.Create(created);
         }
 
-        public string Get(int id) {
-            return _vesaSizes.Get(id).Name;
+        public string? Get(int id) {
+            return _vesaSizes.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -27,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            VesaSize obj = _vesaSizes.Get(id);
+            VesaSize obj = _vesaSizes.Get(id)!;
             obj.Name = item;
             _vesaSizes.Update(obj);
         }
@@ -44,8 +44,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _vesaSizes.List().Exists(c => c.Name == value);
         }
 
-        public VesaSize GetEntityFromString(string value) {
-            return _vesaSizes.List().FirstOrDefault(c => c.Name == value, null);
+        public VesaSize? GetEntityFromString(string value) {
+            return _vesaSizes.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

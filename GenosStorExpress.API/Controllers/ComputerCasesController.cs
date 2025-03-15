@@ -1,6 +1,6 @@
-﻿using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
-using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
+using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

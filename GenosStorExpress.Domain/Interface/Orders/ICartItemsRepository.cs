@@ -1,5 +1,5 @@
 ﻿using GenosStorExpress.Domain.Entity.Orders;
-using GenosStorExpress.Domain.Repository.Base;
+using GenosStorExpress.Domain.Interface.Base;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Domain.Interface.Orders {

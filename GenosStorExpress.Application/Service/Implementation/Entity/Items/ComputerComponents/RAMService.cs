@@ -32,13 +32,22 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.tRCD = item.tRCD;
             created.tRP = item.tRP;
             created.tRAS = item.tRAS;
-            created.Type = _ramTypeService.GetEntityFromString(item.Type);
+            
+            var type =  _ramTypeService.GetEntityFromString(item.Type);
+            if (type == null) {
+                throw new NullReferenceException($"Типа ОЗУ {item.Type} не существует");
+            }
+
+            created.Type = type;
             
             _rams.Create(created);
         }
 
-        public RAMWrapper Get(int id) {
-            RAM obj = _rams.Get(id);
+        public RAMWrapper? Get(int id) {
+            RAM? obj = _rams.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new RAMWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
@@ -78,6 +87,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, RAMWrapper item) {
             var obj = _rams.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Оперативной памяти с номером {id} не существует");
+            }
             
             _setEntityPropertiesFromWrapper(obj, item);
             
@@ -89,7 +101,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             obj.tRCD = item.tRCD;
             obj.tRP = item.tRP;
             obj.tRAS = item.tRAS;
-            obj.Type = _ramTypeService.GetEntityFromString(item.Type);
+            var type =  _ramTypeService.GetEntityFromString(item.Type);
+            if (type == null) {
+                throw new NullReferenceException($"Типа ОЗУ {item.Type} не существует");
+            }
+
+            obj.Type = type;
             
             _rams.Update(obj);
         }

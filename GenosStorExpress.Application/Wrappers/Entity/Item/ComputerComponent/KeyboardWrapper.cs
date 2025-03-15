@@ -6,4 +6,9 @@ public class KeyboardWrapper: ComputerComponentWrapper {
 		
     public string Typesize { get; set; }
     public string Type { get; set; }
+
+    public KeyboardWrapper() {
+        Typesize = string.Empty;
+        Type = string.Empty;
+    }
 }

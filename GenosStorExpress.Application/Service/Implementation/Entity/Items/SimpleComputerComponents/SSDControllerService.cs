@@ -21,8 +21,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _ssdControllers.Create(created);
         }
 
-        public SSDControllerWrapper Get(int id) {
-            SSDController obj = _ssdControllers.Get(id);
+        public SSDControllerWrapper? Get(int id) {
+            SSDController? obj = _ssdControllers.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new SSDControllerWrapper();
             _setWrapperPropertiesFromEntity(obj, wrapped);
             return wrapped;
@@ -38,6 +41,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
 
         public void Update(int id, SSDControllerWrapper item) {
             var obj = _ssdControllers.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Контроллера твердотельного накопителя с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             _ssdControllers.Create(obj);
         }
@@ -46,7 +52,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _ssdControllers.Delete(id);
         }
 
-        public SSDController GetRaw(int id) {
+        public SSDController? GetRaw(int id) {
             return _ssdControllers.Get(id);
         }
 

@@ -19,8 +19,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _vendors.Create(created);
         }
 
-        public string Get(int id) {
-            return _vendors.Get(id).Name;
+        public string? Get(int id) {
+            return _vendors.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -28,7 +28,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            Vendor obj = _vendors.Get(id);
+            Vendor obj = _vendors.Get(id)!;
             obj.Name = item;
             _vendors.Update(obj);
         }
@@ -45,8 +45,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _vendors.List().Exists(c => c.Name == value);
         }
 
-        public Vendor GetEntityFromString(string value) {
-            return _vendors.List().FirstOrDefault(c => c.Name == value, null);
+        public Vendor? GetEntityFromString(string value) {
+            return _vendors.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

@@ -25,14 +25,24 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
             created.ButtonsCount = item.ButtonsCount;
             created.HasProgrammableButtons = item.HasProgrammableButtons;
-            created.DPIModes = item.DPIModes.Select(i => _dpiModeService.GetByValue(i)).ToList();
+            created.DPIModes = item.DPIModes.Select(i => {
+                var mode = _dpiModeService.GetByValue(i);
+                if (mode == null) {
+                    throw new NullReferenceException($"Режима DPI {i} мыши не существует");
+                }
+
+                return mode;
+            }).ToList();
             created.IsWireless = item.IsWireless;
             
             _mouses.Create(created);
         }
 
-        public MouseWrapper Get(int id) {
-            Mouse obj = _mouses.Get(id);
+        public MouseWrapper? Get(int id) {
+            Mouse? obj = _mouses.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new MouseWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
@@ -60,11 +70,21 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, MouseWrapper item) {
             var obj = _mouses.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Мыши с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             
             obj.ButtonsCount = item.ButtonsCount;
             obj.HasProgrammableButtons = item.HasProgrammableButtons;
-            obj.DPIModes = item.DPIModes.Select(i => _dpiModeService.GetByValue(i)).ToList();
+            obj.DPIModes = item.DPIModes.Select(i => {
+                var mode = _dpiModeService.GetByValue(i);
+                if (mode == null) {
+                    throw new NullReferenceException($"Режима DPI {i} мыши не существует");
+                }
+
+                return mode;
+            }).ToList();
             obj.IsWireless = item.IsWireless;
             
             _mouses.Update(obj);

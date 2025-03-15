@@ -24,8 +24,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _nvmeSSDs.Create(created);
         }
 
-        public NVMeSSDWrapper Get(int id) {
-            NVMeSSD obj = _nvmeSSDs.Get(id);
+        public NVMeSSDWrapper? Get(int id) {
+            NVMeSSD? obj = _nvmeSSDs.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new NVMeSSDWrapper();
             _setWrapperPropertiesFromEntity(obj, wrapped);
             return wrapped;
@@ -41,6 +44,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, NVMeSSDWrapper item) {
             var obj = _nvmeSSDs.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Твердотельного накопителя NVMe с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             _nvmeSSDs.Update(obj);
         }

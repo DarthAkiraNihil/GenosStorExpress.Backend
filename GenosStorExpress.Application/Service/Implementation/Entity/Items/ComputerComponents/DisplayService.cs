@@ -32,22 +32,45 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
             created.MaxUpdateFrequency = item.MaxUpdateFrequency;
             created.ScreenDiagonal = item.ScreenDiagonal;
-            created.Definition = _definitionService.GetRaw(item.Definition.Id);
-            created.MatrixType = _matrixTypeService.GetEntityFromString(item.MatrixType);
-            created.Underlight = _underlightService.GetEntityFromString(item.Underlight);
-            created.VesaSize = _vesaSizeService.GetEntityFromString(item.VesaSize);
+            
+            var definition = _definitionService.GetRaw(item.Definition.Id);
+            if (definition == null) {
+                throw new NullReferenceException($"Разрешения экрана с номером {item.Definition.Id} ({item.Definition.Width}x{item.Definition.Height}) не существует");
+            }
+            created.Definition = definition;
+            
+            var matrixType = _matrixTypeService.GetEntityFromString(item.MatrixType);
+            if (matrixType == null) {
+                throw new NullReferenceException($"Типа матрицы экрана {item.MatrixType} не существует");
+            }
+            created.MatrixType = matrixType;
+            
+            var underlight = _underlightService.GetEntityFromString(item.Underlight);
+            if (underlight == null) {
+                throw new NullReferenceException($"Типа подсветки экрана {item.Underlight} не существует");
+            }
+            created.Underlight = underlight;
+            
+            var vesaSize = _vesaSizeService.GetEntityFromString(item.VesaSize);
+            if (vesaSize == null) {
+                throw new NullReferenceException($"Размера Vesa {item.VesaSize} не существует");
+            }
+            created.VesaSize = vesaSize;
             
             _displays.Create(created);
         }
 
-        public DisplayWrapper Get(int id) {
-            Display obj = _displays.Get(id);
+        public DisplayWrapper? Get(int id) {
+            Display? obj = _displays.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new DisplayWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
             wrapped.MaxUpdateFrequency = obj.MaxUpdateFrequency;
             wrapped.ScreenDiagonal = obj.ScreenDiagonal;
-            wrapped.Definition = _definitionService.Get(obj.Definition.Id);
+            wrapped.Definition = _definitionService.Get(obj.Definition.Id)!;
             wrapped.MatrixType = obj.MatrixType.Name;
             wrapped.Underlight = obj.Underlight.Name;
             wrapped.VesaSize = obj.VesaSize.Name;
@@ -62,7 +85,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 _setWrapperPropertiesFromEntity(obj, wrapped);
                 wrapped.MaxUpdateFrequency = obj.MaxUpdateFrequency;
                 wrapped.ScreenDiagonal = obj.ScreenDiagonal;
-                wrapped.Definition = _definitionService.Get(obj.Definition.Id);
+                wrapped.Definition = _definitionService.Get(obj.Definition.Id)!;
                 wrapped.MatrixType = obj.MatrixType.Name;
                 wrapped.Underlight = obj.Underlight.Name;
                 wrapped.VesaSize = obj.VesaSize.Name;
@@ -73,14 +96,37 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, DisplayWrapper item) {
             var obj = _displays.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Монитора с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             
             obj.MaxUpdateFrequency = item.MaxUpdateFrequency;
             obj.ScreenDiagonal = item.ScreenDiagonal;
-            obj.Definition = _definitionService.GetRaw(item.Definition.Id);
-            obj.MatrixType = _matrixTypeService.GetEntityFromString(item.MatrixType);
-            obj.Underlight = _underlightService.GetEntityFromString(item.Underlight);
-            obj.VesaSize = _vesaSizeService.GetEntityFromString(item.VesaSize);
+            
+            var definition = _definitionService.GetRaw(item.Definition.Id);
+            if (definition == null) {
+                throw new NullReferenceException($"Разрешения экрана с номером {item.Definition.Id} ({item.Definition.Width}x{item.Definition.Height}) не существует");
+            }
+            obj.Definition = definition;
+            
+            var matrixType = _matrixTypeService.GetEntityFromString(item.MatrixType);
+            if (matrixType == null) {
+                throw new NullReferenceException($"Типа матрицы экрана {item.MatrixType} не существует");
+            }
+            obj.MatrixType = matrixType;
+            
+            var underlight = _underlightService.GetEntityFromString(item.Underlight);
+            if (underlight == null) {
+                throw new NullReferenceException($"Типа подсветки экрана {item.Underlight} не существует");
+            }
+            obj.Underlight = underlight;
+            
+            var vesaSize = _vesaSizeService.GetEntityFromString(item.VesaSize);
+            if (vesaSize == null) {
+                throw new NullReferenceException($"Размера Vesa {item.VesaSize} не существует");
+            }
+            obj.VesaSize = vesaSize;
             
             _displays.Update(obj);
         }

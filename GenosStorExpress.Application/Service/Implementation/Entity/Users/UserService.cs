@@ -48,7 +48,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Users {
             }
         }
 
-        public User FindByEmail(string email) {
+        public User? FindByEmail(string email) {
             return _repositories
                          .Users
                          .Users

@@ -1,6 +1,5 @@
 ﻿using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
-using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items;
 

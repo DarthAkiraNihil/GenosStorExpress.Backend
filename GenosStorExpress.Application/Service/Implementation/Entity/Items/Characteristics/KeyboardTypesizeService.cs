@@ -19,8 +19,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _keyboardTypesizes.Create(created);
         }
 
-        public string Get(int id) {
-            return _keyboardTypesizes.Get(id).Name;
+        public string? Get(int id) {
+            return _keyboardTypesizes.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -28,7 +28,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            KeyboardTypesize obj = _keyboardTypesizes.Get(id);
+            KeyboardTypesize obj = _keyboardTypesizes.Get(id)!;
             obj.Name = item;
             _keyboardTypesizes.Update(obj);
         }
@@ -45,8 +45,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _keyboardTypesizes.List().Exists(c => c.Name == value);
         }
 
-        public KeyboardTypesize GetEntityFromString(string value) {
-            return _keyboardTypesizes.List().FirstOrDefault(c => c.Name == value, null);
+        public KeyboardTypesize? GetEntityFromString(string value) {
+            return _keyboardTypesizes.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

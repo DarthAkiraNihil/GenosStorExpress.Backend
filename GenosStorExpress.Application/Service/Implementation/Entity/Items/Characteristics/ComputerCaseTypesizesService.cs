@@ -20,8 +20,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _computerCaseTypesizes.Create(created);
         }
 
-        public string Get(int id) {
-            return _computerCaseTypesizes.Get(id).Name;
+        public string? Get(int id) {
+            return _computerCaseTypesizes.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -29,7 +29,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            ComputerCaseTypesize obj = _computerCaseTypesizes.Get(id);
+            ComputerCaseTypesize obj = _computerCaseTypesizes.Get(id)!;
             obj.Name = item;
             _computerCaseTypesizes.Update(obj);
         }
@@ -46,8 +46,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _computerCaseTypesizes.List().Exists(c => c.Name == value);
         }
 
-        public ComputerCaseTypesize GetEntityFromString(string value) {
-            return _computerCaseTypesizes.List().FirstOrDefault(c => c.Name == value, null);
+        public ComputerCaseTypesize? GetEntityFromString(string value) {
+            return _computerCaseTypesizes.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

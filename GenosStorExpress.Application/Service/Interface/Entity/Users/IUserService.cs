@@ -7,6 +7,6 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Users {
         ISupportsCreate<User>,
         ISupportsList<User> {
         bool Exists(string email);
-        User FindByEmail(string email);
+        User? FindByEmail(string email);
     }
 }

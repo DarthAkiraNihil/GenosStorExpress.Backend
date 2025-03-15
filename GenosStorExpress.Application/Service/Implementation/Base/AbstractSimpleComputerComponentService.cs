@@ -14,7 +14,13 @@ public abstract class AbstractSimpleComputerComponentService {
     protected void _setEntityPropertiesFromWrapper(SimpleComputerComponent entity, SimpleComputerComponentWrapper wrapper) {
         entity.Name = wrapper.Name;
         entity.Model = wrapper.Model;
-        entity.Type = _simpleComputerComponentTypeService.GetEntityFromString(wrapper.Type);
+        
+        var type = _simpleComputerComponentTypeService.GetEntityFromString(wrapper.Type);
+        if (type == null) {
+            throw new NullReferenceException($"Типа компонента {wrapper.Type} не существует");
+        }
+
+        entity.Type = type;
     }
 
     protected void _setWrapperPropertiesFromEntity(SimpleComputerComponent entity, SimpleComputerComponentWrapper wrapper) {

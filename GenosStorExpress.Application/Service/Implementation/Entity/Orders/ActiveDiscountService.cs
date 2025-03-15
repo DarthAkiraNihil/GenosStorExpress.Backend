@@ -1,5 +1,5 @@
-﻿using GenosStorExpress.Application.Wrappers.Entity.Item.Orders;
-using GenosStorExpress.Application.Service.Interface.Entity.Orders;
+﻿using GenosStorExpress.Application.Service.Interface.Entity.Orders;
+using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.Orders;
 using GenosStorExpress.Domain.Interface;
 
@@ -11,8 +11,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _repositories.Orders.ActiveDiscounts.Create(new ActiveDiscount {CreatedAt = DateTime.Now, EndsAt = item.EndsAt, Value = item.Value});
         }
 
-        public ActiveDiscountWrapper Get(int id) {
-            ActiveDiscount obj = _repositories.Orders.ActiveDiscounts.Get(id);
+        public ActiveDiscountWrapper? Get(int id) {
+            ActiveDiscount? obj = _repositories.Orders.ActiveDiscounts.Get(id);
+            if (obj == null) {
+                return null;
+            }
             return new ActiveDiscountWrapper { Value = obj.Value, EndsAt = obj.EndsAt };
         }
 
@@ -21,7 +24,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         }
 
         public void Update(int id, ActiveDiscountWrapper wrapped) {
-            ActiveDiscount obj = _repositories.Orders.ActiveDiscounts.Get(id);
+            ActiveDiscount? obj = _repositories.Orders.ActiveDiscounts.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Скидки с номером {id} не существует");
+            }
             obj.EndsAt = wrapped.EndsAt;
             obj.Value = wrapped.Value;
             _repositories.Orders.ActiveDiscounts.Update(obj);

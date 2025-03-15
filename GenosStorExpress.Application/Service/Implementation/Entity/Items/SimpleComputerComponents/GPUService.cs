@@ -11,23 +11,32 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
         private readonly IGPURepository _gpus;
         private readonly IVendorService _vendorService;
 
-        public GPUService(IGenosStorExpressRepositories repositories) {
+        public GPUService(IGenosStorExpressRepositories repositories, IGPURepository gpus, IVendorService vendorService) {
             _repositories = repositories;
-            _gpus = _repositories.Items.SimpleComputerComponents.GPUs;
+            _gpus = gpus;
+            _vendorService = vendorService;
         }
-
+        
         public void Create(GPUWrapper item) {
+            
+            var vendor = _vendorService.GetEntityFromString(item.Vendor);
+            if (vendor == null) {
+                throw new NullReferenceException($"Производителя {item.Vendor} не существует");
+            }
             
             _gpus.Create(new GPU {
                 Name = item.Name,
                 Model = item.Model,
-                Vendor = _vendorService.GetEntityFromString(item.Vendor)
+                Vendor = vendor
             });
             
         }
 
-        public GPUWrapper Get(int id) {
-            GPU obj = _gpus.Get(id);
+        public GPUWrapper? Get(int id) {
+            GPU? obj = _gpus.Get(id);
+            if (obj == null) {
+                return null;
+            }
             return new GPUWrapper {
                 Id = obj.Id,
                 Name = obj.Name,
@@ -46,11 +55,21 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
         }
 
         public void Update(int id, GPUWrapper item) {
-            GPU obj = _gpus.Get(id);
+            GPU? obj = _gpus.Get(id);
+
+            if (obj == null) {
+                throw new NullReferenceException($"Графического процессора с номером {id} не существует");
+            }
             
             obj.Name = item.Name;
             obj.Model = item.Model;
-            obj.Vendor = _vendorService.GetEntityFromString(item.Vendor);
+            
+            var vendor = _vendorService.GetEntityFromString(item.Vendor);
+            if (vendor == null) {
+                throw new NullReferenceException($"Производителя {item.Vendor} не существует");
+            }
+
+            obj.Vendor = vendor;
             
             _gpus.Update(obj);
         }
@@ -59,7 +78,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _gpus.Delete(id);
         }
 
-        public GPU GetRaw(int id) {
+        public GPU? GetRaw(int id) {
             return _gpus.Get(id);
         }
 

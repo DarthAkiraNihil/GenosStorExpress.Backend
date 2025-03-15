@@ -8,7 +8,7 @@ using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 namespace GenosStorExpress.Application.Service.Implementation.Base;
 
 public abstract class AbstractSSDService: AbstractDiskDriveService {
-    protected readonly ISSDControllerService _ssdControllerService;
+    private readonly ISSDControllerService _ssdControllerService;
 
     protected AbstractSSDService(IItemTypeService itemTypeService, IVendorService vendorService, ISSDControllerService ssdControllerService) : base(itemTypeService, vendorService) {
         _ssdControllerService = ssdControllerService;
@@ -19,7 +19,13 @@ public abstract class AbstractSSDService: AbstractDiskDriveService {
         entity.TBW = wrapper.TBW;
         entity.DWPD = wrapper.DWPD;
         entity.BitsForCell = wrapper.BitsForCell;
-        entity.Controller = _ssdControllerService.GetRaw((int) wrapper.Controller.Id);
+
+        var controller = _ssdControllerService.GetRaw((int)wrapper.Controller.Id);
+        if (controller == null) {
+            throw new NullReferenceException($"Контроллера твердотельного накопителя с номером {wrapper.Controller.Id} существует");
+        }
+
+        entity.Controller = controller;
     }
 
     protected void _setWrapperPropertiesFromEntity(SSD entity, SSDWrapper wrapper) {

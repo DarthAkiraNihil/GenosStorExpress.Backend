@@ -5,4 +5,8 @@ namespace GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerCompon
 public abstract class SimpleComputerComponentWrapper: WithModelWrapper {
     public long Id { get; set; }
     public string Type { get; set; }
+
+    protected SimpleComputerComponentWrapper() {
+        Type = string.Empty;
+    }
 }

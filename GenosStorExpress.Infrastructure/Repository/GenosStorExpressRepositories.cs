@@ -12,9 +12,9 @@ namespace GenosStorExpress.Infrastructure.Repository {
         
         private GenosStorExpressDatabaseContext _context;
         
-        private ItemRepository _items;
-        private OrderEntitiesRepository _orders;
-        private UserEntitiesRepository _users;
+        private ItemRepository? _items;
+        private OrderEntitiesRepository? _orders;
+        private UserEntitiesRepository? _users;
         
 
         public GenosStorExpressRepositories(GenosStorExpressDatabaseContext context) {

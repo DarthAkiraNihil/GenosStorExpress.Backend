@@ -1,7 +1,7 @@
-﻿using GenosStorExpress.Application.Wrappers.Special;
-using GenosStorExpress.Application.Service.Interface.Common;
+﻿using GenosStorExpress.Application.Service.Interface.Common;
 using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Service.Interface.Entity.Users;
+using GenosStorExpress.Application.Wrappers.Special;
 using GenosStorExpress.Domain.Entity.User;
 
 namespace GenosStorExpress.Application.Service.Implementation.Common {
@@ -32,14 +32,14 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
                 u => {
                     if (u.UserType != UserType.LegalEntity) return false;
 
-                    return (u as LegalEntity).IsVerified;
+                    return (u as LegalEntity)!.IsVerified;
                 }).ToList().Count;
             
             dashboardInfo.LegalEntitiesWaitingForVerification = users.Where(
                 u => {
                     if (u.UserType != UserType.LegalEntity) return false;
 
-                    return !(u as LegalEntity).IsVerified;
+                    return !(u as LegalEntity)!.IsVerified;
                 }).ToList().Count;
 
             dashboardInfo.ActiveOrdersCount = _orderService.GetActiveOrders().Count;

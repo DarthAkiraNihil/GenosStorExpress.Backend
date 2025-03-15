@@ -21,8 +21,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _audioChipsets.Create(created);
         }
 
-        public AudioChipsetWrapper Get(int id) {
-            AudioChipset obj = _audioChipsets.Get(id);
+        public AudioChipsetWrapper? Get(int id) {
+            AudioChipset? obj = _audioChipsets.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new AudioChipsetWrapper();
             _setWrapperPropertiesFromEntity(obj, wrapped);
             return wrapped;
@@ -38,6 +41,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
 
         public void Update(int id, AudioChipsetWrapper item) {
             var obj = _audioChipsets.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Аудиочипсета с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             _audioChipsets.Create(obj);
         }
@@ -46,7 +52,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _audioChipsets.Delete(id);
         }
 
-        public AudioChipset GetRaw(int id) {
+        public AudioChipset? GetRaw(int id) {
             return _audioChipsets.Get(id);
         }
 

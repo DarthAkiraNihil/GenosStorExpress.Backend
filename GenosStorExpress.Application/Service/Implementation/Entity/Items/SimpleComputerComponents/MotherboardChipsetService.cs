@@ -21,8 +21,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _motherboardChipsets.Create(created);
         }
 
-        public MotherboardChipsetWrapper Get(int id) {
-            MotherboardChipset obj = _motherboardChipsets.Get(id);
+        public MotherboardChipsetWrapper? Get(int id) {
+            MotherboardChipset? obj = _motherboardChipsets.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new MotherboardChipsetWrapper();
             _setWrapperPropertiesFromEntity(obj, wrapped);
             return wrapped;
@@ -38,6 +41,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
 
         public void Update(int id, MotherboardChipsetWrapper item) {
             var obj = _motherboardChipsets.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Клавиатуры с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             _motherboardChipsets.Create(obj);
         }
@@ -46,7 +52,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _motherboardChipsets.Delete(id);
         }
 
-        public MotherboardChipset GetRaw(int id) {
+        public MotherboardChipset? GetRaw(int id) {
             return _motherboardChipsets.Get(id);
         }
 

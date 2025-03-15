@@ -18,8 +18,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _motherboardFormFactors.Create(created);
         }
 
-        public string Get(int id) {
-            return _motherboardFormFactors.Get(id).Name;
+        public string? Get(int id) {
+            return _motherboardFormFactors.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -27,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            MotherboardFormFactor obj = _motherboardFormFactors.Get(id);
+            MotherboardFormFactor obj = _motherboardFormFactors.Get(id)!;
             obj.Name = item;
             _motherboardFormFactors.Update(obj);
         }
@@ -44,8 +44,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _motherboardFormFactors.List().Exists(c => c.Name == value);
         }
 
-        public MotherboardFormFactor GetEntityFromString(string value) {
-            return _motherboardFormFactors.List().FirstOrDefault(c => c.Name == value, null);
+        public MotherboardFormFactor? GetEntityFromString(string value) {
+            return _motherboardFormFactors.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

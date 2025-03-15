@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using GenosStorExpress.Infrastructure.Context;
-using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
+﻿using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
+using GenosStorExpress.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
     public class DiskDriveRepository: IDiskDriveRepository {

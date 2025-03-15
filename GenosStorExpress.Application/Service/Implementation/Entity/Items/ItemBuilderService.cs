@@ -1,11 +1,9 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
-using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
-using System.Linq;
-using System.Text.Json;
 using GenosStorExpress.Application.Wrappers.Entity.Item.Characteristic;
+using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
-using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
+using System.Text.Json;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items;
 
@@ -281,7 +279,7 @@ public class ItemBuilderService: IItemBuilderService {
         built.IsWireless = wrapper.Characteristics["is_wireless"].GetBoolean();
         
         built.DPIModes = ((JsonElement) wrapper.Characteristics["dpi_modes"])
-                           .EnumerateArray().Select(x => x.GetInt32()!).ToList();
+                           .EnumerateArray().Select(x => x.GetInt32()).ToList();
         
         return built;
     }

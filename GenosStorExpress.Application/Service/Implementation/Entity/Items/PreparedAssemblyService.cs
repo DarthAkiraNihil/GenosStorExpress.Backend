@@ -1,13 +1,11 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
-using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
-using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly;
 using GenosStorExpress.Domain.Entity.Item;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
-using GenosStorExpress.Domain.Interface.User;
+
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
     public class PreparedAssemblyService: IPreparedAssemblyService {
@@ -40,6 +38,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
             _keyboards = _repositories.Items.ComputerComponents.Keyboards;
             _mouses = _repositories.Items.ComputerComponents.Mouses;
             _cpuCoolers = _repositories.Items.ComputerComponents.CPUCoolers;
+            _preparedAssemblies = _repositories.Items.PreparedAssemblies;
         }
         
         public void Create(PreparedAssemblyWrapper item) {

@@ -7,22 +7,22 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         private GenosStorExpressDatabaseContext _context;
         
         // Characteristic
-        private Certificate80PlusRepository _certificates80Plus;
-        private ComputerCaseTypesizeRepository _computerCaseTypesizes;
-        private CoolerMaterialRepository _coolerMaterials;
-        private CPUSocketRepository _cpuSockets;
-        private DefinitionRepository _definitions;
-        private DPIModeRepository _dpiModes;
-        private KeyboardTypeRepository _keyboardTypes;
-        private KeyboardTypesizeRepository _keyboardTypesizes;
-        private MatrixTypeRepository _matrixTypes;
-        private MotherboardFormFactorRepository _motherboardFormFactors;
-        private PCIEVersionRepository _pCIEVersions;
-        private RAMTypeRepository _ramTypes;
-        private UnderlightRepository _underlights;
-        private VendorRepository _vendors;
-        private VesaSizeRepository _vesaSizes;
-        private VideoPortRepository _videoPorts;
+        private Certificate80PlusRepository? _certificates80Plus;
+        private ComputerCaseTypesizeRepository? _computerCaseTypesizes;
+        private CoolerMaterialRepository? _coolerMaterials;
+        private CPUSocketRepository? _cpuSockets;
+        private DefinitionRepository? _definitions;
+        private DPIModeRepository? _dpiModes;
+        private KeyboardTypeRepository? _keyboardTypes;
+        private KeyboardTypesizeRepository? _keyboardTypesizes;
+        private MatrixTypeRepository? _matrixTypes;
+        private MotherboardFormFactorRepository? _motherboardFormFactors;
+        private PCIEVersionRepository? _pCIEVersions;
+        private RAMTypeRepository? _ramTypes;
+        private UnderlightRepository? _underlights;
+        private VendorRepository? _vendors;
+        private VesaSizeRepository? _vesaSizes;
+        private VideoPortRepository? _videoPorts;
 
         public CharacteristicRepository(GenosStorExpressDatabaseContext context) {
             _context = context;

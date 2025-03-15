@@ -29,7 +29,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            ComputerCaseTypesize computerCaseTypesize = _context.ComputerCaseTypesizes.Find(id);
+            ComputerCaseTypesize? computerCaseTypesize = _context.ComputerCaseTypesizes.Find(id);
             if (computerCaseTypesize != null) {
                 _context.ComputerCaseTypesizes.Remove(computerCaseTypesize);
             }

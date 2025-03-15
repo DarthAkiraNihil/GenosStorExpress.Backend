@@ -1,4 +1,4 @@
-﻿namespace GenosStorExpress.Application.Wrappers.Entity.Item.Orders;
+﻿namespace GenosStorExpress.Application.Wrappers.Entity.Orders;
 
 public class BankCardWrapper {
     public int Id { get; set; }
@@ -8,4 +8,9 @@ public class BankCardWrapper {
     public byte CVC { get; set; }
     public string Owner { get; set; }
     public string BankSystem { get; set; }
+
+    public BankCardWrapper() {
+        Owner = string.Empty;
+        BankSystem = string.Empty;
+    }
 }

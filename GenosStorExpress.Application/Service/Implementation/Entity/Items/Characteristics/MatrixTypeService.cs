@@ -18,8 +18,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _matrixTypes.Create(created);
         }
 
-        public string Get(int id) {
-            return _matrixTypes.Get(id).Name;
+        public string? Get(int id) {
+            return _matrixTypes.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -27,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            MatrixType obj = _matrixTypes.Get(id);
+            MatrixType obj = _matrixTypes.Get(id)!;
             obj.Name = item;
             _matrixTypes.Update(obj);
         }
@@ -44,8 +44,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _matrixTypes.List().Exists(c => c.Name == value);
         }
 
-        public MatrixType GetEntityFromString(string value) {
-            return _matrixTypes.List().FirstOrDefault(c => c.Name == value, null);
+        public MatrixType? GetEntityFromString(string value) {
+            return _matrixTypes.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

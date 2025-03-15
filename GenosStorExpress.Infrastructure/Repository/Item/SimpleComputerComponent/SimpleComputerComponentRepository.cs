@@ -11,14 +11,14 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         // SimpleComputerComponent
-        private AudioChipsetRepository _audioChipsets;
-        private CPUCoreRepository _cpuCores;
-        private GPURepository _gpus;
-        private MotherboardChipsetRepository _motherboardChipsets;
-        private NetworkAdapterRepository _networkAdapters;
+        private AudioChipsetRepository? _audioChipsets;
+        private CPUCoreRepository? _cpuCores;
+        private GPURepository? _gpus;
+        private MotherboardChipsetRepository? _motherboardChipsets;
+        private NetworkAdapterRepository? _networkAdapters;
         //private SimpleComputerComponentRepository _SimpleComputerComponents;
-        private SimpleComputerComponentTypeRepository _simpleComputerComponentTypes;
-        private SSDControllerRepository _ssdControllers;
+        private SimpleComputerComponentTypeRepository? _simpleComputerComponentTypes;
+        private SSDControllerRepository? _ssdControllers;
         
         // SimpleComputerComponent
         public IAudioChipsetRepository AudioChipsets {

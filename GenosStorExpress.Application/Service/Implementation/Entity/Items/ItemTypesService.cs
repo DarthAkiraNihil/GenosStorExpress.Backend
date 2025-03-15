@@ -1,7 +1,6 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Wrappers.Enum;
 using GenosStorExpress.Domain.Entity.Item;
-using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item;
 
@@ -21,8 +20,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
             _itemTypes.Create(created);
         }
 
-        public string Get(int id) {
-            return _itemTypes.Get(id).Name;
+        public string? Get(int id) {
+            return _itemTypes.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -30,7 +29,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
         }
 
         public void Update(int id, string item) {
-            ItemType obj = _itemTypes.Get(id);
+            ItemType obj = _itemTypes.Get(id)!;
             obj.Name = item;
             _itemTypes.Update(obj);
         }
@@ -47,8 +46,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
             return _itemTypes.List().Exists(c => c.Name == value);
         }
 
-        public ItemType GetEntityFromString(string value) {
-            return _itemTypes.List().FirstOrDefault(c => c.Name == value, null);
+        public ItemType? GetEntityFromString(string value) {
+            return _itemTypes.List().FirstOrDefault(c => c.Name == value);
         }
 
         public ItemTypeDescriptor GetDescriptor(string name) {

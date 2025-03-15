@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using GenosStorExpress.Application.Service.Interface.Base;
-using GenosStorExpress.Application.Service.Interface.Entity.Items;
+﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
-using GenosStorExpress.Domain.Interface.Item;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items;
 
@@ -24,69 +21,96 @@ public class ItemServiceRouter: IItemServiceRouter {
         
         switch (itemType) {
             case ItemTypeDescriptor.ComputerCase: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.ComputerCases.Get(id)
-                );
+                var obj = _computerComponents.ComputerCases.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Компьютерного корпуса с номером {id} не существует");
+                }
+
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.CPUCooler: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.CPUCoolers.Get(id)
-                );
+                var obj = _computerComponents.CPUCoolers.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Кулера для процессора с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.CPU: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.CPUs.Get(id)
-                );
+                var obj = _computerComponents.CPUs.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Процессора с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.Display: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.Displays.Get(id)
-                );
+                var obj = _computerComponents.Displays.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Монитора с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.GraphicsCard: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.GraphicsCards.Get(id)
-                );
+                var obj = _computerComponents.GraphicsCards.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Видеокарты с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.HDD: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.HDDs.Get(id)
-                );
+                var obj = _computerComponents.HDDs.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Жёсткого диска с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.Keyboard: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.Keyboards.Get(id)
-                );
+                var obj = _computerComponents.Keyboards.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Клавиатуры с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.Motherboard: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.Motherboards.Get(id)
-                );
+                var obj = _computerComponents.Motherboards.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Материнской платы с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.Mouse: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.Mouses.Get(id)
-                );
+                var obj = _computerComponents.Mouses.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Мыши с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.NVMeSSD: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.NVMeSSDs.Get(id)
-                );
+                var obj = _computerComponents.NVMeSSDs.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Твердотельного накопителя NVMe с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.PowerSupply: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.PowerSupplies.Get(id)
-                );
+                var obj = _computerComponents.PowerSupplies.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException("Блока питания с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.RAM: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.RAMs.Get(id)
-                );
+                var obj = _computerComponents.RAMs.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Оперативной памяти с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             case ItemTypeDescriptor.SataSSD: {
-                return _itemBuilderService.BuildWrapper(
-                    _computerComponents.SataSSDs.Get(id)
-                );
+                var obj = _computerComponents.SataSSDs.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Твердотельного накопителя Sata с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
             }
             // case ItemTypeDescriptor.PreparedAssembly: {
             //     return _itemBuilderService.BuildWrapper(

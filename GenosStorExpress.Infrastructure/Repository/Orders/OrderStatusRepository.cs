@@ -29,7 +29,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void Delete(int id) {
-            OrderStatus orderStatus = _context.OrderStatuses.Find(id);
+            OrderStatus? orderStatus = _context.OrderStatuses.Find(id);
             if (orderStatus != null) {
                 _context.OrderStatuses.Remove(orderStatus);
             }

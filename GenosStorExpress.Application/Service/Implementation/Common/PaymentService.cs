@@ -1,5 +1,5 @@
-﻿using GenosStorExpress.Application.Wrappers.Enum;
-using GenosStorExpress.Application.Service.Interface.Common;
+﻿using GenosStorExpress.Application.Service.Interface.Common;
+using GenosStorExpress.Application.Wrappers.Enum;
 using GenosStorExpress.Domain.Entity.Orders;
 using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Domain.Interface;
@@ -13,9 +13,6 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
         }
 
         public string GetOrdererInfo(Customer customer) {
-            if (customer == null) {
-                return string.Empty;
-            }
 
             if (customer is IndividualEntity) {
                 var ie = (IndividualEntity)customer;

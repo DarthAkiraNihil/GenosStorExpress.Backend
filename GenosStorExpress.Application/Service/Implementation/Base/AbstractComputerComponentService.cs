@@ -6,7 +6,7 @@ using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 namespace GenosStorExpress.Application.Service.Implementation.Base;
 
 public abstract class AbstractComputerComponentService: AbstractItemService {
-    protected readonly IVendorService _vendorService;
+    private readonly IVendorService _vendorService;
 
     protected AbstractComputerComponentService(IItemTypeService itemTypeService, IVendorService vendorService) : base(itemTypeService) {
         _vendorService = vendorService;
@@ -15,7 +15,13 @@ public abstract class AbstractComputerComponentService: AbstractItemService {
     protected void _setEntityPropertiesFromWrapper(ComputerComponent entity, ComputerComponentWrapper wrapper) {
         base._setEntityPropertiesFromWrapper(entity, wrapper);
         entity.TDP = wrapper.TDP;
-        entity.Vendor = _vendorService.GetEntityFromString(wrapper.Vendor);
+        
+        var vendor = _vendorService.GetEntityFromString(wrapper.Vendor);
+        if (vendor == null) {
+            throw new NullReferenceException($"Производителя {wrapper.Vendor} не существует");
+        }
+
+        entity.Vendor = vendor;
     }
     
     protected void _setWrapperPropertiesFromEntity(ComputerComponent entity, ComputerComponentWrapper wrapper) {

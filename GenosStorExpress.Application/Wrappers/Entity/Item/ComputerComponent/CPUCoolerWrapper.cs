@@ -8,4 +8,9 @@ public class CPUCoolerWrapper: ComputerComponentWrapper {
 		
     public string FoundationMaterial { get; set; }
     public string RadiatorMaterial { get; set; }
+
+    public CPUCoolerWrapper() {
+        FoundationMaterial = string.Empty;
+        RadiatorMaterial = string.Empty;
+    }
 }

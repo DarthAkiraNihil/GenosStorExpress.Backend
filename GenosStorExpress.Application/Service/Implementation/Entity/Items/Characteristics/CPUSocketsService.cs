@@ -19,8 +19,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _cpuSockets.Create(created);
         }
 
-        public string Get(int id) {
-            return _cpuSockets.Get(id).Name;
+        public string? Get(int id) {
+            return _cpuSockets.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -28,7 +28,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            CPUSocket obj = _cpuSockets.Get(id);
+            CPUSocket obj = _cpuSockets.Get(id)!;
             obj.Name = item;
             _cpuSockets.Update(obj);
         }
@@ -45,8 +45,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _cpuSockets.List().Exists(c => c.Name == value);
         }
 
-        public CPUSocket GetEntityFromString(string value) {
-            return _cpuSockets.List().FirstOrDefault(c => c.Name == value, null);
+        public CPUSocket? GetEntityFromString(string value) {
+            return _cpuSockets.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

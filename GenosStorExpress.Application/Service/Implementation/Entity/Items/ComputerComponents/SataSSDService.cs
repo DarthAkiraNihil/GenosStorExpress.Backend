@@ -24,8 +24,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _sataSSDs.Create(created);
         }
 
-        public SataSSDWrapper Get(int id) {
-            SataSSD obj = _sataSSDs.Get(id);
+        public SataSSDWrapper? Get(int id) {
+            SataSSD? obj = _sataSSDs.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new SataSSDWrapper();
             _setWrapperPropertiesFromEntity(obj, wrapped);
             return wrapped;
@@ -41,6 +44,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, SataSSDWrapper item) {
             var obj = _sataSSDs.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Твердотельного накопителя Sata с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             _sataSSDs.Update(obj);
         }

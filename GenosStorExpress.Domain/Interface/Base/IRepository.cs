@@ -1,6 +1,6 @@
 ﻿using GenosStorExpress.Utils.Operations;
 
-namespace GenosStorExpress.Domain.Repository.Base {
+namespace GenosStorExpress.Domain.Interface.Base {
     public interface IRepository<T>:
         ISupportsCreate<T>,
         ISupportsGet<T>,

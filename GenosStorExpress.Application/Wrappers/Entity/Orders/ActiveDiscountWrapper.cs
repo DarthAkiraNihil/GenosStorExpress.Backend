@@ -1,4 +1,4 @@
-﻿namespace GenosStorExpress.Application.Wrappers.Entity.Item.Orders;
+﻿namespace GenosStorExpress.Application.Wrappers.Entity.Orders;
 
 public class ActiveDiscountWrapper {
     public double Value { get; set; }

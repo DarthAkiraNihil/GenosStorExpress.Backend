@@ -19,8 +19,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _coolerMaterials.Create(created);
         }
 
-        public string Get(int id) {
-            return _coolerMaterials.Get(id).Name;
+        public string? Get(int id) {
+            return _coolerMaterials.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -28,7 +28,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            CoolerMaterial obj = _coolerMaterials.Get(id);
+            CoolerMaterial obj = _coolerMaterials.Get(id)!;
             obj.Name = item;
             _coolerMaterials.Update(obj);
         }
@@ -45,8 +45,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _coolerMaterials.List().Exists(c => c.Name == value);
         }
 
-        public CoolerMaterial GetEntityFromString(string value) {
-            return _coolerMaterials.List().FirstOrDefault(c => c.Name == value, null);
+        public CoolerMaterial? GetEntityFromString(string value) {
+            return _coolerMaterials.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

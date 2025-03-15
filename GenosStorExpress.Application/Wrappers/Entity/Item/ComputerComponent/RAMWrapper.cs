@@ -11,4 +11,8 @@ public class RAMWrapper: ComputerComponentWrapper {
     public byte tRAS { get; set; }
 		
     public string Type { get; set; }
+
+    public RAMWrapper() {
+        Type = string.Empty;
+    }
 }

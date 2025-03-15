@@ -28,15 +28,30 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.TubesCount = item.TubesCount;
             created.TubesDiameter = item.TubesDiameter;
             created.FanCount = item.FanCount;
-            created.FoundationMaterial = _coolerMaterials.GetEntityFromString(item.FoundationMaterial);
-            created.RadiatorMaterial = _coolerMaterials.GetEntityFromString(item.RadiatorMaterial);
+            
+            var foundationMaterial = _coolerMaterials.GetEntityFromString(item.FoundationMaterial);
+            if (foundationMaterial == null) {
+                throw new NullReferenceException($"Материала основания {item.FoundationMaterial} не существует");
+            }
+            created.FoundationMaterial = foundationMaterial;
+            
+            var radiatorMaterial = _coolerMaterials.GetEntityFromString(item.RadiatorMaterial);
+            if (radiatorMaterial == null) {
+                throw new NullReferenceException($"Материала радиатора {item.RadiatorMaterial} не существует");
+            }
+            created.RadiatorMaterial = radiatorMaterial;
             
             _cpuCoolers.Create(created);
         }
 
-        public CPUCoolerWrapper Get(int id) {
+        public CPUCoolerWrapper? Get(int id) {
             
-            CPUCooler obj = _cpuCoolers.Get(id);
+            CPUCooler? obj = _cpuCoolers.Get(id);
+            
+            if (obj == null) {
+                return null;
+            }
+            
             var wrapped = new CPUCoolerWrapper();
             _setWrapperPropertiesFromEntity(obj, wrapped);
             
@@ -68,14 +83,27 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, CPUCoolerWrapper item) {
             var obj = _cpuCoolers.Get(id);
+            
+            if (obj == null) {
+                throw new NullReferenceException($"Кулера для процессора с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             
             obj.MaxFanRPM = item.MaxFanRPM;
             obj.TubesCount = item.TubesCount;
             obj.TubesDiameter = item.TubesDiameter;
             obj.FanCount = item.FanCount;
-            obj.FoundationMaterial = _coolerMaterials.GetEntityFromString(item.FoundationMaterial);
-            obj.RadiatorMaterial = _coolerMaterials.GetEntityFromString(item.RadiatorMaterial);
+            var foundationMaterial = _coolerMaterials.GetEntityFromString(item.FoundationMaterial);
+            if (foundationMaterial == null) {
+                throw new NullReferenceException($"Материала основания {item.FoundationMaterial} не существует");
+            }
+            obj.FoundationMaterial = foundationMaterial;
+            
+            var radiatorMaterial = _coolerMaterials.GetEntityFromString(item.RadiatorMaterial);
+            if (radiatorMaterial == null) {
+                throw new NullReferenceException($"Материала радиатора {item.RadiatorMaterial} не существует");
+            }
+            obj.RadiatorMaterial = radiatorMaterial;
             
             _cpuCoolers.Update(obj);
         }

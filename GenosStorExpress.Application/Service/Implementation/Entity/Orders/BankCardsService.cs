@@ -1,5 +1,5 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Orders;
-using GenosStorExpress.Application.Wrappers.Entity.Item.Orders;
+using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.Orders;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Orders;
@@ -17,18 +17,27 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         }
 
         public void Create(BankCardWrapper item) {
+
+            var bankSystem = _bankSystemService.GetEntityFromString(item.BankSystem);
+            if (bankSystem == null) {
+                throw new NullReferenceException($"Банковской системы {item.BankSystem} не существует");
+            }
+            
             _bankCards.Create(new BankCard {
                 Number = item.Number,
                 ValidThruMonth = item.ValidThruMonth,
                 ValidThruYear = item.ValidThruYear,
                 CVC = item.CVC,
                 Owner = item.Owner,
-                BankSystem = _bankSystemService.GetEntityFromString(item.BankSystem)
+                BankSystem = bankSystem
             });
         }
 
-        public BankCardWrapper Get(int id) {
+        public BankCardWrapper? Get(int id) {
             var obj =  _bankCards.Get(id);
+            if (obj == null) {
+                return null;
+            }
             return new BankCardWrapper {
                 Id = obj.Id,
                 Number = obj.Number,
@@ -54,12 +63,23 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
 
         public void Update(int id, BankCardWrapper item) {
             var obj = _bankCards.Get(id);
+
+            if (obj == null) {
+                throw new NullReferenceException($"Банковской карты с номером {id} существует");
+            }
+            
             obj.Number = item.Number;
             obj.ValidThruMonth = item.ValidThruMonth;
             obj.ValidThruYear = item.ValidThruYear;
             obj.CVC = item.CVC;
             obj.Owner = item.Owner;
-            obj.BankSystem = _bankSystemService.GetEntityFromString(item.BankSystem);
+            
+            var bankSystem = _bankSystemService.GetEntityFromString(item.BankSystem);
+            if (bankSystem == null) {
+                throw new NullReferenceException($"Банковской системы {item.BankSystem} не существует");
+            }
+
+            obj.BankSystem = bankSystem;
             _bankCards.Update(obj);
         }
 

@@ -1,9 +1,8 @@
 ﻿using GenosStorExpress.Application.Service.Implementation.Base;
-using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
-using GenosStorExpress.Domain.Entity.Item.Characteristic;
+using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -31,14 +30,24 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.Height = item.Height;
             created.HasARGBLighting = item.HasARGBLighting;
             created.DrivesSlotsCount = item.DrivesSlotsCount;
-            created.Typesize = _computerCaseTypesizeService.GetEntityFromString(item.Typesize);
+            
+            var typesize = _computerCaseTypesizeService.GetEntityFromString(item.Typesize);
+            if (typesize == null) {
+                throw new NullReferenceException($"Типоразмера корпуса {item.Typesize} существует");
+            }
+            created.Typesize = typesize;
             
             _computerCases.Create(created);
             
         }
 
-        public ComputerCaseWrapper Get(int id) {
-            ComputerCase obj =  _computerCases.Get(id);
+        public ComputerCaseWrapper? Get(int id) {
+            ComputerCase? obj =  _computerCases.Get(id);
+
+            if (obj == null) {
+                return null;
+            }
+            
             var wrapped = new ComputerCaseWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
@@ -73,7 +82,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         }
 
         public void Update(int id, ComputerCaseWrapper item) {
-            ComputerCase obj = _computerCases.Get(id);
+            ComputerCase? obj = _computerCases.Get(id);
+            
+            if (obj == null) {
+                throw new NullReferenceException($"Компьютерного корпуса с номером {id} не существует");
+            }
             
             _setEntityPropertiesFromWrapper(obj, item);
             
@@ -82,7 +95,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             obj.Height = item.Height;
             obj.HasARGBLighting = item.HasARGBLighting;
             obj.DrivesSlotsCount = item.DrivesSlotsCount;
-            obj.Typesize = _computerCaseTypesizeService.GetEntityFromString(item.Typesize);
+            
+            var typesize = _computerCaseTypesizeService.GetEntityFromString(item.Typesize);
+            if (typesize == null) {
+                throw new NullReferenceException($"Типоразмера корпуса {item.Typesize} существует");
+            }
+            obj.Typesize = typesize;
             
             _computerCases.Update(obj);
         }

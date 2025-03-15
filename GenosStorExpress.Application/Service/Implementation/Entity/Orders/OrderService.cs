@@ -20,7 +20,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _repositories.Orders.Orders.Create(item);
         }
 
-        public Order Get(int id) {
+        public Order? Get(int id) {
             return _repositories.Orders.Orders.Get(id);
         }
 

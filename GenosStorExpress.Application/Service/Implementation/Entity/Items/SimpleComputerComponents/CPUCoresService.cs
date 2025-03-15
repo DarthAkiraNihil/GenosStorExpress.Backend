@@ -3,7 +3,6 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputer
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Interface;
-using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface.Item.SimpleComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.SimpleComputerComponents {
@@ -19,15 +18,23 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
         }
 
         public void Create(CPUCoreWrapper item) {
+            
+            var vendor = _vendorService.GetEntityFromString(item.Vendor);
+            if (vendor == null) {
+                throw new NullReferenceException($"Производителя {item.Vendor} не существует");
+            }
             var created = new CPUCore {
                 Name = item.Name,
-                Vendor = _vendorService.GetEntityFromString(item.Vendor),
+                Vendor = vendor
             };
             _cpuCores.Create(created);
         }
 
-        public CPUCoreWrapper Get(int id) {
-            CPUCore obj = _cpuCores.Get(id);
+        public CPUCoreWrapper? Get(int id) {
+            CPUCore? obj = _cpuCores.Get(id);
+            if (obj == null) {
+                return null;
+            }
             return new CPUCoreWrapper {
                 Id = obj.Id,
                 Name = obj.Name,
@@ -46,8 +53,17 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
 
         public void Update(int id, CPUCoreWrapper item) {
             var obj = _cpuCores.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Ядра процессора с номером {id} не существует");
+            }
             obj.Name = item.Name;
-            obj.Vendor = _vendorService.GetEntityFromString(item.Vendor);
+            
+            var vendor = _vendorService.GetEntityFromString(item.Vendor);
+            if (vendor == null) {
+                throw new NullReferenceException($"Производителя {item.Vendor} не существует");
+            }
+
+            obj.Vendor = vendor;
             _cpuCores.Update(obj);
         }
 

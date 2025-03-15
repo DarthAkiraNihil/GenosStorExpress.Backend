@@ -19,8 +19,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _simpleComputerComponentTypes.Create(created);
         }
 
-        public string Get(int id) {
-            return _simpleComputerComponentTypes.Get(id).Name;
+        public string? Get(int id) {
+            return _simpleComputerComponentTypes.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -28,7 +28,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
         }
 
         public void Update(int id, string item) {
-            SimpleComputerComponentType obj = _simpleComputerComponentTypes.Get(id);
+            SimpleComputerComponentType obj = _simpleComputerComponentTypes.Get(id)!;
             obj.Name = item;
             _simpleComputerComponentTypes.Update(obj);
         }
@@ -45,8 +45,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             return _simpleComputerComponentTypes.List().Exists(c => c.Name == value);
         }
 
-        public SimpleComputerComponentType GetEntityFromString(string value) {
-            return _simpleComputerComponentTypes.List().FirstOrDefault(c => c.Name == value, null);
+        public SimpleComputerComponentType? GetEntityFromString(string value) {
+            return _simpleComputerComponentTypes.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

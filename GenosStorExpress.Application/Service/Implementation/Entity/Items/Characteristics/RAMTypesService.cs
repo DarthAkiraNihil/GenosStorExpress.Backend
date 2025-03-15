@@ -1,7 +1,6 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 using GenosStorExpress.Domain.Interface;
-using GenosStorExpress.Domain.Interface.Item;
 using GenosStorExpress.Domain.Interface.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Characteristics {
@@ -19,8 +18,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _ramTypes.Create(created);
         }
 
-        public string Get(int id) {
-            return _ramTypes.Get(id).Name;
+        public string? Get(int id) {
+            return _ramTypes.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -28,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            RAMType obj = _ramTypes.Get(id);
+            RAMType obj = _ramTypes.Get(id)!;
             obj.Name = item;
             _ramTypes.Update(obj);
         }
@@ -45,8 +44,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _ramTypes.List().Exists(c => c.Name == value);
         }
 
-        public RAMType GetEntityFromString(string value) {
-            return _ramTypes.List().FirstOrDefault(c => c.Name == value, null);
+        public RAMType? GetEntityFromString(string value) {
+            return _ramTypes.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

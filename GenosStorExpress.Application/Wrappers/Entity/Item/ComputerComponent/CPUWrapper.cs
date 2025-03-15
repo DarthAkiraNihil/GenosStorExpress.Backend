@@ -15,4 +15,10 @@ public class CPUWrapper: ComputerComponentWrapper {
     public List<string> SupportedRamTypes { get; set; }
     public int SupportedRAMSize { get; set; }
     public bool HasIntegratedGraphics { get; set; }
+
+    public CPUWrapper() {
+        SupportedRamTypes = new List<string>();
+        Socket = string.Empty;
+        Core = new CPUCoreWrapper();
+    }
 }

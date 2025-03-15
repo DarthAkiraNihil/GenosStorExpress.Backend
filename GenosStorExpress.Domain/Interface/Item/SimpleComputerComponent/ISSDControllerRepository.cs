@@ -1,5 +1,5 @@
 ﻿using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
-using GenosStorExpress.Domain.Repository.Base;
+using GenosStorExpress.Domain.Interface.Base;
 
 namespace GenosStorExpress.Domain.Interface.Item.SimpleComputerComponent {
     public interface ISSDControllerRepository: IRepository<SSDController> {

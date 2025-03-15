@@ -28,14 +28,27 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
             created.HasRGBLighting = item.HasRGBLighting;
             created.IsWireless = item.IsWireless;
-            created.KeyboardType = _keyboardTypes.GetEntityFromString(item.Type);
-            created.Typesize = _keyboardTypesizes.GetEntityFromString(item.Typesize);
+            
+            var keyboardType = _keyboardTypes.GetEntityFromString(item.Type);
+            if (keyboardType == null) {
+                throw new NullReferenceException($"Типа клавиатуры {item.Type} не существует");
+            }
+            created.KeyboardType = keyboardType;
+            
+            var typesize =  _keyboardTypesizes.GetEntityFromString(item.Typesize);
+            if (typesize == null) {
+                throw new NullReferenceException($"Типоразмера клавиатуры {item.Typesize} не существует");
+            }
+            created.Typesize = typesize;
             
             _keyboards.Create(created);
         }
 
-        public KeyboardWrapper Get(int id) {
-            Keyboard obj = _keyboards.Get(id);
+        public KeyboardWrapper? Get(int id) {
+            Keyboard? obj = _keyboards.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new KeyboardWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
@@ -65,12 +78,25 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, KeyboardWrapper item) {
             var obj = _keyboards.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Клавиатуры с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             
             obj.HasRGBLighting = item.HasRGBLighting;
             obj.IsWireless = item.IsWireless;
-            obj.KeyboardType = _keyboardTypes.GetEntityFromString(item.Type);
-            obj.Typesize = _keyboardTypesizes.GetEntityFromString(item.Typesize);
+            
+            var keyboardType = _keyboardTypes.GetEntityFromString(item.Type);
+            if (keyboardType == null) {
+                throw new NullReferenceException($"Типа клавиатуры {item.Type} не существует");
+            }
+            obj.KeyboardType = keyboardType;
+            
+            var typesize =  _keyboardTypesizes.GetEntityFromString(item.Typesize);
+            if (typesize == null) {
+                throw new NullReferenceException($"Типоразмера клавиатуры {item.Typesize} не существует");
+            }
+            obj.Typesize = typesize;
             
             _keyboards.Update(obj);
         }

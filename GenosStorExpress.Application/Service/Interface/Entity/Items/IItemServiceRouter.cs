@@ -1,7 +1,5 @@
-﻿using GenosStorExpress.Application.Service.Interface.Base;
-using GenosStorExpress.Application.Wrappers.Entity.Item;
+﻿using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
-using GenosStorExpress.Domain.Entity.Item;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items;
 

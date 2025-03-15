@@ -1,7 +1,4 @@
-﻿using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
-using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
-
-namespace GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly;
+﻿namespace GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly;
 
 public class PreparedAssemblyWrapper: ItemWrapper {
     

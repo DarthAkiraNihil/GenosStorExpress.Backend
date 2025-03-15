@@ -6,11 +6,15 @@ namespace GenosStorExpress.Domain.Entity.User {
 	public class IndividualEntity: Customer {
 		public override UserType UserType => UserType.IndividualEntity;
 		[Required]
+		[MaxLength(256)]
 		public string Name { get; set; }
 		[Required]
+		[MaxLength(256)]
 		public string Surname { get; set; }
-		[Required]
-		public string PhoneNumber { get; set; }
-		
+
+		public IndividualEntity() {
+			Name = string.Empty;
+			Surname = string.Empty;
+		}
 	}
 }

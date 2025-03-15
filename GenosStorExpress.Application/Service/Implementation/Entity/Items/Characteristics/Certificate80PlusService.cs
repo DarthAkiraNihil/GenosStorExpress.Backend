@@ -1,5 +1,4 @@
-﻿using GenosStorExpress.Application.Service.Interface.Base;
-using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
+﻿using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.Characteristic;
@@ -20,8 +19,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _certificates.Create(created);
         }
 
-        public string Get(int id) {
-            return _certificates.Get(id).Name;
+        public string? Get(int id) {
+            return _certificates.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -29,7 +28,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            Certificate80Plus obj = _certificates.Get(id);
+            Certificate80Plus obj = _certificates.Get(id)!;
             obj.Name = item;
             _certificates.Update(obj);
         }
@@ -46,8 +45,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _certificates.List().Exists(c => c.Name == value);
         }
 
-        public Certificate80Plus GetEntityFromString(string value) {
-            return _certificates.List().FirstOrDefault(c => c.Name == value, null);
+        public Certificate80Plus? GetEntityFromString(string value) {
+            return _certificates.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

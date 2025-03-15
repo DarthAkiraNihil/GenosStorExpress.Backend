@@ -4,14 +4,14 @@ using GenosStorExpress.Infrastructure.Context;
 namespace GenosStorExpress.Infrastructure.Repository.Orders {
     public class OrderEntitiesRepository: IOrderEntitiesRepository {
         // Orders
-        private ActiveDiscountRepository _activeDiscounts;
-        private BankCardRepository _bankCards;
-        private BankSystemRepository _bankSystems;
-        private CartRepository _carts;
-        private CartItemsRepository _cartItems;
-        private OrderItemsRepository _orderItems;
-        private OrderRepository _orders;
-        private OrderStatusRepository _orderStatuses;
+        private ActiveDiscountRepository? _activeDiscounts;
+        private BankCardRepository? _bankCards;
+        private BankSystemRepository? _bankSystems;
+        private CartRepository? _carts;
+        private CartItemsRepository? _cartItems;
+        private OrderItemsRepository? _orderItems;
+        private OrderRepository? _orders;
+        private OrderStatusRepository? _orderStatuses;
         
         private GenosStorExpressDatabaseContext _context;
 

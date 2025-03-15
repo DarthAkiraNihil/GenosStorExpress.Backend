@@ -12,12 +12,12 @@ namespace GenosStorExpress.Infrastructure.Repository.Item {
 
         private GenosStorExpressDatabaseContext _context;
 
-        private CharacteristicRepository _characteristics;
-        private ComputerComponentRepository _computerComponents;
-        private SimpleComputerComponentRepository _simpleComputerComponents;
-        private ItemTypeRepository _itemTypes;
-        private AllItemsRepository _allItems;
-        private PreparedAssemblyRepository _preparedAssemblies;
+        private CharacteristicRepository? _characteristics;
+        private ComputerComponentRepository? _computerComponents;
+        private SimpleComputerComponentRepository? _simpleComputerComponents;
+        private ItemTypeRepository? _itemTypes;
+        private AllItemsRepository? _allItems;
+        private PreparedAssemblyRepository? _preparedAssemblies;
         
         public ItemRepository(GenosStorExpressDatabaseContext context) {
             _context = context;

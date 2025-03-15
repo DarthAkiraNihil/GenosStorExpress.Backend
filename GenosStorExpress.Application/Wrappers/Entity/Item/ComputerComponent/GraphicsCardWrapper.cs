@@ -9,4 +9,9 @@ public class GraphicsCardWrapper: ComputerComponentWrapper {
     public byte UsedSlots { get; set; }
 
     public GPUWrapper GPU { get; set; }
+
+    public GraphicsCardWrapper() {
+        VideoPorts = new List<string>();
+        GPU = new GPUWrapper();
+    }
 }

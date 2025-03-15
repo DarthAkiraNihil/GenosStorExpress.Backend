@@ -1,5 +1,4 @@
-﻿using GenosStorExpress.Domain.Repository.Base;
-using GenosStorExpress.Utils.Operations;
+﻿using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Base {
     public interface IStandardService<T>:

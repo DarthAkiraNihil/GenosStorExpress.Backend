@@ -17,8 +17,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _repositories.Items.Characteristics.Definitions.Create(obj);
         }
 
-        public DefinitionWrapper Get(int id) {
-            Definition obj = _repositories.Items.Characteristics.Definitions.Get(id);
+        public DefinitionWrapper? Get(int id) {
+            Definition? obj = _repositories.Items.Characteristics.Definitions.Get(id);
+            if (obj == null) {
+                return null;
+            }
             return new DefinitionWrapper { Width = obj.Width, Height = obj.Height };
         }
 
@@ -32,12 +35,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
                    .ToList();
         }
 
-        public Definition GetRaw(int id) {
+        public Definition? GetRaw(int id) {
             return _repositories.Items.Characteristics.Definitions.Get(id);
         }
 
         public void Update(int id, DefinitionWrapper item) {
-            Definition obj = _repositories.Items.Characteristics.Definitions.Get(id);
+            Definition obj = _repositories.Items.Characteristics.Definitions.Get(id)!;
             
             if (obj.Height != item.Height) {
                 obj.Height = item.Height;

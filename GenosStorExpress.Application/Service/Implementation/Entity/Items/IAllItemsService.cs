@@ -14,7 +14,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
             _repositories.Items.All.Create(item);
         }
 
-        public Item Get(int id) {
+        public Item? Get(int id) {
             return _repositories.Items.All.Get(id);
         }
 

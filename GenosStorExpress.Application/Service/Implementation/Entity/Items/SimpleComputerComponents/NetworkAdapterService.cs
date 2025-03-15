@@ -21,8 +21,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _networkAdapters.Create(created);
         }
 
-        public NetworkAdapterWrapper Get(int id) {
-            NetworkAdapter obj = _networkAdapters.Get(id);
+        public NetworkAdapterWrapper? Get(int id) {
+            NetworkAdapter? obj = _networkAdapters.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new NetworkAdapterWrapper();
             _setWrapperPropertiesFromEntity(obj, wrapped);
             return wrapped;
@@ -38,6 +41,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
 
         public void Update(int id, NetworkAdapterWrapper item) {
             var obj = _networkAdapters.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Сетевого адаптера с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             _networkAdapters.Create(obj);
         }
@@ -46,7 +52,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
             _networkAdapters.Delete(id);
         }
 
-        public NetworkAdapter GetRaw(int id) {
+        public NetworkAdapter? GetRaw(int id) {
             return _networkAdapters.Get(id);
         }
 

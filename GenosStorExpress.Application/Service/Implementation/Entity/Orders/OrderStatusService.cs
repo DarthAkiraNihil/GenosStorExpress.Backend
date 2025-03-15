@@ -19,8 +19,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _orderStatuses.Create(created);
         }
 
-        public string Get(int id) {
-            return _orderStatuses.Get(id).Name;
+        public string? Get(int id) {
+            return _orderStatuses.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -28,7 +28,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         }
 
         public void Update(int id, string item) {
-            OrderStatus obj = _orderStatuses.Get(id);
+            OrderStatus obj = _orderStatuses.Get(id)!;
             obj.Name = item;
             _orderStatuses.Update(obj);
         }
@@ -45,8 +45,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             return _orderStatuses.List().Exists(c => c.Name == value);
         }
 
-        public OrderStatus GetEntityFromString(string value) {
-            return _orderStatuses.List().FirstOrDefault(c => c.Name == value, null);
+        public OrderStatus? GetEntityFromString(string value) {
+            return _orderStatuses.List().FirstOrDefault(c => c.Name == value);
         }
 
     }

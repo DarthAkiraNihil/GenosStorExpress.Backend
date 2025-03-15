@@ -5,11 +5,8 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCompon
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
-using GenosStorExpress.Domain.Entity.Item.Characteristic;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
-using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Interface;
-using GenosStorExpress.Domain.Interface.Item.Characteristic;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.ComputerComponents {
@@ -33,8 +30,22 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
             _setEntityPropertiesFromWrapper(created, item);
 
-            created.SupportedCPUCores = item.SupportedCPUCores.Select(i => _cpuCoreService.GetRaw(i.Id)).ToList();
-            created.SupportedRAMTypes = item.SupportedRAMTypes.Select(i => _ramTypeService.GetEntityFromString(i)).ToList();
+            created.SupportedCPUCores = item.SupportedCPUCores.Select(i => {
+                var core = _cpuCoreService.GetRaw(i.Id);
+                if (core == null) {
+                    throw new NullReferenceException($"Ядра процессора с номером {i.Id} ({i.Name}) не существует)");
+                }
+
+                return core;
+            }).ToList();
+            created.SupportedRAMTypes = item.SupportedRAMTypes.Select(i => {
+                var type = _ramTypeService.GetEntityFromString(i);
+                if (type == null) {
+                    throw new NullReferenceException($"Типа ОЗУ {i} не существует)");
+                }
+
+                return type;
+            }).ToList();
             created.RAMSlots = item.RAMSlots;
             created.RAMChannels = item.RAMChannels;
             created.MaxRAMFrequency = item.MaxRAMFrequency;
@@ -43,23 +54,62 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.M2SlotsCount = item.M2SlotsCount;
             created.SataPortsCount = item.SataPortsCount;
             created.USBPortsCount = item.USBPortsCount;
-            created.VideoPorts = item.VideoPorts.Select(i => _videoPortService.GetEntityFromString(i)).ToList();
+            created.VideoPorts = item.VideoPorts.Select(i => {
+                var port = _videoPortService.GetEntityFromString(i);
+                if (port == null) {
+                    throw new NullReferenceException($"Видеопорта {i} не существует)");
+                }
+
+                return port;
+            }).ToList();
             created.RJ45PortsCount = item.RJ45PortsCount;
             created.DigitalAudioPortsCount = created.DigitalAudioPortsCount;
             created.NetworkAdapterSpeed = item.NetworkAdapterSpeed;
-            created.FormFactor = _motherboardFormFactorService.GetEntityFromString(item.FormFactor);
-            created.CPUSocket = _cpusocketService.GetEntityFromString(item.CPUSocket);
-            created.PCIEVersion = _pCIEVersionService.GetEntityFromString(item.PCIEVersion);
-            created.MotherboardChipset = _motherboardChipsetService.GetRaw((int) item.MotherboardChipset.Id);
-            created.AudioChipset = _audioChipsetService.GetRaw((int) item.AudioChipset.Id);
-            created.NetworkAdapter = _networkAdapterService.GetRaw((int) item.NetworkAdapter.Id);
+            
+            var formFactor = _motherboardFormFactorService.GetEntityFromString(item.FormFactor);
+            if (formFactor == null) {
+                throw new NullReferenceException($"Форм-фактора материнской платы {item.FormFactor} не существует");
+            }
+            created.FormFactor = formFactor;
+            
+            var socket = _cpusocketService.GetEntityFromString(item.CPUSocket);
+            if (socket == null) {
+                throw new NullReferenceException($"Сокета процессора {item.CPUSocket} не существует");
+            }
+            created.CPUSocket = socket;
+
+            var pcieVersion = _pCIEVersionService.GetEntityFromString(item.PCIEVersion);
+            if (pcieVersion == null) {
+                throw new NullReferenceException($"Версии PCI-e {item.PCIEVersion} не существует");
+            }
+            created.PCIEVersion = pcieVersion;
+            
+            var motherboardChipset = _motherboardChipsetService.GetRaw((int) item.MotherboardChipset.Id);
+            if (motherboardChipset == null) {
+                throw new NullReferenceException($"Чипсета с номером {item.MotherboardChipset.Id} ({item.MotherboardChipset.Name}) не существует");
+            }
+            created.MotherboardChipset = motherboardChipset;
+            
+            var audioChipset = _audioChipsetService.GetRaw((int) item.AudioChipset.Id);
+            if (audioChipset == null) {
+                throw new NullReferenceException($"Аудиочипсета с номером {item.AudioChipset.Id} ({item.AudioChipset.Name}) не существует");
+            }
+            created.AudioChipset = audioChipset;
+            
+            var networkAdapter = _networkAdapterService.GetRaw((int) item.MotherboardChipset.Id);
+            if (networkAdapter == null) {
+                throw new NullReferenceException($"Сетевого адаптера с номером {item.NetworkAdapter.Id} ({item.NetworkAdapter.Name}) не существует");
+            }
             
             _motherboards.Create(created);
             
         }
 
-        public MotherboardWrapper Get(int id) {
-            Motherboard obj =  _motherboards.Get(id);
+        public MotherboardWrapper? Get(int id) {
+            Motherboard? obj =  _motherboards.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new MotherboardWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
@@ -122,11 +172,28 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         public void Update(int id, MotherboardWrapper item) {
             
             var obj = _motherboards.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Материнской платы с номером {id} не существует");
+            }
             
             _setEntityPropertiesFromWrapper(obj, item);
 
-            obj.SupportedCPUCores = item.SupportedCPUCores.Select(i => _cpuCoreService.GetRaw(i.Id)).ToList();
-            obj.SupportedRAMTypes = item.SupportedRAMTypes.Select(i => _ramTypeService.GetEntityFromString(i)).ToList();
+            obj.SupportedCPUCores = item.SupportedCPUCores.Select(i => {
+                var core = _cpuCoreService.GetRaw(i.Id);
+                if (core == null) {
+                    throw new NullReferenceException($"Ядра процессора с номером {i.Id} ({i.Name}) не существует)");
+                }
+
+                return core;
+            }).ToList();
+            obj.SupportedRAMTypes = item.SupportedRAMTypes.Select(i => {
+                var type = _ramTypeService.GetEntityFromString(i);
+                if (type == null) {
+                    throw new NullReferenceException($"Типа ОЗУ {i} не существует)");
+                }
+
+                return type;
+            }).ToList();
             obj.RAMSlots = item.RAMSlots;
             obj.RAMChannels = item.RAMChannels;
             obj.MaxRAMFrequency = item.MaxRAMFrequency;
@@ -135,16 +202,52 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             obj.M2SlotsCount = item.M2SlotsCount;
             obj.SataPortsCount = item.SataPortsCount;
             obj.USBPortsCount = item.USBPortsCount;
-            obj.VideoPorts = item.VideoPorts.Select(i => _videoPortService.GetEntityFromString(i)).ToList();
+            obj.VideoPorts = item.VideoPorts.Select(i => {
+                var port = _videoPortService.GetEntityFromString(i);
+                if (port == null) {
+                    throw new NullReferenceException($"Видеопорта {i} не существует)");
+                }
+
+                return port;
+            }).ToList();
             obj.RJ45PortsCount = item.RJ45PortsCount;
             obj.DigitalAudioPortsCount = obj.DigitalAudioPortsCount;
             obj.NetworkAdapterSpeed = item.NetworkAdapterSpeed;
-            obj.FormFactor = _motherboardFormFactorService.GetEntityFromString(item.FormFactor);
-            obj.CPUSocket = _cpusocketService.GetEntityFromString(item.CPUSocket);
-            obj.PCIEVersion = _pCIEVersionService.GetEntityFromString(item.PCIEVersion);
-            obj.MotherboardChipset = _motherboardChipsetService.GetRaw((int) item.MotherboardChipset.Id);
-            obj.AudioChipset = _audioChipsetService.GetRaw((int) item.AudioChipset.Id);
-            obj.NetworkAdapter = _networkAdapterService.GetRaw((int) item.NetworkAdapter.Id);
+            
+            var formFactor = _motherboardFormFactorService.GetEntityFromString(item.FormFactor);
+            if (formFactor == null) {
+                throw new NullReferenceException($"Форм-фактора материнской платы {item.FormFactor} не существует");
+            }
+            obj.FormFactor = formFactor;
+            
+            var socket = _cpusocketService.GetEntityFromString(item.CPUSocket);
+            if (socket == null) {
+                throw new NullReferenceException($"Сокета процессора {item.CPUSocket} не существует");
+            }
+            obj.CPUSocket = socket;
+
+            var pcieVersion = _pCIEVersionService.GetEntityFromString(item.PCIEVersion);
+            if (pcieVersion == null) {
+                throw new NullReferenceException($"Версии PCI-e {item.PCIEVersion} не существует");
+            }
+            obj.PCIEVersion = pcieVersion;
+            
+            var motherboardChipset = _motherboardChipsetService.GetRaw((int) item.MotherboardChipset.Id);
+            if (motherboardChipset == null) {
+                throw new NullReferenceException($"Чипсета с номером {item.MotherboardChipset.Id} ({item.MotherboardChipset.Name}) не существует");
+            }
+            obj.MotherboardChipset = motherboardChipset;
+            
+            var audioChipset = _audioChipsetService.GetRaw((int) item.AudioChipset.Id);
+            if (audioChipset == null) {
+                throw new NullReferenceException($"Аудиочипсета с номером {item.AudioChipset.Id} ({item.AudioChipset.Name}) не существует");
+            }
+            obj.AudioChipset = audioChipset;
+            
+            var networkAdapter = _networkAdapterService.GetRaw((int) item.MotherboardChipset.Id);
+            if (networkAdapter == null) {
+                throw new NullReferenceException($"Сетевого адаптера с номером {item.NetworkAdapter.Id} ({item.NetworkAdapter.Name}) не существует");
+            }
             
             _motherboards.Update(obj);
             

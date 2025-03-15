@@ -27,14 +27,23 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.SataPorts = item.SataPorts;
             created.MolexPorts = item.MolexPorts;
             created.PowerOutput = item.PowerOutput;
-            created.Certificate80Plus = _certificate80PlusService.GetEntityFromString(item.Certificate80Plus);
+            
+            var certificate = _certificate80PlusService.GetEntityFromString(item.Certificate80Plus);
+            if (certificate == null) {
+                throw new NullReferenceException($"Сертификата 80Plus {item.Certificate80Plus} не существует");
+            }
+
+            created.Certificate80Plus = certificate;
             
             _powerSupplies.Create(created);
             
         }
 
-        public PowerSupplyWrapper Get(int id) {
-            PowerSupply obj = _powerSupplies.Get(id);
+        public PowerSupplyWrapper? Get(int id) {
+            PowerSupply? obj = _powerSupplies.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new PowerSupplyWrapper();
             _setWrapperPropertiesFromEntity(obj, wrapped);
             
@@ -62,12 +71,21 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, PowerSupplyWrapper item) {
             var obj = _powerSupplies.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException("Блока питания с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             
             obj.SataPorts = item.SataPorts;
             obj.MolexPorts = item.MolexPorts;
             obj.PowerOutput = item.PowerOutput;
-            obj.Certificate80Plus = _certificate80PlusService.GetEntityFromString(item.Certificate80Plus);
+            
+            var certificate = _certificate80PlusService.GetEntityFromString(item.Certificate80Plus);
+            if (certificate == null) {
+                throw new NullReferenceException($"Сертификата 80Plus {item.Certificate80Plus} не существует");
+            }
+
+            obj.Certificate80Plus = certificate;
             
             _powerSupplies.Update(obj);
         }

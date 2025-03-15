@@ -18,8 +18,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _bankSystems.Create(created);
         }
 
-        public string Get(int id) {
-            return _bankSystems.Get(id).Name;
+        public string? Get(int id) {
+            return _bankSystems.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -27,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         }
 
         public void Update(int id, string item) {
-            BankSystem obj = _bankSystems.Get(id);
+            BankSystem obj = _bankSystems.Get(id)!;
             obj.Name = item;
             _bankSystems.Update(obj);
         }
@@ -44,8 +44,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             return _bankSystems.List().Exists(c => c.Name == value);
         }
 
-        public BankSystem GetEntityFromString(string value) {
-            return _bankSystems.List().FirstOrDefault(c => c.Name == value, null);
+        public BankSystem? GetEntityFromString(string value) {
+            return _bankSystems.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

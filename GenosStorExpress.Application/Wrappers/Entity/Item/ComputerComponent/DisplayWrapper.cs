@@ -10,4 +10,11 @@ public class DisplayWrapper: ComputerComponentWrapper {
     public string MatrixType { get; set; }
     public string Underlight { get; set; }
     public string VesaSize { get; set; }
+
+    public DisplayWrapper() {
+        Definition = new DefinitionWrapper();
+        MatrixType = string.Empty;
+        Underlight = string.Empty;
+        VesaSize = string.Empty;
+    }
 }

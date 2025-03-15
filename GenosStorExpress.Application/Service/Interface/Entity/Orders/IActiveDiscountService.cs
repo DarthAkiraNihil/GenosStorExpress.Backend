@@ -1,4 +1,4 @@
-﻿using GenosStorExpress.Application.Wrappers.Entity.Item.Orders;
+﻿using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {

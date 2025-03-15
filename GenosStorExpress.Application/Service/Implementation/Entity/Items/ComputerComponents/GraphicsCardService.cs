@@ -27,16 +27,32 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _setEntityPropertiesFromWrapper(created, item);
             
             created.VideoRAM = item.VideoRAM;
-            created.VideoPorts = item.VideoPorts.Select(i => _videoPortService.GetEntityFromString(i)).ToList();
+            created.VideoPorts = item.VideoPorts.Select(i => {
+                var port = _videoPortService.GetEntityFromString(i);
+                if (port == null) {
+                    throw new NullReferenceException($"Видеопорта {i} не существует");
+                }
+
+                return port;
+            }).ToList();
             created.MaxDisplaysSupported = item.MaxDisplaysSupported;
             created.UsedSlots = item.UsedSlots;
-            created.GPU = _gpuService.GetRaw(item.GPU.Id);
+            
+            var gpu = _gpuService.GetRaw(item.GPU.Id);
+            if (gpu == null) {
+                throw new NullReferenceException($"Графического процессора с номером {item.GPU.Id} ({item.GPU.Name}) не существует");
+            }
+
+            created.GPU = gpu;
             
             _graphicsCards.Create(created);
         }
 
-        public GraphicsCardWrapper Get(int id) {
-            GraphicsCard obj = _graphicsCards.Get(id);
+        public GraphicsCardWrapper? Get(int id) {
+            GraphicsCard? obj = _graphicsCards.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new GraphicsCardWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
@@ -45,7 +61,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             wrapped.VideoPorts = obj.VideoPorts.Select(i => i.Name).ToList();
             wrapped.MaxDisplaysSupported = obj.MaxDisplaysSupported;
             wrapped.UsedSlots = obj.UsedSlots;
-            wrapped.GPU = _gpuService.Get(obj.GPU.Id);
+            wrapped.GPU = _gpuService.Get(obj.GPU.Id)!;
             
             return wrapped;
         }
@@ -60,7 +76,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 wrapped.VideoPorts = obj.VideoPorts.Select(i => i.Name).ToList();
                 wrapped.MaxDisplaysSupported = obj.MaxDisplaysSupported;
                 wrapped.UsedSlots = obj.UsedSlots;
-                wrapped.GPU = _gpuService.Get(obj.GPU.Id);
+                wrapped.GPU = _gpuService.Get(obj.GPU.Id)!;
             
                 return wrapped;
             }).ToList();
@@ -68,13 +84,29 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
 
         public void Update(int id, GraphicsCardWrapper item) {
             var obj = _graphicsCards.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Видеокарты с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             
             obj.VideoRAM = item.VideoRAM;
-            obj.VideoPorts = item.VideoPorts.Select(i => _videoPortService.GetEntityFromString(i)).ToList();
+            obj.VideoPorts = item.VideoPorts.Select(i => {
+                var port = _videoPortService.GetEntityFromString(i);
+                if (port == null) {
+                    throw new NullReferenceException($"Видеопорта {i} не существует");
+                }
+
+                return port;
+            }).ToList();
             obj.MaxDisplaysSupported = item.MaxDisplaysSupported;
             obj.UsedSlots = item.UsedSlots;
-            obj.GPU = _gpuService.GetRaw(item.GPU.Id);
+            
+            var gpu = _gpuService.GetRaw(item.GPU.Id);
+            if (gpu == null) {
+                throw new NullReferenceException($"Графического процессора с номером {item.GPU.Id} ({item.GPU.Name}) не существует");
+            }
+
+            obj.GPU = gpu;
             
             _graphicsCards.Update(obj);
         }

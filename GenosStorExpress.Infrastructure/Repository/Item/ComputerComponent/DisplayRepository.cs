@@ -31,9 +31,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            Display display = _context.Displays.Find(id);
-            if (display != null)
+            Display? display = _context.Displays.Find(id);
+            if (display != null) {
                 _context.Displays.Remove(display);
+            }
         }
         
     }

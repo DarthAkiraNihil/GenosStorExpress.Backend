@@ -18,8 +18,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             _videoPorts.Create(created);
         }
 
-        public string Get(int id) {
-            return _videoPorts.Get(id).Name;
+        public string? Get(int id) {
+            return _videoPorts.Get(id)?.Name;
         }
 
         public List<string> List() {
@@ -27,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
         }
 
         public void Update(int id, string item) {
-            VideoPort obj = _videoPorts.Get(id);
+            VideoPort obj = _videoPorts.Get(id)!;
             obj.Name = item;
             _videoPorts.Update(obj);
         }
@@ -44,8 +44,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Chara
             return _repositories.Items.Characteristics.VideoPorts.List().Exists(c => c.Name == value);
         }
 
-        public VideoPort GetEntityFromString(string value) {
-            return _videoPorts.List().FirstOrDefault(c => c.Name == value, null);
+        public VideoPort? GetEntityFromString(string value) {
+            return _videoPorts.List().FirstOrDefault(c => c.Name == value);
         }
     }
 }

@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GenosStorExpress.Domain.Entity.User {
 	public abstract class Customer: User {
-		public virtual List<Order> Orders {  get; set; }
-		public virtual List<BankCard> BankCards {  get; set; }
+		public virtual IList<Order> Orders {  get; set; }
+		public virtual IList<BankCard> BankCards {  get; set; }
 		[Required]
 		public virtual Cart Cart { get; set; }
 		public int CartId { get; set; }

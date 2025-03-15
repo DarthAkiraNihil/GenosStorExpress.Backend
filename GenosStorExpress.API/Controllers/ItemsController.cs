@@ -1,12 +1,7 @@
-﻿using System.Text;
-using System.Text.Json;
-using GenosStorExpress.Application.Service.Interface.Entity.Items;
-using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
-using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

@@ -5,7 +5,7 @@ using GenosStorExpress.Domain.Entity.Item;
 namespace GenosStorExpress.Application.Service.Implementation.Base;
 
 public abstract class AbstractItemService {
-    protected readonly IItemTypeService _itemTypeService;
+    private readonly IItemTypeService _itemTypeService;
 
     protected AbstractItemService(IItemTypeService itemTypeService) {
         _itemTypeService = itemTypeService;
@@ -17,7 +17,13 @@ public abstract class AbstractItemService {
         entity.Price = wrapper.Price;
         entity.ImageBase64 = "";
         entity.Description = wrapper.Description;
-        entity.ItemType = _itemTypeService.GetEntityFromString(wrapper.ItemType);
+        
+        var itemType = _itemTypeService.GetEntityFromString(wrapper.ItemType);
+        if (itemType == null) {
+            throw new NullReferenceException($"Типа товара {wrapper.ItemType} не существует");
+        }
+        
+        entity.ItemType = itemType;
     }
 
     protected void _setWrapperPropertiesFromEntity(Item entity, ItemWrapper wrapper) {

@@ -26,8 +26,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _hdds.Create(created);
         }
 
-        public HDDWrapper Get(int id) {
-            HDD obj = _hdds.Get(id);
+        public HDDWrapper? Get(int id) {
+            HDD? obj = _hdds.Get(id);
+            if (obj == null) {
+                return null;
+            }
             var wrapped = new HDDWrapper();
             
             _setWrapperPropertiesFromEntity(obj, wrapped);
@@ -48,7 +51,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         }
 
         public void Update(int id, HDDWrapper item) {
-            HDD obj = _hdds.Get(id);
+            HDD? obj = _hdds.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Жёсткого диска с номером {id} не существует");
+            }
             _setEntityPropertiesFromWrapper(obj, item);
             obj.RPM = item.RPM;
             

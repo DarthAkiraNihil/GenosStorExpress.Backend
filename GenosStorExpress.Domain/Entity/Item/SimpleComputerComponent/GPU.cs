@@ -9,6 +9,10 @@ namespace GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent {
 		[Required]
 		public int Id { get; set; }
 		
-		public virtual Vendor Vendor { get; set; }
+		public Vendor Vendor { get; set; }
+
+		public GPU() {
+			Vendor = new Vendor();
+		}
 	}
 }

@@ -12,7 +12,7 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public long WriteSpeed { get; set; }
 
-		public List<PreparedAssembly> PreparedAssemblies { get; set; }
+		public IList<PreparedAssembly> PreparedAssemblies { get; set; }
 
 		public DiskDrive() {
 			PreparedAssemblies = new List<PreparedAssembly>();

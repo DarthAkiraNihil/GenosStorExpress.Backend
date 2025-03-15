@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 	[Table("public.ComputerCases")]
 	public class ComputerCase: ComputerComponent {
-		public virtual ComputerCaseTypesize Typesize { get; set; }
+		public ComputerCaseTypesize Typesize { get; set; }
 		[Required]
 		public float Length { get; set; }
 		[Required]
@@ -14,11 +14,15 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		public float Height { get; set; }
 
 		[Required]
-		public virtual List<MotherboardFormFactor> SupportedMotherboardFormFactors { get; set; }
+		public IList<MotherboardFormFactor> SupportedMotherboardFormFactors { get; set; }
 		[Required]
 		public bool HasARGBLighting { get; set; }
 		[Required]
 		public byte DrivesSlotsCount;
 
+		public ComputerCase() {
+			Typesize = new ComputerCaseTypesize();
+			SupportedMotherboardFormFactors = new List<MotherboardFormFactor>();
+		}
 	}
 }

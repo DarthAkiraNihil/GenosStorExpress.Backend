@@ -14,5 +14,9 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		public KeyboardTypesize Typesize { get; set; }
 		public KeyboardType KeyboardType { get; set; }
 
+		public Keyboard() {
+			Typesize = new KeyboardTypesize();
+			KeyboardType = new KeyboardType();
+		}
 	}
 }

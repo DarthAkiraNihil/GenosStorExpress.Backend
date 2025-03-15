@@ -6,6 +6,10 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public double TDP { get; set; }
 
-		public virtual Vendor Vendor { get; set; }
+		public Vendor Vendor { get; set; }
+
+		protected ComputerComponent() {
+			Vendor = new Vendor();
+		}
 	}
 }

@@ -12,11 +12,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly IGenosStorExpressRepositories _repositories;
         private readonly IComputerCaseRepository _computerCases;
         private readonly IComputerCaseTypesizeService _computerCaseTypesizeService;
+        private readonly IMotherboardFormFactorService _motherboardFormFactorService;
 
-        public ComputerCaseService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IComputerCaseTypesizeService computerCaseTypesizeService) : base(itemTypeService, vendorService) {
+        public ComputerCaseService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IComputerCaseTypesizeService computerCaseTypesizeService, IMotherboardFormFactorService motherboardFormFactorService) : base(itemTypeService, vendorService) {
             _repositories = repositories;
             _computerCases = _repositories.Items.ComputerComponents.ComputerCases;
             _computerCaseTypesizeService = computerCaseTypesizeService;
+            _motherboardFormFactorService = motherboardFormFactorService;
         }
         
         public void Create(ComputerCaseWrapper item) {
@@ -36,6 +38,14 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 throw new NullReferenceException($"Типоразмера корпуса {item.Typesize} существует");
             }
             created.Typesize = typesize;
+            created.SupportedMotherboardFormFactors = item.SupportedMotherboardFormFactors
+                                                        .Select(f => {
+                                                            var formFactor = _motherboardFormFactorService.GetEntityFromString(f);
+                                                            if (formFactor == null) {
+                                                                throw new NullReferenceException($"Форм-фактора материнской платы {f} не существует");
+                                                            }
+                                                            return formFactor;
+                                                        }).ToList();
             
             _computerCases.Create(created);
             
@@ -58,6 +68,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             wrapped.HasARGBLighting = obj.HasARGBLighting;
             wrapped.DrivesSlotsCount = obj.DrivesSlotsCount;
             wrapped.Typesize = obj.Typesize.Name;
+            wrapped.SupportedMotherboardFormFactors = obj.SupportedMotherboardFormFactors
+                                                         .Select(i => i.Name)
+                                                         .ToList();
 
             return wrapped;
         }

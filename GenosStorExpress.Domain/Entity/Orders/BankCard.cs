@@ -8,8 +8,6 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 		[Required]
 		public long Number { get; set; }
 		[Required]
-		public int BankSystemId { get; set; }
-		[Required]
 		public byte ValidThruMonth { get; set; }
 		[Required]
 		public byte ValidThruYear { get; set; }
@@ -18,6 +16,11 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 		[Required]
 		public string Owner { get; set; }
 		
-		public virtual BankSystem BankSystem { get; set; }
+		public BankSystem BankSystem { get; set; }
+
+		public BankCard() {
+			Owner = string.Empty;
+			BankSystem = new BankSystem();
+		}
 	}
 }

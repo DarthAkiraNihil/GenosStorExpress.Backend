@@ -8,13 +8,17 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 		public long Id { get; set; }
 
 		[Required]
-		public virtual Customer Customer { get; set; }
+		public Customer Customer { get; set; }
 		[Required]
-		public virtual List<OrderItems> Items { get; set; }
+		public List<OrderItems> Items { get; set; }
 		[Required]
-		public virtual OrderStatus OrderStatus { get; set; }
+		public OrderStatus OrderStatus { get; set; }
 		[Required]
 		public DateTime CreatedAt { get; set; }
 
+		public Order() {
+			OrderStatus = new OrderStatus();
+			Items = new List<OrderItems>();
+		}
 	}
 }

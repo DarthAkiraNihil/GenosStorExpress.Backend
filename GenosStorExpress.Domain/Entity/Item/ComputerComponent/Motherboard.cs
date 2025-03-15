@@ -8,9 +8,9 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 	public class Motherboard: ComputerComponent {
 
 		[Required]
-		public virtual List<CPUCore> SupportedCPUCores { get; set; }
+		public IList<CPUCore> SupportedCPUCores { get; set; }
 		[Required]
-		public virtual List<RAMType> SupportedRAMTypes { get; set; }
+		public IList<RAMType> SupportedRAMTypes { get; set; }
 
 		[Required]
 		public byte RAMSlots { get; set; }
@@ -32,7 +32,7 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public byte USBPortsCount { get; set; }
 		[Required]
-		public virtual List<VideoPort> VideoPorts { get; set; }
+		public IList<VideoPort> VideoPorts { get; set; }
 		[Required]
 		public byte RJ45PortsCount { get; set; }
 		[Required]
@@ -40,13 +40,24 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 
 		public float NetworkAdapterSpeed { get; set; }
 		
-		public virtual MotherboardFormFactor FormFactor { get; set; }
-		public virtual CPUSocket CPUSocket { get; set; }
-		public virtual PCIEVersion PCIEVersion { get; set; }
+		public MotherboardFormFactor FormFactor { get; set; }
+		public CPUSocket CPUSocket { get; set; }
+		public PCIEVersion PCIEVersion { get; set; }
 		
-		public virtual MotherboardChipset MotherboardChipset { get; set; }
-		public virtual AudioChipset AudioChipset { get; set; }
-		public virtual NetworkAdapter NetworkAdapter { get; set; }
+		public MotherboardChipset MotherboardChipset { get; set; }
+		public AudioChipset AudioChipset { get; set; }
+		public NetworkAdapter NetworkAdapter { get; set; }
 
+		public Motherboard() {
+			SupportedCPUCores = new List<CPUCore>();
+			SupportedRAMTypes = new List<RAMType>();
+			VideoPorts = new List<VideoPort>();
+			FormFactor = new MotherboardFormFactor();
+			CPUSocket = new CPUSocket();
+			PCIEVersion = new PCIEVersion();
+			MotherboardChipset = new MotherboardChipset();
+			AudioChipset = new AudioChipset();
+			NetworkAdapter = new NetworkAdapter();
+		}
 	}
 }

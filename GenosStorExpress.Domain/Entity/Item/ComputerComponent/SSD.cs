@@ -12,8 +12,11 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public byte BitsForCell { get; set; }
 		
-		public virtual SSDController Controller { get; set; }
+		public SSDController Controller { get; set; }
 
+		protected SSD() {
+			Controller = new SSDController();
+		}
 	}
 }
 

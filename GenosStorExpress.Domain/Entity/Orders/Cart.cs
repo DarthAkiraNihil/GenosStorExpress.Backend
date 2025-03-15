@@ -6,8 +6,11 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 	[Table("public.Carts")]
 	public class Cart {
 		public int CustomerId { get; set; }
-		public virtual Customer Customer { get; set; }
-		public virtual List<CartItem> Items { get; set; }
-		
+		public Customer Customer { get; set; }
+		public IList<CartItem> Items { get; set; }
+
+		public Cart() {
+			Items = new List<CartItem>();
+		}
 	}
 }

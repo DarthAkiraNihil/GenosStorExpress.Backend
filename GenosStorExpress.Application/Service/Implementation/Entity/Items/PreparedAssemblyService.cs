@@ -42,24 +42,79 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
         }
         
         public void Create(PreparedAssemblyWrapper item) {
+            
+            var cpu = _cpus.Get(item.CPU.Id);
+            var motherboard = _motherboards.Get(item.Motherboard.Id);
+            var graphicsCard = _graphicsCards.Get(item.GraphicsCard.Id);
+            var powerSupply = _powerSupplies.Get(item.PowerSupply.Id);
+            var display = item.Display == null ? null : _displays.Get(item.Display.Id);
+            var computerCase = _computerCases.Get(item.ComputerCase.Id);
+            var keyboard = item.Keyboard == null ? null : _keyboards.Get(item.Keyboard.Id);
+            var mouse = item.Mouse == null ? null : _mouses.Get(item.Mouse.Id);
+            var cpuCooler = _cpuCoolers.Get(item.CPUCooler.Id);
+
+            if (cpu == null) {
+                throw new NullReferenceException($"Процессора с номером {item.CPU.Id} не существует");
+            }
+
+            if (motherboard == null) {
+                throw new NullReferenceException($"Материнской платы с номером {item.Motherboard.Id} не существует");
+            }
+
+            if (graphicsCard == null) {
+                throw new NullReferenceException($"Видеокарты с номером {item.GraphicsCard.Id} не существует");
+            }
+
+            if (powerSupply == null) {
+                throw new NullReferenceException($"Блока питания с номером {item.PowerSupply.Id} не существует");
+            }
+            
+            if (computerCase == null) {
+                throw new NullReferenceException($"Корпуса с номером {item.ComputerCase.Id} не существует");
+            }
+
+            if (cpuCooler == null) {
+                throw new NullReferenceException($"Кулеря для процессора с номером {item.CPUCooler.Id} не существует");
+            }
+            
             var created = new PreparedAssembly {
-                RAM = item.RAMs.Select(i => _rams.Get(i.Id)).ToList(),
-                Disks = item.DiskDrives.Select(i => _diskDrives.Get(i.Id)).ToList(),
-                CPU = _cpus.Get(item.CPU.Id),
-                Motherboard = _motherboards.Get(item.Motherboard.Id),
-                GraphicsCard = _graphicsCards.Get(item.GraphicsCard.Id),
-                PowerSupply = _powerSupplies.Get(item.PowerSupply.Id),
-                Display = _displays.Get(item.Display!.Id),
-                ComputerCase = _computerCases.Get(item.ComputerCase.Id),
-                Keyboard = _keyboards.Get(item.Keyboard.Id),
-                Mouse = _mouses.Get(item.Mouse.Id),
-                CPUCooler = _cpuCoolers.Get(item.CPUCooler.Id)
+                RAM = item.RAMs.Select(i => {
+                    var ram = _rams.Get(i.Id);
+                    if (ram == null) {
+                        throw new NullReferenceException($"ОЗУ с номером {i.Id} не существует");
+                    }
+
+                    return ram;
+                }).ToList(),
+                Disks = item.DiskDrives.Select(i => {
+                    var drive = _diskDrives.Get(i.Id);
+                    if (drive == null) {
+                        throw new NullReferenceException($"Диска с номером {i.Id} не существует");
+                    }
+
+                    return drive;
+                }).ToList(),
+                
+                CPU = cpu,
+                Motherboard = motherboard,
+                GraphicsCard = graphicsCard,
+                PowerSupply = powerSupply,
+                Display = display,
+                ComputerCase = computerCase,
+                Keyboard = keyboard,
+                Mouse = mouse,
+                CPUCooler = cpuCooler
             };
             _preparedAssemblies.Create(created);
         }
 
-        public PreparedAssemblyWrapper Get(int id) {
-            PreparedAssembly obj = _preparedAssemblies.Get(id);
+        public PreparedAssemblyWrapper? Get(int id) {
+            PreparedAssembly? obj = _preparedAssemblies.Get(id);
+
+            if (obj == null) {
+                return null;
+            }
+            
             return new PreparedAssemblyWrapper {
                 RAMs = obj.RAM.Select(i => _wrap(i)).ToList(),
                 DiskDrives = obj.Disks.Select(i => _wrap(i)).ToList(),
@@ -67,10 +122,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
                 Motherboard = _wrap(obj.Motherboard),
                 GraphicsCard = _wrap(obj.GraphicsCard),
                 PowerSupply = _wrap(obj.PowerSupply),
-                Display = _wrap(obj.Display),
+                Display = obj.Display == null ? null : _wrap(obj.Display),
                 ComputerCase = _wrap(obj.ComputerCase),
-                Keyboard = _wrap(obj.Keyboard),
-                Mouse = _wrap(obj.Mouse),
+                Keyboard = obj.Keyboard == null ? null : _wrap(obj.Keyboard),
+                Mouse = obj.Mouse == null ? null : _wrap(obj.Mouse),
                 CPUCooler = _wrap(obj.CPUCooler),
             };
         }
@@ -83,28 +138,110 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
                 Motherboard = _wrap(obj.Motherboard),
                 GraphicsCard = _wrap(obj.GraphicsCard),
                 PowerSupply = _wrap(obj.PowerSupply),
-                Display = _wrap(obj.Display),
+                Display = obj.Display == null ? null : _wrap(obj.Display),
                 ComputerCase = _wrap(obj.ComputerCase),
-                Keyboard = _wrap(obj.Keyboard),
-                Mouse = _wrap(obj.Mouse),
+                Keyboard = obj.Keyboard == null ? null : _wrap(obj.Keyboard),
+                Mouse = obj.Mouse == null ? null : _wrap(obj.Mouse),
                 CPUCooler = _wrap(obj.CPUCooler),
             }).ToList();
         }
 
         public void Update(int id, PreparedAssemblyWrapper item) {
-            PreparedAssembly obj = _preparedAssemblies.Get(id);
+            PreparedAssembly? obj = _preparedAssemblies.Get(id);
+            if (obj == null) {
+                throw new NullReferenceException($"Готовой сборки с номером {id} не существует");
+            }
             
-            obj.RAM = item.RAMs.Select(i => _rams.Get(i.Id)).ToList();
-            obj.Disks = item.DiskDrives.Select(i => _diskDrives.Get(i.Id)).ToList();
-            obj.CPU = _cpus.Get(item.CPU.Id);
-            obj.Motherboard = _motherboards.Get(item.Motherboard.Id);
-            obj.GraphicsCard = _graphicsCards.Get(item.GraphicsCard.Id);
-            obj.PowerSupply = _powerSupplies.Get(item.PowerSupply.Id);
-            obj.Display = _displays.Get(item.Display!.Id);
-            obj.ComputerCase = _computerCases.Get(item.ComputerCase.Id);
-            obj.Keyboard = _keyboards.Get(item.Keyboard.Id);
-            obj.Mouse = _mouses.Get(item.Mouse.Id);
-            obj.CPUCooler = _cpuCoolers.Get(item.CPUCooler.Id);
+            var cpu = _cpus.Get(item.CPU.Id);
+            var motherboard = _motherboards.Get(item.Motherboard.Id);
+            var graphicsCard = _graphicsCards.Get(item.GraphicsCard.Id);
+            var powerSupply = _powerSupplies.Get(item.PowerSupply.Id);
+            var display = item.Display == null ? null : _displays.Get(item.Display.Id);
+            var computerCase = _computerCases.Get(item.ComputerCase.Id);
+            var keyboard = item.Keyboard == null ? null : _keyboards.Get(item.Keyboard.Id);
+            var mouse = item.Mouse == null ? null : _mouses.Get(item.Mouse.Id);
+            var cpuCooler = _cpuCoolers.Get(item.CPUCooler.Id);
+
+            if (cpu == null) {
+                throw new NullReferenceException($"Процессора с номером {item.CPU.Id} не существует");
+            }
+
+            if (motherboard == null) {
+                throw new NullReferenceException($"Материнской платы с номером {item.Motherboard.Id} не существует");
+            }
+
+            if (graphicsCard == null) {
+                throw new NullReferenceException($"Видеокарты с номером {item.GraphicsCard.Id} не существует");
+            }
+
+            if (powerSupply == null) {
+                throw new NullReferenceException($"Блока питания с номером {item.PowerSupply.Id} не существует");
+            }
+            
+            if (computerCase == null) {
+                throw new NullReferenceException($"Корпуса с номером {item.ComputerCase.Id} не существует");
+            }
+
+            if (cpuCooler == null) {
+                throw new NullReferenceException($"Кулеря для процессора с номером {item.CPUCooler.Id} не существует");
+            }
+            
+            var created = new PreparedAssembly {
+                RAM = item.RAMs.Select(i => {
+                    var ram = _rams.Get(i.Id);
+                    if (ram == null) {
+                        throw new NullReferenceException($"ОЗУ с номером {i.Id} не существует");
+                    }
+
+                    return ram;
+                }).ToList(),
+                Disks = item.DiskDrives.Select(i => {
+                    var drive = _diskDrives.Get(i.Id);
+                    if (drive == null) {
+                        throw new NullReferenceException($"Диска с номером {i.Id} не существует");
+                    }
+
+                    return drive;
+                }).ToList(),
+                
+                CPU = cpu,
+                Motherboard = motherboard,
+                GraphicsCard = graphicsCard,
+                PowerSupply = powerSupply,
+                Display = display,
+                ComputerCase = computerCase,
+                Keyboard = keyboard,
+                Mouse = mouse,
+                CPUCooler = cpuCooler
+            };
+            _preparedAssemblies.Create(created);
+            
+            obj.RAM = item.RAMs.Select(i => {
+                var ram = _rams.Get(i.Id);
+                if (ram == null) {
+                    throw new NullReferenceException($"ОЗУ с номером {i.Id} не существует");
+                }
+
+                return ram;
+            }).ToList();
+            obj.Disks = item.DiskDrives.Select(i => {
+                var drive = _diskDrives.Get(i.Id);
+                if (drive == null) {
+                    throw new NullReferenceException($"Диска с номером {i.Id} не существует");
+                }
+
+                return drive;
+            }).ToList()
+                ;
+            obj.CPU = cpu;
+            obj.Motherboard = motherboard;
+            obj.GraphicsCard = graphicsCard;
+            obj.PowerSupply = powerSupply;
+            obj.Display = display;
+            obj.ComputerCase = computerCase;
+            obj.Keyboard = keyboard;
+            obj.Mouse = mouse;
+            obj.CPUCooler = cpuCooler;
             
             _preparedAssemblies.Update(obj);
         }

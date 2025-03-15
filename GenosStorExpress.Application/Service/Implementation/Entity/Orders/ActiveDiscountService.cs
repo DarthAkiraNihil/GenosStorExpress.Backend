@@ -46,7 +46,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                         .Items
                         .All
                         .List()
-                        .Where(i => i.ActiveDiscount.Id == id)
+                        .Where(i => i.ActiveDiscount != null ? i.ActiveDiscount.Id == id: false)
                         .Select(i => { i.ActiveDiscount = null; return i; })
                         .ToList()
                         .Select(i => { _repositories.Items.All.Update(i); return i; })

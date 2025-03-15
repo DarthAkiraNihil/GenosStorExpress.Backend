@@ -11,9 +11,12 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public bool HasProgrammableButtons { get; set; }
 		[Required]
-		public virtual List<DPIMode> DPIModes { get; set; }
+		public IList<DPIMode> DPIModes { get; set; }
 		[Required]
 		public bool IsWireless { get; set; }
-		
+
+		public Mouse() {
+			DPIModes = new List<DPIMode>();
+		}
 	}
 }

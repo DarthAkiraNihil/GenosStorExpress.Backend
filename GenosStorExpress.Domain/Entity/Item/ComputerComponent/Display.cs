@@ -11,9 +11,16 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public double ScreenDiagonal { get; set; }
 
-		public virtual Definition Definition { get; set; }
-		public virtual MatrixType MatrixType { get; set; }
-		public virtual Underlight Underlight { get; set; }
-		public virtual VesaSize VesaSize { get; set; }
+		public Definition Definition { get; set; }
+		public MatrixType MatrixType { get; set; }
+		public Underlight Underlight { get; set; }
+		public VesaSize VesaSize { get; set; }
+
+		public Display() {
+			Definition = new Definition();
+			MatrixType = new MatrixType();
+			Underlight = new Underlight();
+			VesaSize = new VesaSize();
+		}
 	}
 }

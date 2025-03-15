@@ -11,9 +11,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
         private readonly IGPURepository _gpus;
         private readonly IVendorService _vendorService;
 
-        public GPUService(IGenosStorExpressRepositories repositories, IGPURepository gpus, IVendorService vendorService) {
+        public GPUService(IGenosStorExpressRepositories repositories, IVendorService vendorService) {
             _repositories = repositories;
-            _gpus = gpus;
+            _gpus = _repositories.Items.SimpleComputerComponents.GPUs;
             _vendorService = vendorService;
         }
         

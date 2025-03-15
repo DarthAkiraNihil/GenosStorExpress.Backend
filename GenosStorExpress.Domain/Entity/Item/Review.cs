@@ -4,5 +4,10 @@ public class Review {
     public long Id { get; set; }
     
     public byte Rating { get; set; }
-    public virtual Item Item { get; set; }
+    public string Comment { get; set; }
+    public Item Item { get; set; }
+
+    public Review() {
+        Comment = string.Empty;
+    }
 }

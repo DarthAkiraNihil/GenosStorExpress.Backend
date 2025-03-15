@@ -10,12 +10,13 @@ namespace GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent {
 		[Required]
 		public int Id { get; set; }
 		
-		public virtual Vendor Vendor { get; set; }
+		public Vendor Vendor { get; set; }
 	
-		public virtual List<Motherboard> Motherboards { get; set; }
+		public IList<Motherboard> Motherboards { get; set; }
 
 		public CPUCore() {
 			Motherboards = new List<Motherboard>();
+			Vendor = new Vendor();
 		}
 	}
 }

@@ -7,26 +7,39 @@ namespace GenosStorExpress.Domain.Entity.Item {
 	public class PreparedAssembly: Item {
 
 		[Required]
-		public virtual List<RAM> RAM { get; set; }
+		public IList<RAM> RAM { get; set; }
 		[Required]
-		public virtual List<DiskDrive> Disks { get; set; }
+		public IList<DiskDrive> Disks { get; set; }
 		
 		[Required]
-		public virtual CPU CPU { get; set; }
+		public CPU CPU { get; set; }
 		[Required]
-		public virtual Motherboard Motherboard { get; set; }
+		public Motherboard Motherboard { get; set; }
 		[Required]
-		public virtual GraphicsCard GraphicsCard { get; set; }
+		public GraphicsCard GraphicsCard { get; set; }
 		[Required]
-		public virtual PowerSupply PowerSupply { get; set; }
+		public PowerSupply PowerSupply { get; set; }
 		
-		public virtual Display Display { get; set; }
+		public Display? Display { get; set; }
 		[Required]
-		public virtual ComputerCase ComputerCase { get; set; }
-		public virtual Keyboard Keyboard { get; set; }
-		public virtual Mouse Mouse { get; set; }
+		public ComputerCase ComputerCase { get; set; }
+		public Keyboard? Keyboard { get; set; }
+		public Mouse? Mouse { get; set; }
 		[Required]
-		public virtual CPUCooler CPUCooler { get; set; }
-		
+		public CPUCooler CPUCooler { get; set; }
+
+		public PreparedAssembly() {
+			RAM = new List<RAM>();
+			Disks = new List<DiskDrive>();
+			CPU = new CPU();
+			Motherboard = new Motherboard();
+			GraphicsCard = new GraphicsCard();
+			PowerSupply = new PowerSupply();
+			Display = new Display();
+			ComputerCase = new ComputerCase();
+			Keyboard = new Keyboard();
+			Mouse = new Mouse();
+			CPUCooler = new CPUCooler();
+		}
 	}
 }

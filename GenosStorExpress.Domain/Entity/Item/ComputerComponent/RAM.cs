@@ -23,12 +23,13 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public byte tRAS { get; set; }
 		
-		public virtual RAMType Type { get; set; }
+		public RAMType Type { get; set; }
 
-		public List<PreparedAssembly> PreparedAssemblies { get; set; }
+		public IList<PreparedAssembly> PreparedAssemblies { get; set; }
 
 		public RAM() {
 			PreparedAssemblies = new List<PreparedAssembly>();
+			Type = new RAMType();
 		} 
 	}
 }

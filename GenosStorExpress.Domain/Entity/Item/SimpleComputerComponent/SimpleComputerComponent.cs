@@ -8,6 +8,10 @@ namespace GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent {
 		[Required]
 		public long Id { get; set; }
 		
-		public virtual SimpleComputerComponentType Type { get; set; }
+		public SimpleComputerComponentType Type { get; set; }
+
+		protected SimpleComputerComponent() {
+			Type = new SimpleComputerComponentType();
+		}
 	}
 }

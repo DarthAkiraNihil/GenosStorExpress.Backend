@@ -13,7 +13,7 @@ namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
 	[Table("public.MotherboardFormFactors")]
 	public class MotherboardFormFactor: Named {
 		public long Id { get; set; }
-		public List<ComputerCase> ComputerCases { get; set; }
+		public IList<ComputerCase> ComputerCases { get; set; }
 
 		public MotherboardFormFactor() {
 			ComputerCases = new List<ComputerCase>();

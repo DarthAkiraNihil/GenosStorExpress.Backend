@@ -13,6 +13,10 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public int PowerOutput { get; set; }
 		
-		public virtual Certificate80Plus Certificate80Plus { get; set; }
+		public Certificate80Plus Certificate80Plus { get; set; }
+
+		public PowerSupply() {
+			Certificate80Plus = new Certificate80Plus();
+		}
 	}
 }

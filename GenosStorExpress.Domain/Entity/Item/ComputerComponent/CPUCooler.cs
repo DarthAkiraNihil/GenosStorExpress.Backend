@@ -16,7 +16,12 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public byte FanCount { get; set; }
 		
-		public virtual CoolerMaterial FoundationMaterial { get; set; }
-		public virtual CoolerMaterial RadiatorMaterial { get; set; }
+		public CoolerMaterial FoundationMaterial { get; set; }
+		public CoolerMaterial RadiatorMaterial { get; set; }
+
+		public CPUCooler() {
+			FoundationMaterial = new CoolerMaterial();
+			RadiatorMaterial = new CoolerMaterial();
+		}
 	}
 }

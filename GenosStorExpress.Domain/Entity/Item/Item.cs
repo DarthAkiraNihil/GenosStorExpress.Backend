@@ -15,15 +15,17 @@ namespace GenosStorExpress.Domain.Entity.Item {
 		[Required]
 		public string Description { get; set; }
 		
-		public List<Cart> Carts { get; set; }
-		public List<Review> Reviews { get; set; }
+		public IList<Cart> Carts { get; set; }
+		public IList<Review> Reviews { get; set; }
 
-		public virtual ActiveDiscount ActiveDiscount { get; set; }
+		public virtual ActiveDiscount? ActiveDiscount { get; set; }
 		public virtual ItemType ItemType { get; set; }
 
 		public Item() {
 			Carts = new List<Cart>();
 			Reviews = new List<Review>();
+			Description = string.Empty;
+			ImageBase64 = string.Empty;
 		}
 	}
 }

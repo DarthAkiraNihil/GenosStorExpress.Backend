@@ -7,7 +7,7 @@ namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
 		[Required]
 		public int DPI { get; set; }
         
-        public List<Mouse> Mouses { get; set; }
+        public IList<Mouse> Mouses { get; set; }
 
         public DPIMode() {
             Mouses = new List<Mouse>();

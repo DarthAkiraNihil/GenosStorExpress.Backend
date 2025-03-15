@@ -10,13 +10,17 @@ namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
 		[Required]
 		public int VideoRAM { get; set; }
 		[Required]
-		public virtual List<VideoPort> VideoPorts { get; set; }
+		public IList<VideoPort> VideoPorts { get; set; }
 		[Required]
 		public byte MaxDisplaysSupported { get; set; }
 		[Required]
 		public byte UsedSlots { get; set; }
 
-		public virtual GPU GPU { get; set; }
-		
+		public GPU GPU { get; set; }
+
+		public GraphicsCard() {
+			VideoPorts = new List<VideoPort>();
+			GPU = new GPU();
+		}
 	}
 }

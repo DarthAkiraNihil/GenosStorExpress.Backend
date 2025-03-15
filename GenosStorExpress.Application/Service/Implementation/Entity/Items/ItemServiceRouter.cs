@@ -112,11 +112,13 @@ public class ItemServiceRouter: IItemServiceRouter {
                 }
                 return _itemBuilderService.BuildWrapper(obj);
             }
-            // case ItemTypeDescriptor.PreparedAssembly: {
-            //     return _itemBuilderService.BuildWrapper(
-            //         _preparedAssemblyService.Get(id)
-            //     );
-            // }
+            case ItemTypeDescriptor.PreparedAssembly: {
+                var obj = _preparedAssemblyService.Get(id);
+                if (obj == null) {
+                    throw new NullReferenceException($"Готовой сборки с номером {id} не существует");
+                }
+                return _itemBuilderService.BuildWrapper(obj);
+            }
             case ItemTypeDescriptor.Unknown: {
                 throw new ArgumentException("Unknown descriptor");
             }
@@ -191,11 +193,11 @@ public class ItemServiceRouter: IItemServiceRouter {
                     i => _itemBuilderService.BuildWrapper(i)
                 ).ToList();
             }
-            // case ItemTypeDescriptor.PreparedAssembly: {
-            //     return _itemBuilderService.BuildWrapper(
-            //         _preparedAssemblyService.Get(id)
-            //     );
-            // }
+            case ItemTypeDescriptor.PreparedAssembly: {
+                return _preparedAssemblyService.List().Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
             case ItemTypeDescriptor.Unknown: {
                 throw new ArgumentException("Unknown descriptor");
             }
@@ -257,11 +259,10 @@ public class ItemServiceRouter: IItemServiceRouter {
                 _computerComponents.SataSSDs.Create(_itemBuilderService.BuildSataSSD(item));
                 return;
             }
-            // case ItemTypeDescriptor.PreparedAssembly: {
-            //     return _itemBuilderService.BuildWrapper(
-            //         _preparedAssemblyService.Get(id)
-            //     );
-            // }
+            case ItemTypeDescriptor.PreparedAssembly: {
+                _preparedAssemblyService.Create(_itemBuilderService.BuildPreparedAssembly(item));
+                return;
+            }
             case ItemTypeDescriptor.Unknown: {
                 throw new ArgumentException("Unknown descriptor");
             }
@@ -324,11 +325,10 @@ public class ItemServiceRouter: IItemServiceRouter {
                 _computerComponents.SataSSDs.Update(id, _itemBuilderService.BuildSataSSD(wrapped));
                 return;
             }
-            // case ItemTypeDescriptor.PreparedAssembly: {
-            //     return _itemBuilderService.BuildWrapper(
-            //         _preparedAssemblyService.Get(id)
-            //     );
-            // }
+            case ItemTypeDescriptor.PreparedAssembly: {
+                _preparedAssemblyService.Update(id, _itemBuilderService.BuildPreparedAssembly(wrapped));
+                return;
+            }
             case ItemTypeDescriptor.Unknown: {
                 throw new ArgumentException("Unknown descriptor");
             }
@@ -391,11 +391,10 @@ public class ItemServiceRouter: IItemServiceRouter {
                 _computerComponents.SataSSDs.Delete(id);
                 return;
             }
-            // case ItemTypeDescriptor.PreparedAssembly: {
-            //     return _itemBuilderService.BuildWrapper(
-            //         _preparedAssemblyService.Get(id)
-            //     );
-            // }
+            case ItemTypeDescriptor.PreparedAssembly: {
+                _preparedAssemblyService.Delete(id);
+                return;
+            }
             case ItemTypeDescriptor.Unknown: {
                 throw new ArgumentException("Unknown descriptor");
             }

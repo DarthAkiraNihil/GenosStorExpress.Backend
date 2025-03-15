@@ -4,6 +4,7 @@ using GenosStorExpress.Application.Wrappers.Entity.Item.Characteristic;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
 using System.Text.Json;
+using GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items;
 
@@ -80,9 +81,7 @@ public class ItemBuilderService: IItemBuilderService {
         built.Length = wrapper.Characteristics["length"].GetInt32();
         built.Width = wrapper.Characteristics["width"].GetInt32();
         built.Height = wrapper.Characteristics["height"].GetInt32();
-        built.SupportedMotherboardFormFactors = (
-            (JsonElement) wrapper.Characteristics["supported_motherboard_form_factors"]
-        )
+        built.SupportedMotherboardFormFactors = ((JsonElement) wrapper.Characteristics["supported_motherboard_form_factors"])
                                                 .EnumerateArray()
                                                 .Select
                                                     (x => x.GetString()!
@@ -549,6 +548,69 @@ public class ItemBuilderService: IItemBuilderService {
         _buildComputerComponentAnonymous(built, wrapper);
         _buildDiskDriveAnonymous(built, wrapper);
         _buildSSDAnonymous(built, wrapper);
+        return built;
+    }
+
+
+    public PreparedAssemblyWrapper BuildPreparedAssembly(AnonymousItemWrapper wrapper) {
+        var built = new PreparedAssemblyWrapper();
+        _buildBase(built, wrapper);
+        
+        var characteristics = wrapper.Characteristics;
+        built.CPU = _buildPreparedAssemblyItem(characteristics["cpu"]);
+        built.Motherboard = _buildPreparedAssemblyItem(characteristics["motherboard"]);
+        built.GraphicsCard = _buildPreparedAssemblyItem(characteristics["graphics_card"]);
+        built.PowerSupply = _buildPreparedAssemblyItem(characteristics["power_supply"]);
+        built.ComputerCase = _buildPreparedAssemblyItem(characteristics["computer_case"]);
+        built.CPUCooler = _buildPreparedAssemblyItem(characteristics["cpu_cooler"]);
+        
+        built.Display = characteristics["display"] == null ? null : _buildPreparedAssemblyItem(characteristics["display"]);
+        built.Keyboard = characteristics["keyboard"] == null ? null : _buildPreparedAssemblyItem(characteristics["keyboard"]);
+        built.Mouse = characteristics["mouse"] == null ? null : _buildPreparedAssemblyItem(characteristics["mouse"]);
+        
+        built.RAMs = ((JsonElement) wrapper.Characteristics["rams"])
+                     .EnumerateArray().Select(x => _buildPreparedAssemblyItem(x))
+                     .ToList();
+        built.DiskDrives = ((JsonElement) wrapper.Characteristics["disk_drives"])
+                     .EnumerateArray().Select(x => _buildPreparedAssemblyDiskDrive(x))
+                     .ToList();
+        
+        return built;
+    }
+
+    public AnonymousItemWrapper BuildWrapper(PreparedAssemblyWrapper wrapper) {
+        var built = new AnonymousItemWrapper();
+        _buildBaseAnonymous(built, wrapper);
+
+        built.Characteristics = new Dictionary<string, dynamic> {
+            { "rams", wrapper.RAMs },
+            { "disk_drives", wrapper.DiskDrives },
+            { "cpu", wrapper.CPU},
+            {"motherboard", wrapper.Motherboard},
+            {"graphics_card", wrapper.GraphicsCard},
+            {"power_supply", wrapper.PowerSupply},
+            {"display", wrapper.Display!},
+            {"computer_case", wrapper.ComputerCase},
+            {"keyboard", wrapper.Keyboard!},
+            {"mouse", wrapper.Mouse!},
+            {"cpu_cooler", wrapper.CPUCooler},
+        };
+        
+        return built;
+    }
+
+    private PreparedAssemblyItemWrapper _buildPreparedAssemblyItem(JsonElement wrapper) {
+        var built = new PreparedAssemblyItemWrapper();
+        built.Id = wrapper.GetProperty("id").GetInt32();
+        built.Model = wrapper.GetProperty("model").GetString()!;
+        return built;
+    }
+
+    private PreparedAssemblyDiskDriveWrapper _buildPreparedAssemblyDiskDrive(JsonElement wrapper) {
+        var built = new PreparedAssemblyDiskDriveWrapper();
+        built.Id = wrapper.GetProperty("id").GetInt32();
+        built.Model = wrapper.GetProperty("model").GetString()!;
+        built.Type = wrapper.GetProperty("type").GetString()!;
         return built;
     }
 }

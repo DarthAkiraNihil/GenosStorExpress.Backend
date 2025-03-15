@@ -1,5 +1,6 @@
 ﻿using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items;
 
@@ -32,5 +33,10 @@ public interface IItemBuilderService {
     AnonymousItemWrapper BuildWrapper(PowerSupplyWrapper wrapper);
     AnonymousItemWrapper BuildWrapper(RAMWrapper wrapper);
     AnonymousItemWrapper BuildWrapper(SataSSDWrapper wrapper);
+    
+    
+    
+    PreparedAssemblyWrapper BuildPreparedAssembly(AnonymousItemWrapper wrapper);
+    AnonymousItemWrapper BuildWrapper(PreparedAssemblyWrapper wrapper);
     
 }

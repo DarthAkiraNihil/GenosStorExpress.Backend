@@ -13,11 +13,15 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<NVMeSSD> List() {
-            return _context.NVMeSSDs.ToList();
+            return _context.NVMeSSDs
+                           .Include(i => i.Reviews)
+                           .ToList();
         }
 
-        public NVMeSSD Get(int id) {
-            return _context.NVMeSSDs.Find(id);
+        public NVMeSSD? Get(int id) {
+            return _context.NVMeSSDs
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(NVMeSSD nvmeSSD) {
@@ -29,9 +33,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            NVMeSSD nvmeSSD = _context.NVMeSSDs.Find(id);
-            if (nvmeSSD != null)
+            NVMeSSD? nvmeSSD = _context.NVMeSSDs.Find(id);
+            if (nvmeSSD != null) {
                 _context.NVMeSSDs.Remove(nvmeSSD);
+            }
         }
         
     }

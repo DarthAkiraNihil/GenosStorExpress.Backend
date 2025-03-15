@@ -14,11 +14,13 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<Keyboard> List() {
-            return _context.Keyboards.ToList();
+            return _context.Keyboards.Include(i => i.Reviews).ToList();
         }
 
-        public Keyboard Get(int id) {
-            return _context.Keyboards.Find(id);
+        public Keyboard? Get(int id) {
+            return _context.Keyboards
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(Keyboard keyboard) {
@@ -30,9 +32,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            Keyboard keyboard = _context.Keyboards.Find(id);
-            if (keyboard != null)
+            Keyboard? keyboard = _context.Keyboards.Find(id);
+            if (keyboard != null) {
                 _context.Keyboards.Remove(keyboard);
+            }
         }
         
     }

@@ -13,11 +13,17 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<CPU> List() {
-            return _context.CPUs.ToList();
+            return _context.CPUs
+                           .Include(i => i.Reviews)
+                           .Include(i => i.SupportedRamType)
+                           .ToList();
         }
 
-        public CPU Get(int id) {
-            return _context.CPUs.Find(id);
+        public CPU? Get(int id) {
+            return _context.CPUs
+                           .Include(i => i.SupportedRamType)
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(c => c.Id == id);
         }
 
         public void Create(CPU cpu) {
@@ -29,9 +35,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            CPU cpu = _context.CPUs.Find(id);
-            if (cpu != null)
+            CPU? cpu = _context.CPUs.Find(id);
+            if (cpu != null) {
                 _context.CPUs.Remove(cpu);
+            }
         }
         
     }

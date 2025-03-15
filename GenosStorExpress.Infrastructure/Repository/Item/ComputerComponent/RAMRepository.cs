@@ -13,11 +13,15 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<RAM> List() {
-            return _context.RAMs.ToList();
+            return _context.RAMs
+                           .Include(i => i.Reviews)
+                           .ToList();
         }
 
-        public RAM Get(int id) {
-            return _context.RAMs.Find(id);
+        public RAM? Get(int id) {
+            return _context.RAMs
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(r => r.Id == id);
         }
 
         public void Create(RAM ram) {
@@ -29,9 +33,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            RAM ram = _context.RAMs.Find(id);
-            if (ram != null)
+            RAM? ram = _context.RAMs.Find(id);
+            if (ram != null) {
                 _context.RAMs.Remove(ram);
+            }
         }
         
     }

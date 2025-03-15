@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.KeyboardTypesizes.ToList();
         }
 
-        public KeyboardTypesize Get(int id) {
+        public KeyboardTypesize? Get(int id) {
             return _context.KeyboardTypesizes.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            KeyboardTypesize keyboardTypesize = _context.KeyboardTypesizes.Find(id);
-            if (keyboardTypesize != null)
+            KeyboardTypesize? keyboardTypesize = _context.KeyboardTypesizes.Find(id);
+            if (keyboardTypesize != null) {
                 _context.KeyboardTypesizes.Remove(keyboardTypesize);
+            }
         }
         
     }

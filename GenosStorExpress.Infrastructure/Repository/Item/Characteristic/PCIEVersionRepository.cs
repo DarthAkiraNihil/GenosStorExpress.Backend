@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.PCIEVersions.ToList();
         }
 
-        public PCIEVersion Get(int id) {
+        public PCIEVersion? Get(int id) {
             return _context.PCIEVersions.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            PCIEVersion pcieVersion = _context.PCIEVersions.Find(id);
-            if (pcieVersion != null)
+            PCIEVersion? pcieVersion = _context.PCIEVersions.Find(id);
+            if (pcieVersion != null) {
                 _context.PCIEVersions.Remove(pcieVersion);
+            }
         }
         
     }

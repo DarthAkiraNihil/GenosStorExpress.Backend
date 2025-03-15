@@ -12,11 +12,15 @@ namespace GenosStorExpress.Infrastructure.Repository.Item {
         }
 
         public List<Domain.Entity.Item.Item> List() {
-            return _context.Items.ToList();
+            return _context.Items
+                           .Include(i => i.Reviews)
+                           .ToList();
         }
 
-        public Domain.Entity.Item.Item Get(int id) {
-            return _context.Items.Find(id);
+        public Domain.Entity.Item.Item? Get(int id) {
+            return _context.Items
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(Domain.Entity.Item.Item itemType) {
@@ -28,9 +32,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item {
         }
 
         public void Delete(int id) {
-	        Domain.Entity.Item.Item item = _context.Items.Find(id);
-            if (item != null)
+	        Domain.Entity.Item.Item? item = _context.Items.Find(id);
+            if (item != null) {
                 _context.Items.Remove(item);
+            }
         }
         
     }

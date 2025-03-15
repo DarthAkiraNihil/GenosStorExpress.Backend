@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.ComputerCaseTypesizes.ToList();
         }
 
-        public ComputerCaseTypesize Get(int id) {
+        public ComputerCaseTypesize? Get(int id) {
             return _context.ComputerCaseTypesizes.Find(id);
         }
 
@@ -30,8 +30,9 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
 
         public void Delete(int id) {
             ComputerCaseTypesize computerCaseTypesize = _context.ComputerCaseTypesizes.Find(id);
-            if (computerCaseTypesize != null)
+            if (computerCaseTypesize != null) {
                 _context.ComputerCaseTypesizes.Remove(computerCaseTypesize);
+            }
         }
         
     }

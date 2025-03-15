@@ -12,10 +12,11 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public List<CartItem> List() {
-            return _context.CartItems.ToList();
+            return _context.CartItems
+                           .ToList();
         }
 
-        public CartItem Get(int id) {
+        public CartItem? Get(int id) {
             return _context.CartItems.Find(id);
         }
 
@@ -28,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void Delete(int id) {
-            CartItem item = _context.CartItems.Find(new {ItemID = id, CartId = 0});
-            if (item != null)
+            CartItem? item = _context.CartItems.Find(new {ItemID = id, CartId = 0});
+            if (item != null) {
                 _context.CartItems.Remove(item);
+            }
         }
 
         public void DeleteRaw(CartItem item) {

@@ -8,11 +8,11 @@ public class CPUWrapper: ComputerComponentWrapper {
     
     public int CoresCount { get; set; }
     public int ThreadsCount { get; set; }
-    public float L2CahceSize { get; set; }
+    public float L2CacheSize { get; set; }
     public float L3CacheSize { get; set; }
     public float TechnicalProcess {  get; set; }
     public float BaseFrequency { get; set; }
-    public List<string> SupportedRamType { get; set; }
+    public List<string> SupportedRamTypes { get; set; }
     public int SupportedRAMSize { get; set; }
     public bool HasIntegratedGraphics { get; set; }
 }

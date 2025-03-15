@@ -15,7 +15,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item {
             return _context.ItemTypes.ToList();
         }
 
-        public Domain.Entity.Item.ItemType Get(int id) {
+        public Domain.Entity.Item.ItemType? Get(int id) {
             return _context.ItemTypes.Find(id);
         }
 
@@ -28,9 +28,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item {
         }
 
         public void Delete(int id) {
-	        Domain.Entity.Item.ItemType itemType = _context.ItemTypes.Find(id);
-            if (itemType != null)
+	        Domain.Entity.Item.ItemType? itemType = _context.ItemTypes.Find(id);
+            if (itemType != null) {
                 _context.ItemTypes.Remove(itemType);
+            }
         }
         
     }

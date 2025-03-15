@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
             return _context.GPUs.ToList();
         }
 
-        public GPU Get(int id) {
+        public GPU? Get(int id) {
             return _context.GPUs.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public void Delete(int id) {
-            GPU gpu = _context.GPUs.Find(id);
-            if (gpu != null)
+            GPU? gpu = _context.GPUs.Find(id);
+            if (gpu != null) {
                 _context.GPUs.Remove(gpu);
+            }
         }
         
     }

@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.CPUSockets.ToList();
         }
 
-        public CPUSocket Get(int id) {
+        public CPUSocket? Get(int id) {
             return _context.CPUSockets.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            CPUSocket cpuSocket = _context.CPUSockets.Find(id);
-            if (cpuSocket != null)
+            CPUSocket? cpuSocket = _context.CPUSockets.Find(id);
+            if (cpuSocket != null) {
                 _context.CPUSockets.Remove(cpuSocket);
+            }
         }
         
     }

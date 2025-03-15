@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
             return _context.OrderStatuses.ToList();
         }
 
-        public OrderStatus Get(int id) {
+        public OrderStatus? Get(int id) {
             return _context.OrderStatuses.Find(id);
         }
 
@@ -30,9 +30,9 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
 
         public void Delete(int id) {
             OrderStatus orderStatus = _context.OrderStatuses.Find(id);
-            if (orderStatus != null)
+            if (orderStatus != null) {
                 _context.OrderStatuses.Remove(orderStatus);
+            }
         }
-        
     }
 }

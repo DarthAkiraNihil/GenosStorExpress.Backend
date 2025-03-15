@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.VesaSizes.ToList();
         }
 
-        public VesaSize Get(int id) {
+        public VesaSize? Get(int id) {
             return _context.VesaSizes.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            VesaSize vesaSize = _context.VesaSizes.Find(id);
-            if (vesaSize != null)
+            VesaSize? vesaSize = _context.VesaSizes.Find(id);
+            if (vesaSize != null) {
                 _context.VesaSizes.Remove(vesaSize);
+            }
         }
         
     }

@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.VideoPorts.ToList();
         }
 
-        public VideoPort Get(int id) {
+        public VideoPort? Get(int id) {
             return _context.VideoPorts.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            VideoPort videoPort = _context.VideoPorts.Find(id);
-            if (videoPort != null)
+            VideoPort? videoPort = _context.VideoPorts.Find(id);
+            if (videoPort != null) {
                 _context.VideoPorts.Remove(videoPort);
+            }
         }
         
     }

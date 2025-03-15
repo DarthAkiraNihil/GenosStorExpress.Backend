@@ -13,11 +13,15 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<PowerSupply> List() {
-            return _context.PowerSupplies.ToList();
+            return _context.PowerSupplies
+                           .Include(i => i.Reviews)
+                           .ToList();
         }
 
-        public PowerSupply Get(int id) {
-            return _context.PowerSupplies.Find(id);
+        public PowerSupply? Get(int id) {
+            return _context.PowerSupplies
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(PowerSupply powerSupply) {
@@ -29,9 +33,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            PowerSupply powerSupply = _context.PowerSupplies.Find(id);
-            if (powerSupply != null)
+            PowerSupply? powerSupply = _context.PowerSupplies.Find(id);
+            if (powerSupply != null) {
                 _context.PowerSupplies.Remove(powerSupply);
+            }
         }
         
     }

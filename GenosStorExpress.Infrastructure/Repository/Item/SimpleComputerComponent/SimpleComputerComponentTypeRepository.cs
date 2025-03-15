@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
             return _context.SimpleComputerComponentTypes.ToList();
         }
 
-        public SimpleComputerComponentType Get(int id) {
+        public SimpleComputerComponentType? Get(int id) {
             return _context.SimpleComputerComponentTypes.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public void Delete(int id) {
-            SimpleComputerComponentType simpleComputerComponentType = _context.SimpleComputerComponentTypes.Find(id);
-            if (simpleComputerComponentType != null)
+            SimpleComputerComponentType? simpleComputerComponentType = _context.SimpleComputerComponentTypes.Find(id);
+            if (simpleComputerComponentType != null) {
                 _context.SimpleComputerComponentTypes.Remove(simpleComputerComponentType);
+            }
         }
         
     }

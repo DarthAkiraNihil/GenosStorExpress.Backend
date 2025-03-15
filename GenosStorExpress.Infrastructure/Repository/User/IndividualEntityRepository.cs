@@ -13,11 +13,17 @@ namespace GenosStorExpress.Infrastructure.Repository.User {
         }
 
         public List<IndividualEntity> List() {
-            return _context.IndividualEntities.ToList();
+            return _context.IndividualEntities
+                           .Include(i => i.BankCards)
+                           .Include(i => i.Orders)
+                           .ToList();
         }
 
-        public IndividualEntity Get(int id) {
-            return _context.IndividualEntities.Find(id);
+        public IndividualEntity? Get(string id) {
+            return _context.IndividualEntities
+                           .Include(i => i.BankCards)
+                           .Include(i => i.Orders)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(IndividualEntity individualEntity) {
@@ -28,10 +34,11 @@ namespace GenosStorExpress.Infrastructure.Repository.User {
             _context.Entry(individualEntity).State = EntityState.Modified;
         }
 
-        public void Delete(int id) {
-            IndividualEntity individualEntity = _context.IndividualEntities.Find(id);
-            if (individualEntity != null)
+        public void Delete(string id) {
+            IndividualEntity? individualEntity = _context.IndividualEntities.Find(id);
+            if (individualEntity != null) {
                 _context.IndividualEntities.Remove(individualEntity);
+            }
         }
         
     }

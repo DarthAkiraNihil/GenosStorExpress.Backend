@@ -13,11 +13,15 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<SataSSD> List() {
-            return _context.SataSSDs.ToList();
+            return _context.SataSSDs
+                           .Include(i => i.Reviews)
+                           .ToList();
         }
 
-        public SataSSD Get(int id) {
-            return _context.SataSSDs.Find(id);
+        public SataSSD? Get(int id) {
+            return _context.SataSSDs
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(SataSSD sataSSD) {
@@ -29,9 +33,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            SataSSD sataSSD = _context.SataSSDs.Find(id);
-            if (sataSSD != null)
+            SataSSD? sataSSD = _context.SataSSDs.Find(id);
+            if (sataSSD != null) {
                 _context.SataSSDs.Remove(sataSSD);
+            }
         }
         
     }

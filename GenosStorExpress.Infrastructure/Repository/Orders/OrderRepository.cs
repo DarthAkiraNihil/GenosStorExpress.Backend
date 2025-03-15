@@ -13,11 +13,15 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public List<Order> List() {
-            return _context.Orders.ToList();
+            return _context.Orders
+                           .Include(i => i.Items)
+                           .ToList();
         }
 
-        public Order Get(int id) {
-            return _context.Orders.Find(id);
+        public Order? Get(int id) {
+            return _context.Orders
+                           .Include(i => i.Items)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(Order order) {
@@ -29,9 +33,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void Delete(int id) {
-            Order order = _context.Orders.Find(id);
-            if (order != null)
+            Order? order = _context.Orders.Find(id);
+            if (order != null) {
                 _context.Orders.Remove(order);
+            }
         }
         
     }

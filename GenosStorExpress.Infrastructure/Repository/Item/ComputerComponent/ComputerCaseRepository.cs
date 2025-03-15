@@ -15,18 +15,14 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         public List<ComputerCase> List() {
             return _context.ComputerCases
                            .Include(i => i.Reviews)
-                           //.Include(i => i.ItemType)
-                           //.Include(i => i.Vendor)
-                           //.Include(i => i.SupportedMotherboardFormFactors)
-                           //.Include(i => i.ComputerCaseTypesize)
+                           .Include(i => i.SupportedMotherboardFormFactors)
                            .ToList();
         }
 
-        public ComputerCase Get(int id) {
-            return _context.ComputerCases.Include(i => i.ItemType)
-	            .Include(i => i.Vendor)
+        public ComputerCase? Get(int id) {
+            return _context.ComputerCases
 	            .Include(i => i.SupportedMotherboardFormFactors)
-	            .Include(i => i.Typesize).First(i => i.Id == id);
+                .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(ComputerCase computerCase) {
@@ -38,9 +34,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            ComputerCase computerCase = _context.ComputerCases.Find(id);
-            if (computerCase != null)
+            ComputerCase? computerCase = _context.ComputerCases.Find(id);
+            if (computerCase != null) {
                 _context.ComputerCases.Remove(computerCase);
+            }
         }
         
     }

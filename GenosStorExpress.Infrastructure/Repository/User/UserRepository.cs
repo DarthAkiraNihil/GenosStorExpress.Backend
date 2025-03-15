@@ -15,7 +15,7 @@ namespace GenosStorExpress.Infrastructure.Repository.User {
             return _context.Users.ToList();
         }
 
-        public Domain.Entity.User.User Get(int id) {
+        public Domain.Entity.User.User? Get(string id) {
             return _context.Users.Find(id);
         }
 
@@ -27,8 +27,8 @@ namespace GenosStorExpress.Infrastructure.Repository.User {
             _context.Entry(user).State = EntityState.Modified;
         }
 
-        public void Delete(int id) {
-			Domain.Entity.User.User user = _context.Users.Find(id);
+        public void Delete(string id) {
+			Domain.Entity.User.User? user = _context.Users.Find(id);
             if (user != null)
                 _context.Users.Remove(user);
         }

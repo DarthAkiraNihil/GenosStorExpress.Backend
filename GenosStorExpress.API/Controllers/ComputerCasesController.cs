@@ -31,9 +31,17 @@ namespace GenosStorExpress.API.Controllers
 
         // POST api/<ComputerCasesController>
         [HttpPost]
-        public ActionResult<ItemWrapper> Post([FromBody]ItemWrapper value) {
-            var amogus = (ComputerCaseWrapper) value;
-            _computerCaseService.Create((ComputerCaseWrapper) amogus);
+        public ActionResult<ItemWrapper> Post([FromBody]ComputerCaseWrapper value) { 
+            var amogus = value;
+            // var stream = new MemoryStream();
+            // Utf8JsonWriter writer = new Utf8JsonWriter(stream, new JsonWriterOptions { Indented = true });
+            // // value.TestData.WriteTo(writer);
+            // writer.Flush();
+            // string j = Encoding.UTF8.GetString(stream.ToArray());
+            // // var j = JsonConvert.SerializeObject(value.TestData.RootElement.GetRawText());
+            // var a = JsonConvert.DeserializeObject<IDictionary<string, dynamic>>(j);
+            
+            _computerCaseService.Create(amogus);
             _computerCaseService.Save();
             return CreatedAtAction(nameof(Get), new { id = ((ComputerCaseWrapper) value).Id }, value);
         }

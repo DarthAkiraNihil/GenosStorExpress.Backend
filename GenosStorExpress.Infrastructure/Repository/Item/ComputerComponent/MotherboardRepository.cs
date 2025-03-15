@@ -13,11 +13,21 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<Motherboard> List() {
-            return _context.Motherboards.ToList();
+            return _context.Motherboards
+                           .Include(i => i.Reviews)
+                           .Include(i => i.SupportedCPUCores)
+                           .Include(i => i.SupportedRAMTypes)
+                           .Include(i => i.VideoPorts)
+                           .ToList();
         }
 
-        public Motherboard Get(int id) {
-            return _context.Motherboards.Find(id);
+        public Motherboard? Get(int id) {
+            return _context.Motherboards
+                           .Include(i => i.Reviews)
+                           .Include(i => i.SupportedCPUCores)
+                           .Include(i => i.SupportedRAMTypes)
+                           .Include(i => i.VideoPorts)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(Motherboard motherboard) {
@@ -29,9 +39,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            Motherboard motherboard = _context.Motherboards.Find(id);
-            if (motherboard != null)
+            Motherboard? motherboard = _context.Motherboards.Find(id);
+            if (motherboard != null) {
                 _context.Motherboards.Remove(motherboard);
+            }
         }
         
     }

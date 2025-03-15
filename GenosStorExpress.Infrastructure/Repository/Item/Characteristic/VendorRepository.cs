@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.Vendors.ToList();
         }
 
-        public Vendor Get(int id) {
+        public Vendor? Get(int id) {
             return _context.Vendors.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            Vendor vendor = _context.Vendors.Find(id);
-            if (vendor != null)
+            Vendor? vendor = _context.Vendors.Find(id);
+            if (vendor != null) {
                 _context.Vendors.Remove(vendor);
+            }
         }
         
     }

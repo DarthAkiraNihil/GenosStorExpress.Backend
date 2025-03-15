@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.Definitions.ToList();
         }
 
-        public Definition Get(int id) {
+        public Definition? Get(int id) {
             return _context.Definitions.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            Definition definition = _context.Definitions.Find(id);
-            if (definition != null)
+            Definition? definition = _context.Definitions.Find(id);
+            if (definition != null) {
                 _context.Definitions.Remove(definition);
+            }
         }
         
     }

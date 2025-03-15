@@ -28,7 +28,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
             created.HasRGBLighting = item.HasRGBLighting;
             created.IsWireless = item.IsWireless;
-            created.KeyboardType = _keyboardTypes.GetEntityFromString(item.KeyboardType);
+            created.KeyboardType = _keyboardTypes.GetEntityFromString(item.Type);
             created.Typesize = _keyboardTypesizes.GetEntityFromString(item.Typesize);
             
             _keyboards.Create(created);
@@ -42,7 +42,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
             wrapped.HasRGBLighting = obj.HasRGBLighting;
             wrapped.IsWireless = obj.IsWireless;
-            wrapped.KeyboardType = obj.KeyboardType.Name;
+            wrapped.Type = obj.KeyboardType.Name;
             wrapped.Typesize = obj.Typesize.Name;
             
             return wrapped;
@@ -56,7 +56,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
                 wrapped.HasRGBLighting = obj.HasRGBLighting;
                 wrapped.IsWireless = obj.IsWireless;
-                wrapped.KeyboardType = obj.KeyboardType.Name;
+                wrapped.Type = obj.KeyboardType.Name;
                 wrapped.Typesize = obj.Typesize.Name;
             
                 return wrapped;
@@ -69,7 +69,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
             obj.HasRGBLighting = item.HasRGBLighting;
             obj.IsWireless = item.IsWireless;
-            obj.KeyboardType = _keyboardTypes.GetEntityFromString(item.KeyboardType);
+            obj.KeyboardType = _keyboardTypes.GetEntityFromString(item.Type);
             obj.Typesize = _keyboardTypesizes.GetEntityFromString(item.Typesize);
             
             _keyboards.Update(obj);

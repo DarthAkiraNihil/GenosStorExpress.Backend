@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.RAMTypes.ToList();
         }
 
-        public RAMType Get(int id) {
+        public RAMType? Get(int id) {
             return _context.RAMTypes.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            RAMType ramType = _context.RAMTypes.Find(id);
-            if (ramType != null)
+            RAMType? ramType = _context.RAMTypes.Find(id);
+            if (ramType != null) {
                 _context.RAMTypes.Remove(ramType);
+            }
         }
         
     }

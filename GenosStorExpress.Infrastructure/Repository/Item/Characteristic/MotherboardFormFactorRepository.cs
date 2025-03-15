@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.MotherboardFormFactors.ToList();
         }
 
-        public MotherboardFormFactor Get(int id) {
+        public MotherboardFormFactor? Get(int id) {
             return _context.MotherboardFormFactors.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            MotherboardFormFactor motherboardFormFactor = _context.MotherboardFormFactors.Find(id);
-            if (motherboardFormFactor != null)
+            MotherboardFormFactor? motherboardFormFactor = _context.MotherboardFormFactors.Find(id);
+            if (motherboardFormFactor != null) {
                 _context.MotherboardFormFactors.Remove(motherboardFormFactor);
+            }
         }
         
     }

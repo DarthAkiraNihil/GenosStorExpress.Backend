@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.MatrixTypes.ToList();
         }
 
-        public MatrixType Get(int id) {
+        public MatrixType? Get(int id) {
             return _context.MatrixTypes.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            MatrixType matrixType = _context.MatrixTypes.Find(id);
-            if (matrixType != null)
+            MatrixType? matrixType = _context.MatrixTypes.Find(id);
+            if (matrixType != null) {
                 _context.MatrixTypes.Remove(matrixType);
+            }
         }
         
     }

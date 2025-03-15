@@ -15,7 +15,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item {
             return _context.PreparedAssemblies.ToList();
         }
 
-        public Domain.Entity.Item.PreparedAssembly Get(int id) {
+        public Domain.Entity.Item.PreparedAssembly? Get(int id) {
             return _context.PreparedAssemblies.Find(id);
         }
 
@@ -28,9 +28,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item {
         }
 
         public void Delete(int id) {
-	        Domain.Entity.Item.PreparedAssembly preparedAssembly = _context.PreparedAssemblies.Find(id);
-            if (preparedAssembly != null)
+	        Domain.Entity.Item.PreparedAssembly? preparedAssembly = _context.PreparedAssemblies.Find(id);
+            if (preparedAssembly != null) {
                 _context.PreparedAssemblies.Remove(preparedAssembly);
+            }
         }
         
     }

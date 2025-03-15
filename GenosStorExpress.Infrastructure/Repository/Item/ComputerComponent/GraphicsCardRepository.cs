@@ -13,11 +13,17 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<GraphicsCard> List() {
-            return _context.GraphicsCards.ToList();
+            return _context.GraphicsCards
+                           .Include(i => i.Reviews)
+                           .Include(i => i.VideoPorts)
+                           .ToList();
         }
 
-        public GraphicsCard Get(int id) {
-            return _context.GraphicsCards.Find(id);
+        public GraphicsCard? Get(int id) {
+            return _context.GraphicsCards
+                           .Include(i => i.Reviews)
+                           .Include(i => i.VideoPorts)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(GraphicsCard graphicsCard) {
@@ -29,9 +35,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            GraphicsCard graphicsCard = _context.GraphicsCards.Find(id);
-            if (graphicsCard != null)
+            GraphicsCard? graphicsCard = _context.GraphicsCards.Find(id);
+            if (graphicsCard != null) {
                 _context.GraphicsCards.Remove(graphicsCard);
+            }
         }
         
     }

@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
             return _context.CPUCores.ToList();
         }
 
-        public CPUCore Get(int id) {
+        public CPUCore? Get(int id) {
             return _context.CPUCores.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public void Delete(int id) {
-            CPUCore cpuCore = _context.CPUCores.Find(id);
-            if (cpuCore != null)
+            CPUCore? cpuCore = _context.CPUCores.Find(id);
+            if (cpuCore != null) {
                 _context.CPUCores.Remove(cpuCore);
+            }
         }
         
     }

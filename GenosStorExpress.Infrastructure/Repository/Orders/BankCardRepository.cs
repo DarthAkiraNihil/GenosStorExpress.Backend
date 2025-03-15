@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
             return _context.BankCards.ToList();
         }
 
-        public BankCard Get(int id) {
+        public BankCard? Get(int id) {
             return _context.BankCards.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void Delete(int id) {
-            BankCard bankCard = _context.BankCards.Find(id);
-            if (bankCard != null)
+            BankCard? bankCard = _context.BankCards.Find(id);
+            if (bankCard != null) {
                 _context.BankCards.Remove(bankCard);
+            }
         }
         
     }

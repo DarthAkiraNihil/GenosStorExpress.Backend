@@ -13,11 +13,13 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<Display> List() {
-            return _context.Displays.ToList();
+            return _context.Displays.Include(i => i.Reviews).ToList();
         }
 
-        public Display Get(int id) {
-            return _context.Displays.Find(id);
+        public Display? Get(int id) {
+            return _context.Displays
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(Display display) {

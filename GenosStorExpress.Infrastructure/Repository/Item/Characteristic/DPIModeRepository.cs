@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.DPIModes.ToList();
         }
 
-        public DPIMode Get(int id) {
+        public DPIMode? Get(int id) {
             return _context.DPIModes.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            DPIMode dpiMode = _context.DPIModes.Find(id);
-            if (dpiMode != null)
+            DPIMode? dpiMode = _context.DPIModes.Find(id);
+            if (dpiMode != null) {
                 _context.DPIModes.Remove(dpiMode);
+            }
         }
         
     }

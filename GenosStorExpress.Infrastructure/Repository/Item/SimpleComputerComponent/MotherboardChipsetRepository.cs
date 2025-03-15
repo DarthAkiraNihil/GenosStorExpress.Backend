@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
             return _context.MotherboardChipsets.ToList();
         }
 
-        public MotherboardChipset Get(int id) {
+        public MotherboardChipset? Get(int id) {
             return _context.MotherboardChipsets.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public void Delete(int id) {
-            MotherboardChipset motherboardChipset = _context.MotherboardChipsets.Find(id);
-            if (motherboardChipset != null)
+            MotherboardChipset? motherboardChipset = _context.MotherboardChipsets.Find(id);
+            if (motherboardChipset != null) {
                 _context.MotherboardChipsets.Remove(motherboardChipset);
+            }
         }
         
     }

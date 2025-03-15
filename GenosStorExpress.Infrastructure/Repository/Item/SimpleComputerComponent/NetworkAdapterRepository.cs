@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
             return _context.NetworkAdapters.ToList();
         }
 
-        public NetworkAdapter Get(int id) {
+        public NetworkAdapter? Get(int id) {
             return _context.NetworkAdapters.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public void Delete(int id) {
-            NetworkAdapter networkAdapter = _context.NetworkAdapters.Find(id);
-            if (networkAdapter != null)
+            NetworkAdapter? networkAdapter = _context.NetworkAdapters.Find(id);
+            if (networkAdapter != null) {
                 _context.NetworkAdapters.Remove(networkAdapter);
+            }
         }
         
     }

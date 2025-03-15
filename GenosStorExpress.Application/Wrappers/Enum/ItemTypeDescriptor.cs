@@ -14,5 +14,6 @@
         PreparedAssembly,
         RAM,
         SataSSD,
+        Unknown,
     }
 }

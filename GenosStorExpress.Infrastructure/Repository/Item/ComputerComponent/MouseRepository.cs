@@ -13,11 +13,17 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<Mouse> List() {
-            return _context.Mouses.ToList();
+            return _context.Mouses
+                           .Include(i => i.Reviews)
+                           .Include(i => i.DPIModes)
+                           .ToList();
         }
 
-        public Mouse Get(int id) {
-            return _context.Mouses.Find(id);
+        public Mouse? Get(int id) {
+            return _context.Mouses
+                           .Include(i => i.Reviews)
+                           .Include(i => i.DPIModes)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(Mouse mouse) {
@@ -29,10 +35,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            Mouse mouse = _context.Mouses.Find(id);
-            if (mouse != null)
+            Mouse? mouse = _context.Mouses.Find(id);
+            if (mouse != null) {
                 _context.Mouses.Remove(mouse);
+            }
         }
-        
     }
 }

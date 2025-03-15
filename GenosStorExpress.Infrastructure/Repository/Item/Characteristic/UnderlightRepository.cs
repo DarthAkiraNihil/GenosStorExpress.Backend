@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.Underlights.ToList();
         }
 
-        public Underlight Get(int id) {
+        public Underlight? Get(int id) {
             return _context.Underlights.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            Underlight underlight = _context.Underlights.Find(id);
-            if (underlight != null)
+            Underlight? underlight = _context.Underlights.Find(id);
+            if (underlight != null) {
                 _context.Underlights.Remove(underlight);
+            }
         }
         
     }

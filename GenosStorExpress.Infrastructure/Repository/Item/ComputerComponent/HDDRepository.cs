@@ -13,11 +13,11 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<HDD> List() {
-            return _context.HDDs.ToList();
+            return _context.HDDs.Include(i => i.Reviews).ToList();
         }
 
-        public HDD Get(int id) {
-            return _context.HDDs.Find(id);
+        public HDD? Get(int id) {
+            return _context.HDDs.Include(i => i.Reviews).FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(HDD hdd) {
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            HDD hdd = _context.HDDs.Find(id);
-            if (hdd != null)
+            HDD? hdd = _context.HDDs.Find(id);
+            if (hdd != null) {
                 _context.HDDs.Remove(hdd);
+            }
         }
         
     }

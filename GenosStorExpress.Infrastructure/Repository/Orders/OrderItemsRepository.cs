@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
             return _context.OrderedItems.ToList();
         }
 
-        public OrderItems Get(int id) {
+        public OrderItems? Get(int id) {
             return _context.OrderedItems.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void Delete(int id) {
-            OrderItems orderItems = _context.OrderedItems.Find(id);
-            if (orderItems != null)
+            OrderItems? orderItems = _context.OrderedItems.Find(id);
+            if (orderItems != null) {
                 _context.OrderedItems.Remove(orderItems);
+            }
         }
         
     }

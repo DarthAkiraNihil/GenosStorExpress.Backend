@@ -14,11 +14,11 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<CPUCooler> List() {
-            return _context.CPUCoolers.ToList();
+            return _context.CPUCoolers.Include(i => i.Reviews).ToList();
         }
 
-        public CPUCooler Get(int id) {
-            return _context.CPUCoolers.Find(id);
+        public CPUCooler? Get(int id) {
+            return _context.CPUCoolers.Include(i => i.Reviews).FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(CPUCooler cpuCooler) {
@@ -30,9 +30,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            CPUCooler cpuCooler = _context.CPUCoolers.Find(id);
-            if (cpuCooler != null)
+            CPUCooler? cpuCooler = _context.CPUCoolers.Find(id);
+            if (cpuCooler != null) {
                 _context.CPUCoolers.Remove(cpuCooler);
+            }
         }
         
     }

@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.Certificates80Plus.ToList();
         }
 
-        public Certificate80Plus Get(int id) {
+        public Certificate80Plus? Get(int id) {
             return _context.Certificates80Plus.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            Certificate80Plus certificate80Plus = _context.Certificates80Plus.Find(id);
-            if (certificate80Plus != null)
+            Certificate80Plus? certificate80Plus = _context.Certificates80Plus.Find(id);
+            if (certificate80Plus != null) {
                 _context.Certificates80Plus.Remove(certificate80Plus);
+            }
         }
         
     }

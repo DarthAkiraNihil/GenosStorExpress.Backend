@@ -18,11 +18,13 @@ using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Service.Interface.Entity.Users;
 using GenosStorExpress.Domain.Entity.Item;
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
+using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item;
 using GenosStorExpress.Infrastructure.Context;
 using GenosStorExpress.Infrastructure.Repository;
 using GenosStorExpress.Infrastructure.Repository.Item;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +34,11 @@ builder.Services.AddDbContext<GenosStorExpressDatabaseContext>(
 	builder.Configuration.GetConnectionString("DefaultConnection")
 	)
 );
+
+builder.Services.AddIdentity<User, IdentityRole>()
+	.AddEntityFrameworkStores<GenosStorExpressDatabaseContext>()
+	.AddDefaultTokenProviders();
+
 builder.Services.AddScoped<IGenosStorExpressRepositories, GenosStorExpressRepositories>();
 builder.Services.AddScoped<IAllItemsRepository, AllItemsRepository>();
 
@@ -101,6 +108,10 @@ builder.Services.AddScoped<IOrderEntitiesService, OrderEntitiesService>();
 builder.Services.AddScoped<ILegalEntityService, LegalEntityService>();
 builder.Services.AddScoped<IUserEntitiesService, UserEntitiesService>();
 builder.Services.AddScoped<IEntityServices, EntityServices>();
+
+builder.Services.AddScoped<IItemBuilderService, ItemBuilderService>();
+builder.Services.AddScoped<IItemServiceRouter, ItemServiceRouter>();
+
 builder.Services.AddScoped<IServices, Services>();
 
 
@@ -133,11 +144,19 @@ app.MapControllers();
 
 using (var scope = app.Services.CreateScope()) {
 	var context = scope.ServiceProvider.GetRequiredService<GenosStorExpressDatabaseContext>();
+
+	var services = scope.ServiceProvider;
+	var userManager = services.GetRequiredService<UserManager<User>>();
+	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+	await GenosStorExpressDatabaseInitializer.Initialize(context, userManager, roleManager);
+	
 	context.Vendors.Add(new Vendor { Name = "Ardor" });
 	context.ItemTypes.Add(new ItemType { Name = "computer_case" });
 	context.MotherboardFormFactors.Add(new MotherboardFormFactor { Name = "ATX" });
 	context.ComputerCaseTypesizes.Add(new ComputerCaseTypesize { Name = "MidTower" });
 	context.SaveChanges();
+
 }
 
 app.Run();

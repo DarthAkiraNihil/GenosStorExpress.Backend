@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
             return _context.SSDControllers.ToList();
         }
 
-        public SSDController Get(int id) {
+        public SSDController? Get(int id) {
             return _context.SSDControllers.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public void Delete(int id) {
-            SSDController ssdController = _context.SSDControllers.Find(id);
-            if (ssdController != null)
+            SSDController? ssdController = _context.SSDControllers.Find(id);
+            if (ssdController != null) {
                 _context.SSDControllers.Remove(ssdController);
+            }
         }
         
     }

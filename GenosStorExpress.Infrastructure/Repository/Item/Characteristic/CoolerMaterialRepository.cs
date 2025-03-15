@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
             return _context.CoolerMaterials.ToList();
         }
 
-        public CoolerMaterial Get(int id) {
+        public CoolerMaterial? Get(int id) {
             return _context.CoolerMaterials.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.Characteristic {
         }
 
         public void Delete(int id) {
-            CoolerMaterial coolerMaterial = _context.CoolerMaterials.Find(id);
-            if (coolerMaterial != null)
+            CoolerMaterial? coolerMaterial = _context.CoolerMaterials.Find(id);
+            if (coolerMaterial != null) {
                 _context.CoolerMaterials.Remove(coolerMaterial);
+            }
         }
         
     }

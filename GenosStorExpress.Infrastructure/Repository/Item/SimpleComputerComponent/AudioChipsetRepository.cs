@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
             return _context.AudioChipsets.ToList();
         }
 
-        public AudioChipset Get(int id) {
+        public AudioChipset? Get(int id) {
             return _context.AudioChipsets.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public void Delete(int id) {
-            AudioChipset audioChipset = _context.AudioChipsets.Find(id);
-            if (audioChipset != null)
+            AudioChipset? audioChipset = _context.AudioChipsets.Find(id);
+            if (audioChipset != null) {
                 _context.AudioChipsets.Remove(audioChipset);
+            }
         }
         
     }

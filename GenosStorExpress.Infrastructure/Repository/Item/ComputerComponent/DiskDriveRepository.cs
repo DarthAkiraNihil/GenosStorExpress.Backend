@@ -15,11 +15,13 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public List<DiskDrive> List() {
-            return _context.DiskDrives.ToList();
+            return _context.DiskDrives.Include(i => i.Reviews).ToList();
         }
 
-        public DiskDrive Get(int id) {
-            return _context.DiskDrives.Find(id);
+        public DiskDrive? Get(int id) {
+            return _context.DiskDrives
+                           .Include(i => i.Reviews)
+                           .FirstOrDefault(i => i.Id == id);
         }
 
         public void Create(DiskDrive item) {
@@ -31,9 +33,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         }
 
         public void Delete(int id) {
-            DiskDrive DiskDrive = _context.DiskDrives.Find(id);
-            if (DiskDrive != null)
-                _context.DiskDrives.Remove(DiskDrive);
+            DiskDrive? diskDrive = _context.DiskDrives.Find(id);
+            if (diskDrive != null) {
+                _context.DiskDrives.Remove(diskDrive);
+            }
         }
         
     }

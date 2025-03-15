@@ -4,13 +4,14 @@ using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Entity.Orders;
 using GenosStorExpress.Domain.Entity.User;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 //using Microsoft.EntityFrameworkCore;
 
 namespace GenosStorExpress.Infrastructure.Context{
-	public class GenosStorExpressDatabaseContext : DbContext {
+	public class GenosStorExpressDatabaseContext : IdentityDbContext<User> {
 		public GenosStorExpressDatabaseContext(DbContextOptions<GenosStorExpressDatabaseContext> options) : base(options) { }
 
 		// enum
@@ -254,6 +255,7 @@ namespace GenosStorExpress.Infrastructure.Context{
 			customerEntity
 				.HasOne(c => c.Cart)
 				.WithOne(c => c.Customer)
+				.HasForeignKey<Customer>(c => c.CartId)
 				.IsRequired();
 
 			customerEntity.HasMany(c => c.Orders);

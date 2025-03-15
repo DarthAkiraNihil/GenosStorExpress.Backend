@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
             return _context.ActiveDiscounts.ToList();
         }
 
-        public ActiveDiscount Get(int id) {
+        public ActiveDiscount? Get(int id) {
             return _context.ActiveDiscounts.Find(id);
         }
 
@@ -29,9 +29,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void Delete(int id) {
-            ActiveDiscount activeDiscount = _context.ActiveDiscounts.Find(id);
-            if (activeDiscount != null)
+            ActiveDiscount? activeDiscount = _context.ActiveDiscounts.Find(id);
+            if (activeDiscount != null) {
                 _context.ActiveDiscounts.Remove(activeDiscount);
+            }
         }
         
     }

@@ -5,5 +5,5 @@ public class KeyboardWrapper: ComputerComponentWrapper {
     public bool IsWireless { get; set; }
 		
     public string Typesize { get; set; }
-    public string KeyboardType { get; set; }
+    public string Type { get; set; }
 }

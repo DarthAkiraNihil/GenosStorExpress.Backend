@@ -34,11 +34,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.Socket = _cpusSocketService.GetEntityFromString(item.Socket);
             created.CoresCount = item.CoresCount;
             created.ThreadsCount = item.ThreadsCount;
-            created.L2CahceSize = item.L2CahceSize;
+            created.L2CahceSize = item.L2CacheSize;
             created.L3CacheSize = item.L3CacheSize;
             created.TechnicalProcess = item.TechnicalProcess;
             created.BaseFrequency = item.BaseFrequency;
-            created.SupportedRamType = item.SupportedRamType.Select(i => _ramTypeService.GetEntityFromString(i)).ToList();
+            created.SupportedRamType = item.SupportedRamTypes.Select(i => _ramTypeService.GetEntityFromString(i)).ToList();
             created.SupportedRAMSize = item.SupportedRAMSize;
             created.HasIntegratedGraphics = item.HasIntegratedGraphics;
             
@@ -55,11 +55,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             wrapped.Socket = obj.Socket.Name;
             wrapped.CoresCount = obj.CoresCount;
             wrapped.ThreadsCount = obj.ThreadsCount;
-            wrapped.L2CahceSize = obj.L2CahceSize;
+            wrapped.L2CacheSize = obj.L2CahceSize;
             wrapped.L3CacheSize = obj.L3CacheSize;
             wrapped.TechnicalProcess = obj.TechnicalProcess;
             wrapped.BaseFrequency = obj.BaseFrequency;
-            wrapped.SupportedRamType = obj.SupportedRamType.Select(i => i.Name).ToList();
+            wrapped.SupportedRamTypes = obj.SupportedRamType.Select(i => i.Name).ToList();
             wrapped.SupportedRAMSize = obj.SupportedRAMSize;
             wrapped.HasIntegratedGraphics = obj.HasIntegratedGraphics;
             
@@ -76,11 +76,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 wrapped.Socket = obj.Socket.Name;
                 wrapped.CoresCount = obj.CoresCount;
                 wrapped.ThreadsCount = obj.ThreadsCount;
-                wrapped.L2CahceSize = obj.L2CahceSize;
+                wrapped.L2CacheSize = obj.L2CahceSize;
                 wrapped.L3CacheSize = obj.L3CacheSize;
                 wrapped.TechnicalProcess = obj.TechnicalProcess;
                 wrapped.BaseFrequency = obj.BaseFrequency;
-                wrapped.SupportedRamType = obj.SupportedRamType.Select(i => i.Name).ToList();
+                wrapped.SupportedRamTypes = obj.SupportedRamType.Select(i => i.Name).ToList();
                 wrapped.SupportedRAMSize = obj.SupportedRAMSize;
                 wrapped.HasIntegratedGraphics = obj.HasIntegratedGraphics;
             
@@ -97,11 +97,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             obj.Socket = _cpusSocketService.GetEntityFromString(item.Socket);
             obj.CoresCount = item.CoresCount;
             obj.ThreadsCount = item.ThreadsCount;
-            obj.L2CahceSize = item.L2CahceSize;
+            obj.L2CahceSize = item.L2CacheSize;
             obj.L3CacheSize = item.L3CacheSize;
             obj.TechnicalProcess = item.TechnicalProcess;
             obj.BaseFrequency = item.BaseFrequency;
-            obj.SupportedRamType = item.SupportedRamType.Select(i => _ramTypeService.GetEntityFromString(i)).ToList();
+            obj.SupportedRamType = item.SupportedRamTypes.Select(i => _ramTypeService.GetEntityFromString(i)).ToList();
             obj.SupportedRAMSize = item.SupportedRAMSize;
             obj.HasIntegratedGraphics = item.HasIntegratedGraphics;
             

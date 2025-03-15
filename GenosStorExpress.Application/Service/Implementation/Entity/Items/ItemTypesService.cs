@@ -1,5 +1,7 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
+using GenosStorExpress.Application.Wrappers.Enum;
 using GenosStorExpress.Domain.Entity.Item;
+using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item;
 
@@ -47,6 +49,56 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
 
         public ItemType GetEntityFromString(string value) {
             return _itemTypes.List().FirstOrDefault(c => c.Name == value, null);
+        }
+
+        public ItemTypeDescriptor GetDescriptor(string name) {
+            switch (name) {
+                case "computer_case": {
+                    return ItemTypeDescriptor.ComputerCase;
+                }
+                case "cpu_cooler": {
+                    return ItemTypeDescriptor.CPUCooler;
+                }
+                case "cpu": {
+                    return ItemTypeDescriptor.CPU;
+                }
+                case "display": {
+                    return ItemTypeDescriptor.Display;
+                }
+                case "graphics_card": {
+                    return ItemTypeDescriptor.GraphicsCard;
+                }
+                case "hdd": {
+                    return ItemTypeDescriptor.HDD;
+                }
+                case "keyboard": {
+                    return ItemTypeDescriptor.Keyboard;
+                }
+                case "motherboard": {
+                    return ItemTypeDescriptor.Motherboard;
+                }
+                case "mouse": {
+                    return ItemTypeDescriptor.Mouse;
+                }
+                case "nvme_ssd": {
+                    return ItemTypeDescriptor.NVMeSSD;
+                }
+                case "power_supply": {
+                    return ItemTypeDescriptor.PowerSupply;
+                }
+                case "ram": {
+                    return ItemTypeDescriptor.RAM;
+                }
+                case "sata_ssd": {
+                    return ItemTypeDescriptor.SataSSD;
+                }
+                case "prepared_assembly": {
+                    return ItemTypeDescriptor.PreparedAssembly;
+                }
+                default: {
+                    return ItemTypeDescriptor.Unknown;
+                }
+            }
         }
     }
 }

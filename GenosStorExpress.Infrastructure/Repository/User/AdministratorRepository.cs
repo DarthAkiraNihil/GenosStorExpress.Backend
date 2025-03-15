@@ -16,7 +16,7 @@ namespace GenosStorExpress.Infrastructure.Repository.User {
             return _context.Administrators.ToList();
         }
 
-        public Administrator Get(int id) {
+        public Administrator? Get(string id) {
             return _context.Administrators.Find(id);
         }
 
@@ -28,10 +28,11 @@ namespace GenosStorExpress.Infrastructure.Repository.User {
             _context.Entry(administrator).State = EntityState.Modified;
         }
 
-        public void Delete(int id) {
-            Administrator administrator = _context.Administrators.Find(id);
-            if (administrator != null)
+        public void Delete(string id) {
+            Administrator? administrator = _context.Administrators.Find(id);
+            if (administrator != null) {
                 _context.Administrators.Remove(administrator);
+            }
         }
         
     }

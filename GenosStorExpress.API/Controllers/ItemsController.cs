@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace GenosStorExpress.API.Controllers
-{
+namespace GenosStorExpress.API.Controllers {
     [Route("api/items")]
     [ApiController]
     public class ItemsController : ControllerBase {

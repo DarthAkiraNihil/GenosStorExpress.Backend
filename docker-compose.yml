@@ -1,0 +1,20 @@
+﻿version: '3'
+
+services:
+    postgres:
+        image: postgres:16-alpine
+        container_name: postgres_gse
+        environment:
+            - POSTGRES_DB=genos_storexpress
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=g3t_Da_J0b
+            - LANG=Russian_Russia.1251
+            - LANGUAGE=Russian_Russia.1251
+            - LC_ALL=Russian_Russia.1251
+            - POSTGRES_INITDB_ARGS='-E UTF8'
+        volumes:
+            - ./postgresql/dumps:/code/dumps
+            - ./postgresql/data:/var/lib/postgresql/data    
+        ports:
+            - '5960:5432'
+     

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
-	[Table("public.SSDs")]
+	[Table("SSDs")]
 	public abstract class SSD: DiskDrive {
 		[Required]
 		public int TBW { get; set; }

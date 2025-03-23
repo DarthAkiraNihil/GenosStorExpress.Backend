@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent {
-	[Table("public.CPUCores")]
+	[Table("CPUCores")]
 	public class CPUCore: Named {
 		[Required]
 		public int Id { get; set; }

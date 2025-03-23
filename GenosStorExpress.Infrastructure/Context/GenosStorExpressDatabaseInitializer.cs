@@ -176,6 +176,7 @@ namespace GenosStorExpress.Infrastructure.Context
 		    if (!userManager.Users.Any()) {
 
 			    var admin = new Administrator {
+				    UserName = "akira@dancorp.org",
 				    Email = "akira@dancorp.org",
 			    };
 
@@ -185,6 +186,7 @@ namespace GenosStorExpress.Infrastructure.Context
 			    }
 
 			    var individualEntity = new IndividualEntity {
+				    UserName = "amogus@amogus.net",
 				    Email = "amogus@amogus.net",
 				    Name = "Amogus",
 				    Surname = "Amogusov",
@@ -197,6 +199,7 @@ namespace GenosStorExpress.Infrastructure.Context
 			    }
 
 			    var legalEntity = new LegalEntity {
+				    UserName= "jensen_huang@nvidia.com",
 				    Email = "jensen_huang@nvidia.com",
 				    INN = 102420484096,
 				    KPP = 128256512,

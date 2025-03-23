@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.MotherboardFormFactors")]
+	[Table("MotherboardFormFactors")]
 	public class MotherboardFormFactor: Named {
 		public long Id { get; set; }
 		public IList<ComputerCase> ComputerCases { get; set; }

@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.VesaSizes")]
+	[Table("VesaSizes")]
 	public class VesaSize: Named {
 		public long Id { get; set; }
 	}

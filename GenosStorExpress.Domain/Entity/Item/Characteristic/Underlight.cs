@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.Underlights")]
+	[Table("Underlights")]
 	public class Underlight: Named {
 		public long Id { get; set; }
 	}

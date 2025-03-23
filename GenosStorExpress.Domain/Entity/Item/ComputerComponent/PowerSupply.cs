@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
-	[Table("public.PowerSupplies")]
+	[Table("PowerSupplies")]
 	public class PowerSupply: ComputerComponent {
 
 		[Required]

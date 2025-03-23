@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.ComputerCaseTypesizes")]
+	[Table("ComputerCaseTypesizes")]
 	public class ComputerCaseTypesize: Named {
 		public long Id { get; set; }
 	}

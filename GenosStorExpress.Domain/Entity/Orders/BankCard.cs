@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Orders {
-	[Table("public.BankCards")]
+	[Table("BankCards")]
 	public class BankCard {
 		public int Id { get; set; }
 		[Required]
@@ -14,6 +14,7 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 		[Required]
 		public byte CVC { get; set; }
 		[Required]
+		[MaxLength(80)]
 		public string Owner { get; set; }
 		
 		public BankSystem BankSystem { get; set; }

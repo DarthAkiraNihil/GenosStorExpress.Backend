@@ -71,7 +71,7 @@ namespace GenosStorExpress.Infrastructure.Context{
 
 		// user
 
-		public DbSet<User> Users { get; set; }
+		public new DbSet<User> Users { get; set; }
 		public DbSet<Administrator> Administrators { get; set; }
 		public DbSet<IndividualEntity> IndividualEntities { get; set; }
 		public DbSet<LegalEntity> LegalEntities { get; set; }

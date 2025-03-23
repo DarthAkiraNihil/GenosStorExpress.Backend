@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent {
-	[Table("public.GPUs")]
+	[Table("GPUs")]
 	public class GPU: WithModel {
 		[Required]
 		public int Id { get; set; }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Orders {
 
-	[Table("public.BankSystems")]
+	[Table("BankSystems")]
 	public class BankSystem: Named {
 		public long Id { get; set; }
 	}

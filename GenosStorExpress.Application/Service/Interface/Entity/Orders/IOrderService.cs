@@ -1,15 +1,15 @@
-﻿using GenosStorExpress.Application.Service.Interface.Base;
-using GenosStorExpress.Domain.Entity.Orders;
-using GenosStorExpress.Domain.Entity.User;
+﻿using GenosStorExpress.Application.Wrappers.Entity.Orders;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
-    public interface IOrderService: IStandardService<Order> {
-        long CreateOrderFromCart(Customer customer);
-        double CalculateTotal(Order order);
-        List<Order> ListOfSpecificCustomer(Customer customer);
-        void ReceiveOrder(Order order);
-        void CancelOrder(Order order);
-        List<Order> GetActiveOrders();
+    public interface IOrderService {
+        OrderWrapper? Get(int orderId, string customerId);
+        IList<OrderWrapper> List(string customerId);
+        ShortOrderWrapper CreateOrderFromCart(string customerId);
+        double CalculateTotal(int orderId);
+        List<ShortOrderWrapper> ListOfSpecificCustomer(string customerId);
+        void ReceiveOrder(int orderId);
+        void CancelOrder(int orderId);
+        List<ShortOrderWrapper> GetActiveOrders();
         bool OrderExists(int orderId);
     }
 }

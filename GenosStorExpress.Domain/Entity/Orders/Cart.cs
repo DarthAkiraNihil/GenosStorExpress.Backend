@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Orders {
 
-	[Table("public.Carts")]
+	[Table("Carts")]
 	public class Cart {
 		public int CustomerId { get; set; }
 		public Customer Customer { get; set; }
@@ -11,6 +11,7 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 
 		public Cart() {
 			Items = new List<CartItem>();
+			Customer = new VoidCustomer();
 		}
 	}
 }

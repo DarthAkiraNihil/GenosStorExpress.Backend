@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.KeyboardTypesizes")]
+	[Table("KeyboardTypesizes")]
 	public class KeyboardTypesize: Named {
 		public long Id { get; set; }
 	}

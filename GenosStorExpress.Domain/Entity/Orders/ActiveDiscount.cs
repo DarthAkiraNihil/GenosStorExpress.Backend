@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Orders {
-	[Table("public.ActiveDiscounts")]
+	[Table("ActiveDiscounts")]
 	public class ActiveDiscount {
 		public int Id { get; set; }
 		[Required]

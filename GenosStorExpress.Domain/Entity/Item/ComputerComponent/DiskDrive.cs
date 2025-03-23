@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item.ComputerComponent {
-	[Table("public.DiskDrives")]
+	[Table("DiskDrives")]
 	public abstract class DiskDrive: ComputerComponent {
 
 		[Required]

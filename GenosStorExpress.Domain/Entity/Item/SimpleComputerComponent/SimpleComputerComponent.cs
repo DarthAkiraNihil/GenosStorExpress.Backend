@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent {
-	[Table("public.SimpleComputerComponents")]
+	[Table("SimpleComputerComponents")]
 	public abstract class SimpleComputerComponent: WithModel {
 		[Required]
 		public long Id { get; set; }

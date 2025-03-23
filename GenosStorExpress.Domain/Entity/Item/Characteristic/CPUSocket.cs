@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.CPUSocket")]
+	[Table("CPUSocket")]
 	public class CPUSocket: Named {
 		public long Id { get; set; }
 	}

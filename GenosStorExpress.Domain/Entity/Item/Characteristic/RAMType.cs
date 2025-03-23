@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.RAMTypes")]
+	[Table("RAMTypes")]
 	public class RAMType: Named {
 		public long Id { get; set; }
 		public IList<Motherboard> Motherboards { get; set; }

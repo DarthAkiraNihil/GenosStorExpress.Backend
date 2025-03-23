@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item {
-	[Table("public.PreparedAssemblies")]
+	[Table("PreparedAssemblies")]
 	public class PreparedAssembly: Item {
 
 		[Required]

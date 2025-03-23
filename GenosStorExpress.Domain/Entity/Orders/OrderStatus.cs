@@ -14,7 +14,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Orders {
 
-	[Table("public.OrderStatus")]
+	[Table("OrderStatus")]
 	public class OrderStatus: Named {
 		public long Id { get; set; }
 	}

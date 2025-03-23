@@ -1,4 +1,5 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Orders;
+using GenosStorExpress.Application.Wrappers.Enum;
 using GenosStorExpress.Domain.Entity.Orders;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Orders;
@@ -49,5 +50,36 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             return _orderStatuses.List().FirstOrDefault(c => c.Name == value);
         }
 
+        public OrderStatus? GetEntityByDescriptor(OrderStatusDescriptor descriptor) {
+            switch(descriptor) {
+                case OrderStatusDescriptor.Created: {
+                    return GetEntityFromString("Created");
+                }
+                case OrderStatusDescriptor.Confirmed: {
+                    return GetEntityFromString("Confirmed");
+                }
+                case OrderStatusDescriptor.AwaitsPayment: {
+                    return GetEntityFromString("AwaitsPayment");
+                }
+                case OrderStatusDescriptor.Paid: {
+                    return GetEntityFromString("Paid");
+                }
+                case OrderStatusDescriptor.Processing: {
+                    return GetEntityFromString("Processing");
+                }
+                case OrderStatusDescriptor.Delivering: {
+                    return GetEntityFromString("Delivering");
+                }
+                case OrderStatusDescriptor.Received: {
+                    return GetEntityFromString("Received");
+                }
+                case OrderStatusDescriptor.Cancelled: {
+                    return GetEntityFromString("Cancelled");
+                }
+                default: {
+                    return null;
+                }
+            }
+        }
     }
 }

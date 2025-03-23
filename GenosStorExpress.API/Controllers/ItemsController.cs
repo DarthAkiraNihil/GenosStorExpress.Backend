@@ -2,6 +2,7 @@
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
 using GenosStorExpress.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,8 +20,13 @@ namespace GenosStorExpress.API.Controllers {
             _itemTypeService = itemTypeService;
         }
         
+        /// <summary>
+        /// Получение списка товаров определённой категории 
+        /// </summary>
+        /// <param name="type">Тип товара. Допустимые значения</param>
+        /// <returns></returns>
         [HttpGet("{type}")]
-        public ActionResult<IEnumerable<AnonymousItemWrapper>> List(string type) {
+        public ActionResult<IEnumerable<ItemWrapper>> List(string type) {
             
             ItemTypeDescriptor descriptor = _itemTypeService.GetDescriptor(type);
 
@@ -29,7 +35,15 @@ namespace GenosStorExpress.API.Controllers {
             }
 
             try {
-                IEnumerable<AnonymousItemWrapper> list = _itemServiceRouter.List(descriptor);
+                IEnumerable<ItemWrapper> list = _itemServiceRouter.List(descriptor).Select(
+                    i => new ItemWrapper {
+                        Name = i.Name,
+                        Model = i.Model,
+                        Description = i.Description,
+                        Price = i.Price,
+                        Id = i.Id,
+                        ItemType = i.ItemType
+                    });
                 return Ok(list);
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
@@ -59,6 +73,7 @@ namespace GenosStorExpress.API.Controllers {
 
         }
         
+        [Authorize(Roles = "administrator")]
         [HttpPost]
         public ActionResult<AnonymousItemWrapper> Create([FromBody]AnonymousItemWrapper value) {
             
@@ -80,6 +95,7 @@ namespace GenosStorExpress.API.Controllers {
             
         }
         
+        [Authorize(Roles = "administrator")]
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody]AnonymousItemWrapper value) {
             
@@ -105,6 +121,7 @@ namespace GenosStorExpress.API.Controllers {
             
         }
         
+        [Authorize(Roles = "administrator")]
         [HttpDelete("{type}/{id:int}")]
         public IActionResult Delete(string type, int id) {
             ItemTypeDescriptor descriptor = _itemTypeService.GetDescriptor(type);

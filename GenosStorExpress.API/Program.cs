@@ -1,3 +1,4 @@
+using System.Text;
 using GenosStorExpress.Application.Service.Implementation;
 using GenosStorExpress.Application.Service.Implementation.Common;
 using GenosStorExpress.Application.Service.Implementation.Entity;
@@ -24,13 +25,15 @@ using GenosStorExpress.Domain.Interface.Item;
 using GenosStorExpress.Infrastructure.Context;
 using GenosStorExpress.Infrastructure.Repository;
 using GenosStorExpress.Infrastructure.Repository.Item;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<GenosStorExpressDatabaseContext>(
-	options => options.UseInMemoryDatabase(
+	options => options.UseNpgsql(
 	builder.Configuration.GetConnectionString("DefaultConnection")
 	)
 );
@@ -120,7 +123,45 @@ builder.Services.AddScoped<IServices, Services>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options => {
+	var basePath = AppContext.BaseDirectory;
+
+	var xmlPath = Path.Combine(basePath, "docs.xml");
+	options.IncludeXmlComments(xmlPath);
+});
+
+
+builder.Services
+       .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+       .AddJwtBearer(options => {
+	       options.TokenValidationParameters = new TokenValidationParameters {
+		       ValidateIssuer = true,
+		       ValidateAudience = true,
+		       ValidateLifetime = true,
+		       ValidateIssuerSigningKey = true,
+		       ValidIssuer = builder.Configuration["Jwt:Issuer"],
+		       ValidAudience = builder.Configuration["Jwt:Audience"],
+		       IssuerSigningKey = new SymmetricSecurityKey(
+			       Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SigningKey"]!)
+			       )
+	        };
+	       
+	        options.Events = new JwtBearerEvents {
+	           OnChallenge = async context => {
+	               context.HandleResponse();
+	               context.Response.StatusCode = 401;
+	               context.Response.ContentType = "application/json";
+	               await context.Response.WriteAsync("{\"error\":\"Unauthorized access\"}");
+	           }
+	       };
+       });
+
+builder.Services.AddAuthorization(options =>
+{
+	options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("administrator"));
+	options.AddPolicy("RequireIndividualEntityRole", policy => policy.RequireRole("individual_entity"));
+	options.AddPolicy("RequireLegalEntityRole", policy => policy.RequireRole("legal_entity"));
+});
 
 var app = builder.Build();
 
@@ -138,6 +179,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -150,11 +192,7 @@ using (var scope = app.Services.CreateScope()) {
 	var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
 	await GenosStorExpressDatabaseInitializer.Initialize(context, userManager, roleManager);
-	
-	context.Vendors.Add(new Vendor { Name = "Ardor" });
-	context.ItemTypes.Add(new ItemType { Name = "computer_case" });
-	context.MotherboardFormFactors.Add(new MotherboardFormFactor { Name = "ATX" });
-	context.ComputerCaseTypesizes.Add(new ComputerCaseTypesize { Name = "MidTower" });
+
 	context.SaveChanges();
 
 }

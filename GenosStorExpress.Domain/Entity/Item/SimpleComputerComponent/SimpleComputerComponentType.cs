@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent {
-	[Table("public.SimpleComputerComponentTypes")]
+	[Table("SimpleComputerComponentTypes")]
 	public class SimpleComputerComponentType: Named {
 		[Required]
 		public long Id { get; set; }

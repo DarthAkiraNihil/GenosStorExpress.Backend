@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.Vendors")]
+	[Table("Vendors")]
 	public class Vendor: Named {
 		public int Id { get; set; }
 	}

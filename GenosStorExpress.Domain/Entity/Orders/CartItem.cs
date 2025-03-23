@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
+using GenosStorExpress.Domain.Entity.Item;
 
 namespace GenosStorExpress.Domain.Entity.Orders {
-    [Table("public.CartItems")]
+    [Table("CartItems")]
     [PrimaryKey(nameof(CartId), nameof(ItemId))]
     public class CartItem {
         [Column(Order = 1)]
@@ -19,5 +20,10 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 		public Item.Item Item { get; set; }
 		[Column(Order = 2)]
 		public Cart Cart { get; set; }
+
+		public CartItem() {
+			Cart = new Cart();
+			Item = new VoidItem();
+		}
     }
 }

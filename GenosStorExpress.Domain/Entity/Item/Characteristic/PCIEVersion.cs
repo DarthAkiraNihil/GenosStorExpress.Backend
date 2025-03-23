@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.PCIEVersions")]
+	[Table("PCIEVersions")]
 	public class PCIEVersion: Named {
 		public long Id { get; set; }
 	}

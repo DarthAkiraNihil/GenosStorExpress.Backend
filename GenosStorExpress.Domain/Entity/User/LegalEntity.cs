@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.User {
-	[Table("public.LegalEntities")]
+	[Table("LegalEntities")]
 	public class LegalEntity: Customer {
 		public override UserType UserType => UserType.LegalEntity;
 		[Required]

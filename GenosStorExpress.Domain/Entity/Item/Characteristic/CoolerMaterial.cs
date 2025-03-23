@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.CoolerMaterials")]
+	[Table("CoolerMaterials")]
 	public class CoolerMaterial: Named {
 		public long Id { get; set; }
 	}

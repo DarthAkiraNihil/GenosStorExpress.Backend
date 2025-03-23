@@ -12,7 +12,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 // }
 
 namespace GenosStorExpress.Domain.Entity.Item.Characteristic {
-	[Table("public.Certificates80Plus")]
+	[Table("Certificates80Plus")]
 	public class Certificate80Plus: Named {
 		public long Id { get; set; }
 	}

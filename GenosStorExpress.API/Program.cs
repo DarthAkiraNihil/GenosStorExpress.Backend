@@ -17,8 +17,6 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCompon
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
 using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Service.Interface.Entity.Users;
-using GenosStorExpress.Domain.Entity.Item;
-using GenosStorExpress.Domain.Entity.Item.Characteristic;
 using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item;

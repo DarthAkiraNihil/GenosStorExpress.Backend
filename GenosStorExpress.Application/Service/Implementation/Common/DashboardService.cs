@@ -1,7 +1,7 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Common;
 using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Service.Interface.Entity.Users;
-using GenosStorExpress.Application.Wrappers.Special;
+using GenosStorExpress.Application.Wrappers.Dashboard;
 using GenosStorExpress.Domain.Entity.User;
 
 namespace GenosStorExpress.Application.Service.Implementation.Common {
@@ -16,10 +16,17 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
             _paymentService = paymentService;
         }
 
-        public DashboardInfo GetDashboardInfo(Administrator sudo) {
-            var dashboardInfo = new DashboardInfo();
+        public DashboardInfoWrapper GetDashboardInfo(string sudoId) {
             
-            dashboardInfo.LoggedAdmin = sudo.Email;
+            Administrator? sudo = _userService.GetAdmin(sudoId);
+
+            if (sudo == null) {
+                throw new NullReferenceException("Запрещено! Данный метод может быть вызван только администратором");
+            }
+            
+            var dashboardInfo = new DashboardInfoWrapper();
+            
+            dashboardInfo.LoggedAdmin = sudo.Email!;
 
             var users = _userService.List();
             
@@ -43,20 +50,20 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
                 }).ToList().Count;
 
             dashboardInfo.ActiveOrdersCount = _orderService.GetActiveOrders().Count;
-            dashboardInfo.LastOrder = GetLastOrderDashboardInfo();
+            dashboardInfo.LastOrder = GetLastOrderDashboardInfo(sudoId);
             return dashboardInfo;
         }
 
-        private LastOrderDashboardInfo GetLastOrderDashboardInfo() {
-            var collected = new LastOrderDashboardInfo();
+        private DashboardOrderWrapper GetLastOrderDashboardInfo(string sudoId) {
+            var collected = new DashboardOrderWrapper();
 
-            var list = _orderService.List();
+            var list = _orderService.GetActiveOrdersRaw(sudoId);
             list.Sort((x, y) => x.CreatedAt < y.CreatedAt ? -1 : 1);
             var last = list.Last();
             
             collected.Id = last.Id;
             collected.CreatedAt = last.CreatedAt.ToString("dd/MM/yyyy HH:mm");
-            collected.Total = _orderService.CalculateTotal(last);
+            collected.Total = _orderService.CalculateTotal((int) last.Id);
             collected.ItemsCount = last.Items.Count;
             collected.Orderer = _paymentService.GetOrdererInfo(last.Customer);
             

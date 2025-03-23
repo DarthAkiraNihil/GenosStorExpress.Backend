@@ -10,16 +10,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Users {
         public UserService(IGenosStorExpressRepositories repositories) {
             _repositories = repositories;
         }
-
-        public bool Exists(string email) {
-            return _repositories
-                   .Users
-                   .Users
-                   .List()
-                   .Where(u => u.Email == email)
-                   .Count() > 0;
-        }
-
+        
         public void Create(User item) {
             switch (item.UserType) {
                 case UserType.IndividualEntity: {
@@ -48,17 +39,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Users {
             }
         }
 
-        public User? FindByEmail(string email) {
-            return _repositories
-                         .Users
-                         .Users
-                         .List()
-                         .Where(u => u.Email == email)
-                         .FirstOrDefault();
-        }
-
         public List<User> List() {
             return _repositories.Users.Users.List();
+        }
+
+        public Administrator? GetAdmin(string id) {
+            return _repositories.Users.Administrators.Get(id);
         }
     }
 }

@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GenosStorExpress.API</name>
+    </assembly>
+    <members>
+        <member name="T:GenosStorExpress.API.Controllers.AccountController">
+            <summary>
+            Контроллер <c>AccountController</c> предоставляет стандартные методы для управления аккаунтами.
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.AccountController.#ctor(Microsoft.AspNetCore.Identity.UserManager{GenosStorExpress.Domain.Entity.User.User},Microsoft.AspNetCore.Identity.SignInManager{GenosStorExpress.Domain.Entity.User.User},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Конструктор контроллера
+            </summary>
+            <param name="userManager">Стандартный менеджер пользователей</param>
+            <param name="signInManager">Менеджер аутентификации</param>
+            <param name="configuration">Конфигурация</param>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.AccountController.SignUp(GenosStorExpress.API.Wrappers.SignUpDataWrapper)">
+            <summary>
+            Регистрация в системе
+            </summary>
+            <param name="data">Данные для регистрации</param>
+            <returns>Ничего в случае успеха, иначе структуру содержащую список ошибок</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.AccountController.Login(GenosStorExpress.API.Wrappers.SignInDataWrapper)">
+            <summary>
+            Вход в систему
+            </summary>
+            <param name="model">Данные для входа</param>
+            <returns>Токен и роль пользователя в случае успеха, иначе 401</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.AccountController.Logout">
+            <summary>
+            Выход из системы
+            </summary>
+            <returns>Ничего в случае успеха</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.AccountController.ValidateToken">
+            <summary>
+            Метод проверки активности сессии
+            </summary>
+            <returns>201 в случае успеха, иначе 401</returns>
+        </member>
+        <member name="T:GenosStorExpress.API.Controllers.ItemsController">
+            <summary>
+            Контроллер <c>ItemsController</c> предоставляет методы для работы с товарами.
+            Важно отметить, что некоторые операций может выполнить только администротор.
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.#ctor(GenosStorExpress.Application.Service.Interface.Entity.Items.IItemServiceRouter,GenosStorExpress.Application.Service.Interface.Entity.Items.IItemTypeService)">
+            <summary>
+            Стандартный конструктор
+            </summary>
+            <param name="itemServiceRouter">Маршрутизатор сервисов товаров по типам</param>
+            <param name="itemTypeService">Сервис типов товаров</param>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.List(System.String)">
+            <summary>
+            Получение списка товаров определённой категории 
+            </summary>
+            <param name="type">Тип товара. Допустимые значения</param>
+            <returns>Список товаров с основной информацией</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.Get(System.String,System.Int32)">
+            <summary>
+            Получение информации о конкретном товаре
+            </summary>
+            <param name="type">Тип товара. Допустимые значения</param>
+            <param name="id">Номер товара</param>
+            <returns>Подробную информаци
+            ю о товаре со всеми характеристиками</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.Create(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание товара. Только под администратором
+            </summary>
+            <param name="value">Данные о создаваемом товаре</param>
+            <returns>Информацию о созданном товаре</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.Update(System.Int32,GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Обновление информации о товаре. Только под администратором
+            </summary>
+            <param name="id">Номер товара</param>
+            <param name="value">Обновлённая информация о товаре</param>
+            <returns>204 в случае успеха</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.Delete(System.String,System.Int32)">
+            <summary>
+            Удаление товара. Только под администратором
+            </summary>
+            <param name="type">Тип товара. Допустимые значения</param>
+            <param name="id">Номер товара</param>
+            <returns>204 в случае успеха</returns>
+        </member>
+        <member name="T:GenosStorExpress.API.Controllers.OrdersController">
+            <summary>
+            Контроллер <c>OrdersController</c> предоставляет методы для управления заказами
+            </summary>
+        </member>
+        <member name="T:GenosStorExpress.API.Wrappers.SignInDataWrapper">
+            <summary>
+            Класс-обёртка для данных для входа
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.API.Wrappers.SignInDataWrapper.Username">
+            <summary>
+            Имя пользователя
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.API.Wrappers.SignInDataWrapper.Password">
+            <summary>
+            Пароль
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.API.Wrappers.SignInDataWrapper.#ctor">
+            <summary>
+            Стандартный конструктор
+            </summary>
+        </member>
+        <member name="T:GenosStorExpress.API.Wrappers.SignUpDataWrapper">
+            <summary>
+            Класс-обёртка для данных регистрации
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.API.Wrappers.SignUpDataWrapper.Email">
+            <summary>
+            Адрес электронной почты
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.API.Wrappers.SignUpDataWrapper.Password">
+            <summary>
+            Пароль
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.API.Wrappers.SignUpDataWrapper.UserType">
+            <summary>
+            Тип регистрируемой роли. Может принимать значения:
+            <list type="bullet">
+                <item>
+                    <term>
+                        individual_entity
+                    </term>
+                    <description>
+                        Физическое лицо
+                    </description>
+                </item>
+                <item>
+                    <term>
+                       legal_entity
+                    </term>
+                    <description>
+                        Юридическое лицо
+                    </description>
+                </item>
+            </list>
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.API.Wrappers.SignUpDataWrapper.AdditionalData">
+            <summary>
+            Дополнительные регистрационные данные. Для разных типов регистрируемой роли, данные разные
+            Для физического лица:
+                <code>
+                {
+                    "name": "string", // Имя
+                    "surname": "string", // Фамилия
+                    "phone_number": "string" // Номер телефона
+                }
+                </code>
+            Для юридического лица лица:
+                <code>
+                {
+                    "inn": 0, // ИНН
+                    "kpp": 0, // КПП
+                    "physical_address": "string" // Физический адрес
+                    "legal_address": "string" // Юридический адрес
+                }
+                </code>
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.API.Wrappers.SignUpDataWrapper.#ctor">
+            <summary>
+            Стандартный конструктор
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,8 +1,7 @@
-﻿using GenosStorExpress.Application.Wrappers.Special;
-using GenosStorExpress.Domain.Entity.User;
+﻿using GenosStorExpress.Application.Wrappers.Dashboard;
 
 namespace GenosStorExpress.Application.Service.Interface.Common {
     public interface IDashboardService {
-        DashboardInfo GetDashboardInfo(Administrator sudo);
+        DashboardInfoWrapper GetDashboardInfo(string sudoId);
     }
 }

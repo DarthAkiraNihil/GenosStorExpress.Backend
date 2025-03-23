@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace GenosStorExpress.API.Controllers {
+    /// <summary>
+    /// Контроллер <c>ItemsController</c> предоставляет методы для работы с товарами.
+    /// Важно отметить, что некоторые операций может выполнить только администротор.
+    /// </summary>
     [Route("api/items")]
     [ApiController]
     public class ItemsController : ControllerBase {
@@ -15,6 +19,11 @@ namespace GenosStorExpress.API.Controllers {
         private readonly IItemServiceRouter _itemServiceRouter;
         private readonly IItemTypeService _itemTypeService;
 
+        /// <summary>
+        /// Стандартный конструктор
+        /// </summary>
+        /// <param name="itemServiceRouter">Маршрутизатор сервисов товаров по типам</param>
+        /// <param name="itemTypeService">Сервис типов товаров</param>
         public ItemsController(IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService) {
             _itemServiceRouter = itemServiceRouter;
             _itemTypeService = itemTypeService;
@@ -24,7 +33,7 @@ namespace GenosStorExpress.API.Controllers {
         /// Получение списка товаров определённой категории 
         /// </summary>
         /// <param name="type">Тип товара. Допустимые значения</param>
-        /// <returns></returns>
+        /// <returns>Список товаров с основной информацией</returns>
         [HttpGet("{type}")]
         public ActionResult<IEnumerable<ItemWrapper>> List(string type) {
             
@@ -53,6 +62,13 @@ namespace GenosStorExpress.API.Controllers {
             
         }
         
+        /// <summary>
+        /// Получение информации о конкретном товаре
+        /// </summary>
+        /// <param name="type">Тип товара. Допустимые значения</param>
+        /// <param name="id">Номер товара</param>
+        /// <returns>Подробную информаци
+        /// ю о товаре со всеми характеристиками</returns>
         [HttpGet("{type}/{id:int}")]
         public ActionResult<AnonymousItemWrapper> Get(string type, int id) {
             
@@ -73,6 +89,11 @@ namespace GenosStorExpress.API.Controllers {
 
         }
         
+        /// <summary>
+        /// Создание товара. Только под администратором
+        /// </summary>
+        /// <param name="value">Данные о создаваемом товаре</param>
+        /// <returns>Информацию о созданном товаре</returns>
         [Authorize(Roles = "administrator")]
         [HttpPost]
         public ActionResult<AnonymousItemWrapper> Create([FromBody]AnonymousItemWrapper value) {
@@ -95,6 +116,12 @@ namespace GenosStorExpress.API.Controllers {
             
         }
         
+        /// <summary>
+        /// Обновление информации о товаре. Только под администратором
+        /// </summary>
+        /// <param name="id">Номер товара</param>
+        /// <param name="value">Обновлённая информация о товаре</param>
+        /// <returns>204 в случае успеха</returns>
         [Authorize(Roles = "administrator")]
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody]AnonymousItemWrapper value) {
@@ -121,6 +148,12 @@ namespace GenosStorExpress.API.Controllers {
             
         }
         
+        /// <summary>
+        /// Удаление товара. Только под администратором
+        /// </summary>
+        /// <param name="type">Тип товара. Допустимые значения</param>
+        /// <param name="id">Номер товара</param>
+        /// <returns>204 в случае успеха</returns>
         [Authorize(Roles = "administrator")]
         [HttpDelete("{type}/{id:int}")]
         public IActionResult Delete(string type, int id) {

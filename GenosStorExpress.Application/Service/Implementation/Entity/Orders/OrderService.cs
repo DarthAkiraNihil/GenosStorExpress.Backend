@@ -21,7 +21,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _allItemsService = allItemsService;
         }
         
-        public OrderWrapper? Get(int orderId, string customerId) {
+        public OrderWrapper Get(int orderId, string customerId) {
             Order? order = _repositories.Orders.Orders.Get(orderId);
 
             if (order == null || order.Customer.Id != customerId) {
@@ -58,11 +58,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         }
 
         public double CalculateTotal(int orderId) {
-            throw new NotImplementedException();
-        }
+            Order? order = _repositories.Orders.Orders.Get(orderId);
 
-        public List<ShortOrderWrapper> ListOfSpecificCustomer(string customerId) {
-            throw new NotImplementedException();
+            if (order == null) {
+                throw new NullReferenceException($"Заказа с номером {orderId} не существует");
+            }
+            
+            return order.Items.Sum(i => i.BoughtFor * i.Quantity);
         }
 
         private Customer? _getCustomer(string id) {
@@ -161,8 +163,24 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             return Get(orderId) != null;
         }
 
-        List<ShortOrderWrapper> IOrderService.GetActiveOrders() {
-            throw new NotImplementedException();
+        public List<ShortOrderWrapper> GetActiveOrders() {
+            return List().Where(
+                o => o.OrderStatus.Name != "Cancelled" && o.OrderStatus.Name != "Received"
+            ).Select(i => new ShortOrderWrapper {
+                OrderId = i.Id,
+                Status = i.OrderStatus.Name
+            }).ToList();
+        }
+
+        public List<Order> GetActiveOrdersRaw(string sudoId) {
+            Administrator? sudo = _repositories.Users.Administrators.Get(sudoId);
+            if (sudo == null) {
+                throw new NullReferenceException("Запрещено! Данный метод может быть вызван только администратором");
+            }
+            
+            return List().Where(
+                o => o.OrderStatus.Name != "Cancelled" && o.OrderStatus.Name != "Received"
+            ).ToList();
         }
 
         private void Create(Order item) {
@@ -180,19 +198,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         private void Update(Order item) {
             _repositories.Orders.Orders.Update(item);
         }
-        
-        public double CalculateTotal(Order order) {
-            return order.Items.Sum(i => i.BoughtFor * i.Quantity);
-        }
 
         public List<Order> ListOfSpecificCustomer(Customer customer) {
 	        return List().Where(o => o.Customer.Id == customer.Id).ToList();
-        }
-
-        public List<Order> GetActiveOrders() {
-            return List().Where(
-                o => o.OrderStatus.Name != "Отменён" && o.OrderStatus.Name != "Получен"
-            ).ToList();
         }
 
         public int Save() {

@@ -18,15 +18,18 @@ namespace GenosStorExpress.API.Controllers {
         
         private readonly IItemServiceRouter _itemServiceRouter;
         private readonly IItemTypeService _itemTypeService;
+        private readonly IItemImageService _itemImageService;
 
         /// <summary>
         /// Стандартный конструктор
         /// </summary>
         /// <param name="itemServiceRouter">Маршрутизатор сервисов товаров по типам</param>
         /// <param name="itemTypeService">Сервис типов товаров</param>
-        public ItemsController(IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService) {
+        /// <param name="itemImageService">Сервис изображений товаров</param>
+        public ItemsController(IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService, IItemImageService itemImageService) {
             _itemServiceRouter = itemServiceRouter;
             _itemTypeService = itemTypeService;
+            _itemImageService = itemImageService;
         }
         
         /// <summary>
@@ -173,6 +176,23 @@ namespace GenosStorExpress.API.Controllers {
                 return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
             }
             
+        }
+
+        /// <summary>
+        /// Получение изображения товара
+        /// </summary>
+        /// <param name="id">Номер товара</param>
+        /// <returns>Изображение товара</returns>
+        [HttpGet("{id:int}/image")]
+        public IActionResult GetItemImage(int id) {
+            try {
+                MemoryStream image = _itemImageService.GetImage(id);
+                return new FileStreamResult(image, "image/png");
+            } catch (NullReferenceException e) {
+                return BadRequest(new DetailObject(e.Message));
+            } catch (Exception e) {
+                return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+            }
         }
     }
 }

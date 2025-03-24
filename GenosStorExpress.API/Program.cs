@@ -93,6 +93,7 @@ builder.Services.AddScoped<ISimpleComputerComponentTypeService, SimpleComputerCo
 builder.Services.AddScoped<ISSDControllerService, SSDControllerService>();
 builder.Services.AddScoped<ISimpleComputerComponentService, SimpleComputerComponentsService>();
 
+builder.Services.AddScoped<IItemImageService, ItemImageService>();
 builder.Services.AddScoped<IAllItemsService, AllItemsService>();
 builder.Services.AddScoped<IItemTypeService, ItemTypesService>();
 builder.Services.AddScoped<IPreparedAssemblyService, PreparedAssemblyService>();

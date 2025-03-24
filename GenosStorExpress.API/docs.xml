@@ -49,12 +49,13 @@
             Важно отметить, что некоторые операций может выполнить только администротор.
             </summary>
         </member>
-        <member name="M:GenosStorExpress.API.Controllers.ItemsController.#ctor(GenosStorExpress.Application.Service.Interface.Entity.Items.IItemServiceRouter,GenosStorExpress.Application.Service.Interface.Entity.Items.IItemTypeService)">
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.#ctor(GenosStorExpress.Application.Service.Interface.Entity.Items.IItemServiceRouter,GenosStorExpress.Application.Service.Interface.Entity.Items.IItemTypeService,GenosStorExpress.Application.Service.Interface.Entity.Items.IItemImageService)">
             <summary>
             Стандартный конструктор
             </summary>
             <param name="itemServiceRouter">Маршрутизатор сервисов товаров по типам</param>
             <param name="itemTypeService">Сервис типов товаров</param>
+            <param name="itemImageService">Сервис изображений товаров</param>
         </member>
         <member name="M:GenosStorExpress.API.Controllers.ItemsController.List(System.String)">
             <summary>
@@ -95,9 +96,21 @@
             <param name="id">Номер товара</param>
             <returns>204 в случае успеха</returns>
         </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.GetItemImage(System.Int32)">
+            <summary>
+            Получение изображения товара
+            </summary>
+            <param name="id">Номер товара</param>
+            <returns>Изображение товара</returns>
+        </member>
         <member name="T:GenosStorExpress.API.Controllers.OrdersController">
             <summary>
             Контроллер <c>OrdersController</c> предоставляет методы для управления заказами
+            </summary>
+        </member>
+        <member name="T:GenosStorExpress.API.Controllers.ReportsController">
+            <summary>
+            Контроллер <c>ReportsController</c> предоставляет методы для получения чеков и всевозможных отчётов
             </summary>
         </member>
         <member name="T:GenosStorExpress.API.Wrappers.SignInDataWrapper">

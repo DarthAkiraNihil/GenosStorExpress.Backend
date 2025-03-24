@@ -8,6 +8,9 @@ using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.ComputerComponents {
+    /// <summary>
+    /// Реализация сервиса мониторов
+    /// </summary>
     public class DisplayService: AbstractComputerComponentService, IDisplayService {
         private readonly IGenosStorExpressRepositories _repositories;
         private readonly IDisplayRepository _displays;
@@ -16,7 +19,17 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly IMatrixTypeService _matrixTypeService;
         private readonly IUnderlightService _underlightService;
         private readonly IVesaSizeService _vesaSizeService;
-
+        
+        /// <summary>
+        /// Стандартный конструктор
+        /// </summary>
+        /// <param name="itemTypeService">Сервис типов предметов</param>
+        /// <param name="vendorService">Сервис производителей</param>
+        /// <param name="repositories">Репозитории проекта</param>
+        /// <param name="definitionService">Сервис разрешений мониторов</param>
+        /// <param name="matrixTypeService">Сервис типов матриц</param>
+        /// <param name="underlightService">Сервис подсветок мониторов</param>
+        /// <param name="vesaSizeService">Сервис размеров Vesa</param>
         public DisplayService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IDefinitionService definitionService, IMatrixTypeService matrixTypeService, IUnderlightService underlightService, IVesaSizeService vesaSizeService) : base(itemTypeService, vendorService) {
             _repositories = repositories;
             _definitionService = definitionService;
@@ -26,6 +39,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _displays = _repositories.Items.ComputerComponents.Displays;
         }
         
+        /// <summary>
+        /// Создание сущности монитора из обёртки
+        /// </summary>
+        /// <param name="item">Обёрнутый монитор</param>
+        /// <exception cref="NullReferenceException">Если указанного производителя, разрешения, типа матрицы, типа подсветки или размера Vesa не существует</exception>
         public void Create(DisplayWrapper item) {
             var created = new Display();
             _setEntityPropertiesFromWrapper(created, item);
@@ -60,6 +78,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _displays.Create(created);
         }
 
+        /// <summary>
+        /// Получение объекта-обёртки сущности монитора по его номеру
+        /// </summary>
+        /// <param name="id">Номер монитора</param>
+        /// <returns>Обёрнутый монитор или null в случае его отсутствия</returns>
         public DisplayWrapper? Get(int id) {
             Display? obj = _displays.Get(id);
             if (obj == null) {
@@ -78,6 +101,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             return wrapped;
         }
 
+        /// <summary>
+        /// Получение списка всех мониторов в виде обёрток
+        /// </summary>
+        /// <returns>Список обёрнутых мониторов</returns>
         public List<DisplayWrapper> List() {
             return _displays.List().Select(obj => {
                 var wrapped = new DisplayWrapper();
@@ -94,6 +121,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             }).ToList();
         }
 
+        /// <summary>
+        /// Обновление сущности монитора
+        /// </summary>
+        /// <param name="id">Номер монитора</param>
+        /// <param name="item">Изменённые данные</param>
+        /// <exception cref="NullReferenceException">Если указанного производителя, разрешения, типа матрицы, типа подсветки или размера Vesa не существует</exception>
         public void Update(int id, DisplayWrapper item) {
             var obj = _displays.Get(id);
             if (obj == null) {
@@ -131,14 +164,27 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _displays.Update(obj);
         }
 
+        /// <summary>
+        /// Удаление сущности монитора
+        /// </summary>
+        /// <param name="id">Номер монитора</param>
         public void Delete(int id) {
             _repositories.Items.ComputerComponents.Displays.Delete(id);
         }
 
+        /// <summary>
+        /// Сохранение базы данных
+        /// </summary>
+        /// <returns>Количество изменений</returns>
         public int Save() {
             return _repositories.Save();
         }
         
+        /// <summary>
+        /// Фильтрация списка сущностей мониторов
+        /// </summary>
+        /// <param name="filters">Список фильтров</param>
+        /// <returns>Отфильтрованный список обёрток мониторов</returns>
         public List<DisplayWrapper> Filter(List<Func<DisplayWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {

@@ -1,0 +1,935 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GenosStorExpress.Application</name>
+    </assembly>
+    <members>
+        <member name="T:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService">
+            <summary>
+            Реализация сервиса-конвертера (сущность товара -> обёртка и наоборот).
+            Используется для обеспечения корректного вызова всех сервисов товаров, так как извне приходят изначально
+            данные, структура которых заранее неизвестна, с чем сервисы не работают
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildComputerCase(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки корпуса из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка корпуса</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildCPUCooler(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки кулера для процессора из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка кулера для процессора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildCPU(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки центрального процессора из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка центрального процессора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildDisplay(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки монитора из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка монитора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildGraphicsCard(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки видеокарты из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка видеокарты</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildHDD(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки жёсткого диска из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка жёсткого диска</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildKeyboard(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки клавиатуры из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка клавиатуры</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildMotherboard(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки материнской платы из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка материнской платы</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildMouse(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки мыши из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка мыши</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildNVMeSSD(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки твердотельного накопителя NVMe из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка твердотельного накопителя NVMe</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildPowerSupply(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки блока питания из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка блока питания</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildRAM(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки ОЗУ из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка ОЗУ</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildSataSSD(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки твердотельного накопителя Sata из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка твердотельного накопителя Sata</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.ComputerCaseWrapper)">
+            <summary>
+            Создание анонимной обёртки из корпуса 
+            </summary>
+            <param name="wrapper">Оборачиваемый корпус</param>
+            <returns>Анонимная обёртка корпуса</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUCoolerWrapper)">
+            <summary>
+            Создание анонимной обёртки из кулера для процессора 
+            </summary>
+            <param name="wrapper">Оборачиваемый кулер для процессора</param>
+            <returns>Анонимная обёртка кулера для процессора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper)">
+            <summary>
+            Создание анонимной обёртки из центрального процессора 
+            </summary>
+            <param name="wrapper">Оборачиваемый центральный процессор</param>
+            <returns>Анонимная обёртка центрального процессора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.DisplayWrapper)">
+            <summary>
+            Создание анонимной обёртки из монитора 
+            </summary>
+            <param name="wrapper">Оборачиваемый монитор</param>
+            <returns>Анонимная обёртка монитора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.GraphicsCardWrapper)">
+            <summary>
+            Создание анонимной обёртки из видеокарты 
+            </summary>
+            <param name="wrapper">Оборачиваемая видеокарта</param>
+            <returns>Анонимная обёртка видеокарты</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.HDDWrapper)">
+            <summary>
+            Создание анонимной обёртки из жёсткого диска 
+            </summary>
+            <param name="wrapper">Оборачиваемый жёсткий диск</param>
+            <returns>Анонимная обёртка жёсткого диска</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.KeyboardWrapper)">
+            <summary>
+            Создание анонимной обёртки из клавиатуры 
+            </summary>
+            <param name="wrapper">Оборачиваемая клавиатура</param>
+            <returns>Анонимная обёртка клавиатуры</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper)">
+            <summary>
+            Создание анонимной обёртки из материнской платы 
+            </summary>
+            <param name="wrapper">Оборачиваемая материнская плата</param>
+            <returns>Анонимная обёртка материнской платы</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MouseWrapper)">
+            <summary>
+            Создание анонимной обёртки из мыши 
+            </summary>
+            <param name="wrapper">Оборачиваемая мышь</param>
+            <returns>Анонимная обёртка мыши</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.NVMeSSDWrapper)">
+            <summary>
+            Создание анонимной обёртки из твердотельного накопителя NVMe 
+            </summary>
+            <param name="wrapper">Оборачиваемый накопитель</param>
+            <returns>Анонимная обёртка твердотельного накопителя NVMe</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.PowerSupplyWrapper)">
+            <summary>
+            Создание анонимной обёртки из блока питания 
+            </summary>
+            <param name="wrapper">Оборачиваемый блок питания</param>
+            <returns>Анонимная обёртка блока питания</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.RAMWrapper)">
+            <summary>
+            Создание анонимной обёртки из ОЗУ 
+            </summary>
+            <param name="wrapper">Оборачиваемое ОЗУ</param>
+            <returns>Анонимная обёртка ОЗУ</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.SataSSDWrapper)">
+            <summary>
+            Создание анонимной обёртки из твердотельного накопителя Sata 
+            </summary>
+            <param name="wrapper">Оборачиваемый накопитель</param>
+            <returns>Анонимная обёртка твердотельного накопителя Sata</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildPreparedAssembly(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание анонимной обёртки из готовой сборки 
+            </summary>
+            <param name="wrapper">Оборачиваемая готовая сборка</param>
+            <returns>Анонимная обёртка готовой сборки</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Items.ItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper)">
+            <summary>
+            Создание обёртки готовой сборки из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка готовой сборки</returns>
+        </member>
+        <member name="T:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService">
+            <summary>
+            Интерфейс для сервиса заказов
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.#ctor(GenosStorExpress.Domain.Interface.IGenosStorExpressRepositories,GenosStorExpress.Application.Service.Interface.Entity.Orders.ICartService,GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderStatusService,GenosStorExpress.Application.Service.Interface.Entity.Items.IAllItemsService)">
+            <summary>
+            Стандартный конструктор
+            </summary>
+            <param name="repositories">Репозитории с данными</param>
+            <param name="cartService">Сервис корзин</param>
+            <param name="orderStatusService">Сервис статусов заказов</param>
+            <param name="allItemsService">Общий сервис товаров</param>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.Get(System.Int32,System.String)">
+            <summary>
+            Получение заказа по номеру
+            </summary>
+            <param name="orderId">Номер заказа</param>
+            <param name="customerId">Номер заказчика</param>
+            <returns>Обёртку заказа или null, если у покупателя такой заказ отсутствует</returns>
+            <exception cref="T:System.NullReferenceException">Если заказа не существует</exception>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.List(System.String)">
+            <summary>
+            Получение списка заказов покупателя
+            </summary>
+            <param name="customerId">Номер покупателя</param>
+            <returns>Список всех заказов покупателя</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.CalculateTotal(System.Int32)">
+            <summary>
+            Перевод заказа в статус "Получен"
+            </summary>
+            <param name="orderId">Номер заказа</param>
+            <exception cref="T:System.NullReferenceException">Если заказа не существует</exception>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.CreateOrderFromCart(System.String)">
+            <summary>
+            Создание заказа из корзины
+            </summary>
+            <param name="customerId">Номер покупателя</param>
+            <returns>Краткую информацию о созданном заказе</returns>
+            <exception cref="T:System.NullReferenceException">Если покупателя не существует или если в базе данных нет статуса "Создан"</exception>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.ReceiveOrder(System.Int32)">
+            <summary>
+            Перевод заказа в статус "Отменён"
+            </summary>
+            <param name="orderId">Номер заказа</param>
+            <exception cref="T:System.NullReferenceException">Если заказа не существует или если в базе данных нет статуса "Получен"</exception>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.CancelOrder(System.Int32)">
+            <summary>
+            Получение списка активных заказов
+            </summary>
+            <returns>Список активных (не отменённых и не полученных) заказов</returns>
+            <exception cref="T:System.NullReferenceException">Если заказа не существует или если в базе данных нет статуса "Отменён"</exception>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.OrderExists(System.Int32)">
+            <summary>
+            Проверка существования заказа
+            </summary>
+            <param name="orderId">Номер заказа</param>
+            <returns><c>true</c> если заказ существует, иначе <c>false</c></returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.GetActiveOrders">
+            <summary>
+            Получение списка активных заказов
+            </summary>
+            <returns>Список активных (не отменённых и не полученных) заказов</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.GetActiveOrdersRaw(System.String)">
+            <summary>
+            Получение списка активных заказов в сыром виде. Только для администратора
+            </summary>
+            <param name="sudoId">Номер администратора</param>
+            <returns>Список активных (не отменённых и не полученных) заказов в виде сущностей</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Implementation.Entity.Orders.OrderService.Save">
+            <summary>
+            Сохранение данных репозиториев
+            </summary>
+            <returns>Количество сохранённых сущностей</returns>
+        </member>
+        <member name="T:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService">
+            <summary>
+            Интерфейс для сервиса-конвертера (сущность товара -> обёртка и наоборот).
+            Используется для обеспечения корректного вызова всех сервисов товаров, так как извне приходят изначально
+            данные, структура которых заранее неизвестна, с чем сервисы не работают
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildComputerCase(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки корпуса из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка корпуса</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildCPUCooler(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки кулера для процессора из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка кулера для процессора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildCPU(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки центрального процессора из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка центрального процессора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildDisplay(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки монитора из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка монитора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildGraphicsCard(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки видеокарты из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка видеокарты</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildHDD(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки жёсткого диска из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка жёсткого диска</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildKeyboard(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки клавиатуры из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка клавиатуры</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildMotherboard(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки материнской платы из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка материнской платы</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildMouse(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки мыши из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка мыши</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildNVMeSSD(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки твердотельного накопителя NVMe из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка твердотельного накопителя NVMe</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildPowerSupply(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки блока питания из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка блока питания</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildRAM(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки ОЗУ из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка ОЗУ</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildSataSSD(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание обёртки твердотельного накопителя Sata из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка твердотельного накопителя Sata</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.ComputerCaseWrapper)">
+            <summary>
+            Создание анонимной обёртки из корпуса 
+            </summary>
+            <param name="wrapper">Оборачиваемый корпус</param>
+            <returns>Анонимная обёртка корпуса</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUCoolerWrapper)">
+            <summary>
+            Создание анонимной обёртки из кулера для процессора 
+            </summary>
+            <param name="wrapper">Оборачиваемый кулер для процессора</param>
+            <returns>Анонимная обёртка кулера для процессора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper)">
+            <summary>
+            Создание анонимной обёртки из центрального процессора 
+            </summary>
+            <param name="wrapper">Оборачиваемый центральный процессор</param>
+            <returns>Анонимная обёртка центрального процессора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.DisplayWrapper)">
+            <summary>
+            Создание анонимной обёртки из монитора 
+            </summary>
+            <param name="wrapper">Оборачиваемый монитор</param>
+            <returns>Анонимная обёртка монитора</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.GraphicsCardWrapper)">
+            <summary>
+            Создание анонимной обёртки из видеокарты 
+            </summary>
+            <param name="wrapper">Оборачиваемая видеокарта</param>
+            <returns>Анонимная обёртка видеокарты</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.HDDWrapper)">
+            <summary>
+            Создание анонимной обёртки из жёсткого диска 
+            </summary>
+            <param name="wrapper">Оборачиваемый жёсткий диск</param>
+            <returns>Анонимная обёртка жёсткого диска</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.KeyboardWrapper)">
+            <summary>
+            Создание анонимной обёртки из клавиатуры 
+            </summary>
+            <param name="wrapper">Оборачиваемая клавиатура</param>
+            <returns>Анонимная обёртка клавиатуры</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper)">
+            <summary>
+            Создание анонимной обёртки из материнской платы 
+            </summary>
+            <param name="wrapper">Оборачиваемая материнская плата</param>
+            <returns>Анонимная обёртка материнской платы</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MouseWrapper)">
+            <summary>
+            Создание анонимной обёртки из мыши 
+            </summary>
+            <param name="wrapper">Оборачиваемая мышь</param>
+            <returns>Анонимная обёртка мыши</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.NVMeSSDWrapper)">
+            <summary>
+            Создание анонимной обёртки из твердотельного накопителя NVMe 
+            </summary>
+            <param name="wrapper">Оборачиваемый накопитель</param>
+            <returns>Анонимная обёртка твердотельного накопителя NVMe</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.PowerSupplyWrapper)">
+            <summary>
+            Создание анонимной обёртки из блока питания 
+            </summary>
+            <param name="wrapper">Оборачиваемый блок питания</param>
+            <returns>Анонимная обёртка блока питания</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.RAMWrapper)">
+            <summary>
+            Создание анонимной обёртки из ОЗУ 
+            </summary>
+            <param name="wrapper">Оборачиваемое ОЗУ</param>
+            <returns>Анонимная обёртка ОЗУ</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.SataSSDWrapper)">
+            <summary>
+            Создание анонимной обёртки из твердотельного накопителя Sata 
+            </summary>
+            <param name="wrapper">Оборачиваемый накопитель</param>
+            <returns>Анонимная обёртка твердотельного накопителя Sata</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildPreparedAssembly(GenosStorExpress.Application.Wrappers.Entity.Item.AnonymousItemWrapper)">
+            <summary>
+            Создание анонимной обёртки из готовой сборки 
+            </summary>
+            <param name="wrapper">Оборачиваемая готовая сборка</param>
+            <returns>Анонимная обёртка готовой сборки</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Items.IItemBuilderService.BuildWrapper(GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper)">
+            <summary>
+            Создание обёртки готовой сборки из анонимной обёртки товара
+            </summary>
+            <param name="wrapper">Анонимная обёртка</param>
+            <returns>Обёртка готовой сборки</returns>
+        </member>
+        <member name="T:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService">
+            <summary>
+            Реализация сервиса заказов
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.Get(System.Int32,System.String)">
+            <summary>
+            Получение заказа по номеру
+            </summary>
+            <param name="orderId">Номер заказа</param>
+            <param name="customerId">Номер заказчика</param>
+            <returns>Обёртку заказа или null, если у покупателя такой заказ отсутствует</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.List(System.String)">
+            <summary>
+            Получение списка заказов покупателя
+            </summary>
+            <param name="customerId">Номер покупателя</param>
+            <returns>Список всех заказов покупателя</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.CreateOrderFromCart(System.String)">
+            <summary>
+            Создание заказа из корзины
+            </summary>
+            <param name="customerId">Номер покупателя</param>
+            <returns>Краткую информацию о созданном заказе</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.CalculateTotal(System.Int32)">
+            <summary>
+            Подсчёт общей стоимости заказа
+            </summary>
+            <param name="orderId">Номер заказа</param>
+            <returns>Общая стоимость заказа</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.ReceiveOrder(System.Int32)">
+            <summary>
+            Перевод заказа в статус "Получен"
+            </summary>
+            <param name="orderId">Номер заказа</param>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.CancelOrder(System.Int32)">
+            <summary>
+            Перевод заказа в статус "Отменён"
+            </summary>
+            <param name="orderId">Номер заказа</param>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.GetActiveOrders">
+            <summary>
+            Получение списка активных заказов
+            </summary>
+            <returns>Список активных (не отменённых и не полученных) заказов</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.GetActiveOrdersRaw(System.String)">
+            <summary>
+            Получение списка активных заказов в сыром виде. Только для администратора
+            </summary>
+            <param name="sudoId">Номер администратора</param>
+            <returns>Список активных (не отменённых и не полученных) заказов в виде сущностей</returns>
+        </member>
+        <member name="M:GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService.OrderExists(System.Int32)">
+            <summary>
+            Проверка существования заказа
+            </summary>
+            <param name="orderId">Номер заказа</param>
+            <returns><c>true</c> если заказ существует, иначе <c>false</c></returns>
+        </member>
+        <member name="T:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper">
+            <summary>
+            Класс-обёртка для центрального процессора
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.Core">
+            <summary>
+            Ядро процессора
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.Socket">
+            <summary>
+            Сокет процессора
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.CoresCount">
+            <summary>
+            Количество ядер
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.ThreadsCount">
+            <summary>
+            Количество потоков
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.L2CacheSize">
+            <summary>
+            Размер кэша L2
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.L3CacheSize">
+            <summary>
+            Размер кэша L3
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.TechnicalProcess">
+            <summary>
+            Техпроцесс
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.BaseFrequency">
+            <summary>
+            Базовая частота
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.SupportedRamTypes">
+            <summary>
+            Поддерживаемые типы ОЗУ
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.SupportedRAMSize">
+            <summary>
+            Поддерживаемый размер ОЗУ
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.HasIntegratedGraphics">
+            <summary>
+            Наличие интегрированной графики
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.CPUWrapper.#ctor">
+            <summary>
+            Стандартный конструктор
+            </summary>
+        </member>
+        <member name="T:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper">
+            <summary>
+            Класс-обёртка для материнской платы
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.SupportedCPUCores">
+            <summary>
+            Поддерживаемые ядра процессоров
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.SupportedRAMTypes">
+            <summary>
+            Поддерживаемые типы ОЗУ
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.RAMSlots">
+            <summary>
+            Количество слотов ОЗУ
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.RAMChannels">
+            <summary>
+            Количество каналов ОЗУ
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.MaxRAMFrequency">
+            <summary>
+            Максимальная частота ОЗУ
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.PCIESlotsCount">
+            <summary>
+            Количество слотов PCI-e
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.HasNVMeSupport">
+            <summary>
+            Наличие поддержки NVMe
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.M2SlotsCount">
+            <summary>
+            Количество слотов M2
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.SataPortsCount">
+            <summary>
+            Количество портов Sata
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.USBPortsCount">
+            <summary>
+            Количество портов USB
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.VideoPorts">
+            <summary>
+            Количество видеопортов
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.RJ45PortsCount">
+            <summary>
+            Количество портов RJ-45
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.DigitalAudioPortsCount">
+            <summary>
+            Количество цифровых аудиопортор
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.NetworkAdapterSpeed">
+            <summary>
+            Скорость сетевого адаптера
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.FormFactor">
+            <summary>
+            Форм-фактор
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.CPUSocket">
+            <summary>
+            Сокет процессора
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.PCIEVersion">
+            <summary>
+            Версия PCI-e
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.MotherboardChipset">
+            <summary>
+            Чипсет материнской платы
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.AudioChipset">
+            <summary>
+            Аудиочипсет
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.NetworkAdapter">
+            <summary>
+            Сетевой адаптер
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent.MotherboardWrapper.#ctor">
+            <summary>
+            Стандартный конструктор
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.ItemWrapper.Id">
+            <summary>
+            Номер товара
+            </summary>
+        </member>
+        <member name="T:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper">
+            <summary>
+            Класс-обёртка для готовой сборки
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.RAMs">
+            <summary>
+            Список ОЗУ
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.DiskDrives">
+            <summary>
+            Список дисков
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.CPU">
+            <summary>
+            Центральный процессор
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.Motherboard">
+            <summary>
+            Материнская плата
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.GraphicsCard">
+            <summary>
+            Видеокарта
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.PowerSupply">
+            <summary>
+            Блок питания
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.Display">
+            <summary>
+            Монитор. Не обязателен
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.ComputerCase">
+            <summary>
+            Корпус
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.Keyboard">
+            <summary>
+            Клавиатура. Не обязательна
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.Mouse">
+            <summary>
+            Мышь. Не обязательна
+            </summary>
+        </member>
+        <member name="P:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.CPUCooler">
+            <summary>
+            Кулер для процессора
+            </summary>
+        </member>
+        <member name="M:GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly.PreparedAssemblyWrapper.#ctor">
+            <summary>
+            Стандартный конструктор
+            </summary>
+        </member>
+        <member name="T:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor">
+            <summary>
+            Перечисление-обёртка для типа товара
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.ComputerCase">
+            <summary>
+            Компьютерный корпус
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.CPU">
+            <summary>
+            Центральный процессор
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.CPUCooler">
+            <summary>
+            Кулер для процессора
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.Display">
+            <summary>
+            Монитор
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.GraphicsCard">
+            <summary>
+            Видеокарта
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.HDD">
+            <summary>
+            Жёсткий диск
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.Keyboard">
+            <summary>
+            Клавиатура
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.Motherboard">
+            <summary>
+            Материнская плата
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.Mouse">
+            <summary>
+            Мышь
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.NVMeSSD">
+            <summary>
+            Твердотельный накопитель NVMe
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.PowerSupply">
+            <summary>
+            Блок питания
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.PreparedAssembly">
+            <summary>
+            Готовая сборка
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.RAM">
+            <summary>
+            ОЗУ
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.SataSSD">
+            <summary>
+            Твердотельный накопитель Sata
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.ItemTypeDescriptor.Unknown">
+            <summary>
+            Неизвестный тип
+            </summary>
+        </member>
+        <member name="T:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor">
+            <summary>
+            Перечисление-обёртка для статуса заказа
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor.Created">
+            <summary>
+            Создан
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor.Confirmed">
+            <summary>
+            Подтверждён
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor.AwaitsPayment">
+            <summary>
+            Ожидает оплаты
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor.Paid">
+            <summary>
+            Оплачен
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor.Processing">
+            <summary>
+            Обрабатывается
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor.Delivering">
+            <summary>
+            Доставляется
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor.Received">
+            <summary>
+            Получен
+            </summary>
+        </member>
+        <member name="F:GenosStorExpress.Application.Wrappers.Enum.OrderStatusDescriptor.Cancelled">
+            <summary>
+            Отменён
+            </summary>
+        </member>
+    </members>
+</doc>

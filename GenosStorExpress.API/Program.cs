@@ -124,8 +124,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => {
 	var basePath = AppContext.BaseDirectory;
 
-	var xmlPath = Path.Combine(basePath, "docs.xml");
-	options.IncludeXmlComments(xmlPath);
+	var xmlPathApi = Path.Combine(basePath, "docs.xml");
+	var xmlPathApp = Path.Combine(basePath, "docs_app.xml");
+	options.IncludeXmlComments(xmlPathApi);
+	options.IncludeXmlComments(xmlPathApp);
 });
 
 

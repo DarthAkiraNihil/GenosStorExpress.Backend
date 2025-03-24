@@ -10,6 +10,10 @@ using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.ComputerComponents {
+    
+    /// <summary>
+    /// Реализация сервиса центральных процессоров
+    /// </summary>
     public class CPUService: AbstractComputerComponentService, ICPUService {
         private readonly IGenosStorExpressRepositories _repositories;
         private readonly ICPURepository _cpus;
@@ -17,6 +21,15 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly ICPUSocketService _cpusSocketService;
         private readonly IRAMTypeService _ramTypeService;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="itemTypeService">Сервис типов предметов</param>
+        /// <param name="vendorService">Сервис производителей</param>
+        /// <param name="repositories">Репозитории проекта</param>
+        /// <param name="cpuCoreService">Сервис ядер процессоров</param>
+        /// <param name="cpusSocketService">Сервис сокетов процессоров</param>
+        /// <param name="ramTypeService">Сервис типов ОЗУ</param>
         public CPUService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, ICPUCoreService cpuCoreService, ICPUSocketService cpusSocketService, IRAMTypeService ramTypeService) : base(itemTypeService, vendorService) {
             _repositories = repositories;
             _cpuCoreService = cpuCoreService;
@@ -25,6 +38,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _cpus = _repositories.Items.ComputerComponents.CPUs;
         }
 
+        /// <summary>
+        /// Создание сущности центрального процессоров из обёртки
+        /// </summary>
+        /// <param name="item">Обёрнутый кулер для процессора</param>
+        /// <exception cref="NullReferenceException">Если указанного производителя, ядра процессора, сокета или типа ОЗУ не существует</exception>
         public void Create(CPUWrapper item) {
 
             var created = new CPU();
@@ -62,6 +80,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _cpus.Create(created);
         }
 
+        /// <summary>
+        /// Получение объекта-обёртки сущности центрального процессоров по его номеру
+        /// </summary>
+        /// <param name="id">Номер процессора</param>
+        /// <returns>Обёрнутый процессор или null в случае его отсутствия</returns>
         public CPUWrapper? Get(int id) {
             CPU? obj = _cpus.Get(id);
             if (obj == null) {
@@ -86,6 +109,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             return wrapped;
         }
 
+        /// <summary>
+        /// Получение списка всех центральных процессоров в виде обёрток
+        /// </summary>
+        /// <returns>Список обёрнутых центральных процессоров</returns>
         public List<CPUWrapper> List() {
             return _cpus.List().Select(obj => {
                 var wrapped = new CPUWrapper();
@@ -108,6 +135,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             }).ToList();
         }
 
+        /// <summary>
+        /// Обновление сущности центрального процессоров
+        /// </summary>
+        /// <param name="id">Номер процессора</param>
+        /// <param name="item">Изменённые данные</param>
+        /// <exception cref="NullReferenceException">Если указанного производителя, ядра процессора, сокета или типа ОЗУ не существует</exception>
         public void Update(int id, CPUWrapper item) {
             
             var obj = _cpus.Get(id);
@@ -148,14 +181,27 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _cpus.Update(obj);
         }
 
+        /// <summary>
+        /// Удаление сущности центрального процессоров
+        /// </summary>
+        /// <param name="id">Номер центрального процессоров</param>
         public void Delete(int id) {
             _cpus.Delete(id);
         }
-
+        
+        /// <summary>
+        /// Сохранение базы данных
+        /// </summary>
+        /// <returns>Количество изменений</returns>
         public int Save() {
             return _repositories.Save();
         }
         
+        /// <summary>
+        /// Фильтрация списка сущностей центральных процессоров
+        /// </summary>
+        /// <param name="filters">Список фильтров</param>
+        /// <returns>Отфильтрованный список обёрток центральных процессоров</returns>
         public List<CPUWrapper> Filter(List<Func<CPUWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {

@@ -10,6 +10,9 @@ using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.ComputerComponents {
+    /// <summary>
+    /// Реализация сервиса материнских плат
+    /// </summary>
     public class MotherboardService: AbstractComputerComponentService, IMotherboardService {
 
         private readonly IGenosStorExpressRepositories _repositories;
@@ -24,6 +27,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly IAudioChipsetService _audioChipsetService;
         private readonly INetworkAdapterService _networkAdapterService;
 
+        /// <summary>
+        /// Создание сущности материнской платы из обёртки
+        /// </summary>
+        /// <param name="item">Обёрнутая материнская плата</param>
+        /// <exception cref="NullReferenceException">
+        ///     Если какого-то из параметров, указывающих на другие сущности, не существует
+        /// </exception>
         public void Create(MotherboardWrapper item) {
             
             var created = new Motherboard();
@@ -105,6 +115,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
         }
 
+        /// <summary>
+        /// Получение объекта-обёртки сущности материнской платы по его номеру
+        /// </summary>
+        /// <param name="id">Номер платаа</param>
+        /// <returns>Обёрнутая плата или null в случае его отсутствия</returns>
         public MotherboardWrapper? Get(int id) {
             Motherboard? obj =  _motherboards.Get(id);
             if (obj == null) {
@@ -138,6 +153,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             return wrapped;
         }
 
+        /// <summary>
+        /// Получение списка всех материнских плат в виде обёрток
+        /// </summary>
+        /// <returns>Список обёрнутых материнских плат</returns>
         public List<MotherboardWrapper> List() {
             return _motherboards.List().Select(obj => {
                 var wrapped = new MotherboardWrapper();
@@ -169,6 +188,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             }).ToList();
         }
 
+        /// <summary>
+        /// Обновление сущности материнской платы
+        /// </summary>
+        /// <param name="id">Номер платы</param>
+        /// <param name="item">Изменённые данные</param>
+        /// <exception cref="NullReferenceException">Если какого-то из параметров, указывающих на другие сущности, или самой сущности не существует</exception>
         public void Update(int id, MotherboardWrapper item) {
             
             var obj = _motherboards.Get(id);
@@ -253,10 +278,19 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
         }
 
+        /// <summary>
+        /// Удаление сущности материнской платы
+        /// </summary>
+        /// <param name="id">Номер материнской платы</param>
         public void Delete(int id) {
             _motherboards.Delete(id);
         }
 
+        /// <summary>
+        /// Фильтрация списка сущностей материнских плат
+        /// </summary>
+        /// <param name="filters">Список фильтров</param>
+        /// <returns>Отфильтрованный список обёрток материнских плат</returns>
         public List<MotherboardWrapper> Filter(List<Func<MotherboardWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {
@@ -265,10 +299,29 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             return result;
         }
         
+        /// <summary>
+        /// Сохранение базы данных
+        /// </summary>
+        /// <returns>Количество изменений</returns>
         public int Save() {
             return _repositories.Save();
         }
 
+        /// <summary>
+        /// Стандартный конструктор
+        /// </summary>
+        /// <param name="itemTypeService">Сервис типов предметов</param>
+        /// <param name="vendorService">Сервис производителей</param>
+        /// <param name="repositories">Репозитории проекта</param>
+        /// <param name="cpuCoreService">Сервис ядер процессоров</param>
+        /// <param name="ramTypeService">Сервис типов ОЗУ</param>
+        /// <param name="videoPortService">Сервис видеопортов</param>
+        /// <param name="motherboardFormFactorService">Сервис форм-факторов материнских плат</param>
+        /// <param name="cpusocketService">Сервис сокетов процессоров</param>
+        /// <param name="pCieVersionService">Сервис версий PCI-e</param>
+        /// <param name="motherboardChipsetService">Сервис чипсетов материнских плат</param>
+        /// <param name="audioChipsetService">Сервис аудиочипсетов</param>
+        /// <param name="networkAdapterService">Сервис сетевых адаптеров</param>
         public MotherboardService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, ICPUCoreService cpuCoreService, IRAMTypeService ramTypeService, IVideoPortService videoPortService, IMotherboardFormFactorService motherboardFormFactorService, ICPUSocketService cpusocketService, IPCIEVersionService pCieVersionService, IMotherboardChipsetService motherboardChipsetService, IAudioChipsetService audioChipsetService, INetworkAdapterService networkAdapterService) : base(itemTypeService, vendorService) {
             _repositories = repositories;
             _cpuCoreService = cpuCoreService;

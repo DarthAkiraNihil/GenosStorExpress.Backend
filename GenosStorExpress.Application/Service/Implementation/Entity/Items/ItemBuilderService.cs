@@ -8,6 +8,11 @@ using GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items;
 
+/// <summary>
+/// Реализация сервиса-конвертера (сущность товара -> обёртка и наоборот).
+/// Используется для обеспечения корректного вызова всех сервисов товаров, так как извне приходят изначально
+/// данные, структура которых заранее неизвестна, с чем сервисы не работают
+/// </summary>
 public class ItemBuilderService: IItemBuilderService {
 
     private void _buildBase(ItemWrapper target, AnonymousItemWrapper source) {
@@ -72,6 +77,11 @@ public class ItemBuilderService: IItemBuilderService {
         target.Characteristics.Add("controller", source.Controller);
     }
     
+    /// <summary>
+    /// Создание обёртки корпуса из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка корпуса</returns>
     public ComputerCaseWrapper BuildComputerCase(AnonymousItemWrapper wrapper) {
         var built = new ComputerCaseWrapper();
         _buildBase(built, wrapper);
@@ -92,6 +102,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки кулера для процессора из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка кулера для процессора</returns>
     public CPUCoolerWrapper BuildCPUCooler(AnonymousItemWrapper wrapper) {
         var built = new CPUCoolerWrapper();
         _buildBase(built, wrapper);
@@ -107,6 +122,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки центрального процессора из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка центрального процессора</returns>
     public CPUWrapper BuildCPU(AnonymousItemWrapper wrapper) {
         var built = new CPUWrapper();
         _buildBase(built, wrapper);
@@ -136,6 +156,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки монитора из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка монитора</returns>
     public DisplayWrapper BuildDisplay(AnonymousItemWrapper wrapper) {
         var built = new DisplayWrapper();
         _buildBase(built, wrapper);
@@ -158,6 +183,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки видеокарты из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка видеокарты</returns>
     public GraphicsCardWrapper BuildGraphicsCard(AnonymousItemWrapper wrapper) {
         var built = new GraphicsCardWrapper();
         _buildBase(built, wrapper);
@@ -182,6 +212,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки жёсткого диска из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка жёсткого диска</returns>
     public HDDWrapper BuildHDD(AnonymousItemWrapper wrapper) {
         var built = new HDDWrapper();
         _buildBase(built, wrapper);
@@ -193,6 +228,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки клавиатуры из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка клавиатуры</returns>
     public KeyboardWrapper BuildKeyboard(AnonymousItemWrapper wrapper) {
         var built = new KeyboardWrapper();
         _buildBase(built, wrapper);
@@ -206,6 +246,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки материнской платы из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка материнской платы</returns>
     public MotherboardWrapper BuildMotherboard(AnonymousItemWrapper wrapper) {
         
         var built = new MotherboardWrapper();
@@ -268,6 +313,11 @@ public class ItemBuilderService: IItemBuilderService {
         
     }
 
+    /// <summary>
+    /// Создание обёртки мыши из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка мыши</returns>
     public MouseWrapper BuildMouse(AnonymousItemWrapper wrapper) {
         var built = new MouseWrapper();
         _buildBase(built, wrapper);
@@ -283,6 +333,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки твердотельного накопителя NVMe из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка твердотельного накопителя NVMe</returns>
     public NVMeSSDWrapper BuildNVMeSSD(AnonymousItemWrapper wrapper) {
         var built = new NVMeSSDWrapper();
         _buildBase(built, wrapper);
@@ -292,6 +347,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки блока питания из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка блока питания</returns>
     public PowerSupplyWrapper BuildPowerSupply(AnonymousItemWrapper wrapper) {
         var built = new PowerSupplyWrapper();
         _buildBase(built, wrapper);
@@ -305,6 +365,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки ОЗУ из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка ОЗУ</returns>
     public RAMWrapper BuildRAM(AnonymousItemWrapper wrapper) {
         var built = new RAMWrapper();
         _buildBase(built, wrapper);
@@ -323,6 +388,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки твердотельного накопителя Sata из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка твердотельного накопителя Sata</returns>
     public SataSSDWrapper BuildSataSSD(AnonymousItemWrapper wrapper) {
         var built = new SataSSDWrapper();
         _buildBase(built, wrapper);
@@ -332,6 +402,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из корпуса 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемый корпус</param>
+    /// <returns>Анонимная обёртка корпуса</returns>
     public AnonymousItemWrapper BuildWrapper(ComputerCaseWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -350,6 +425,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из кулера для процессора 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемый кулер для процессора</param>
+    /// <returns>Анонимная обёртка кулера для процессора</returns>
     public AnonymousItemWrapper BuildWrapper(CPUCoolerWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -369,6 +449,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из центрального процессора 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемый центральный процессор</param>
+    /// <returns>Анонимная обёртка центрального процессора</returns>
     public AnonymousItemWrapper BuildWrapper(CPUWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -391,6 +476,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из монитора 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемый монитор</param>
+    /// <returns>Анонимная обёртка монитора</returns>
     public AnonymousItemWrapper BuildWrapper(DisplayWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -408,6 +498,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из видеокарты 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемая видеокарта</param>
+    /// <returns>Анонимная обёртка видеокарты</returns>
     public AnonymousItemWrapper BuildWrapper(GraphicsCardWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -426,6 +521,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из жёсткого диска 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемый жёсткий диск</param>
+    /// <returns>Анонимная обёртка жёсткого диска</returns>
     public AnonymousItemWrapper BuildWrapper(HDDWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -437,6 +537,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из клавиатуры 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемая клавиатура</param>
+    /// <returns>Анонимная обёртка клавиатуры</returns>
     public AnonymousItemWrapper BuildWrapper(KeyboardWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -452,6 +557,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из материнской платы 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемая материнская плата</param>
+    /// <returns>Анонимная обёртка материнской платы</returns>
     public AnonymousItemWrapper BuildWrapper(MotherboardWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -483,6 +593,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из мыши 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемая мышь</param>
+    /// <returns>Анонимная обёртка мыши</returns>
     public AnonymousItemWrapper BuildWrapper(MouseWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -498,6 +613,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из твердотельного накопителя NVMe 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемый накопитель</param>
+    /// <returns>Анонимная обёртка твердотельного накопителя NVMe</returns>
     public AnonymousItemWrapper BuildWrapper(NVMeSSDWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -507,6 +627,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из блока питания 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемый блок питания</param>
+    /// <returns>Анонимная обёртка блока питания</returns>
     public AnonymousItemWrapper BuildWrapper(PowerSupplyWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -522,6 +647,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из ОЗУ 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемое ОЗУ</param>
+    /// <returns>Анонимная обёртка ОЗУ</returns>
     public AnonymousItemWrapper BuildWrapper(RAMWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -542,6 +672,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание анонимной обёртки из твердотельного накопителя Sata 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемый накопитель</param>
+    /// <returns>Анонимная обёртка твердотельного накопителя Sata</returns>
     public AnonymousItemWrapper BuildWrapper(SataSSDWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);
@@ -551,7 +686,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
-
+    /// <summary>
+    /// Создание анонимной обёртки из готовой сборки 
+    /// </summary>
+    /// <param name="wrapper">Оборачиваемая готовая сборка</param>
+    /// <returns>Анонимная обёртка готовой сборки</returns>
     public PreparedAssemblyWrapper BuildPreparedAssembly(AnonymousItemWrapper wrapper) {
         var built = new PreparedAssemblyWrapper();
         _buildBase(built, wrapper);
@@ -578,6 +717,11 @@ public class ItemBuilderService: IItemBuilderService {
         return built;
     }
 
+    /// <summary>
+    /// Создание обёртки готовой сборки из анонимной обёртки товара
+    /// </summary>
+    /// <param name="wrapper">Анонимная обёртка</param>
+    /// <returns>Обёртка готовой сборки</returns>
     public AnonymousItemWrapper BuildWrapper(PreparedAssemblyWrapper wrapper) {
         var built = new AnonymousItemWrapper();
         _buildBaseAnonymous(built, wrapper);

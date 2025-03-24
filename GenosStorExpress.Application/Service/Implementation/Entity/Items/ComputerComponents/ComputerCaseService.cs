@@ -8,11 +8,24 @@ using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.ComputerComponents {
+    
+    /// <summary>
+    /// Реализация сервиса компьютерных корпусов
+    /// </summary>
     public class ComputerCaseService: AbstractComputerComponentService, IComputerCaseService {
         private readonly IGenosStorExpressRepositories _repositories;
         private readonly IComputerCaseRepository _computerCases;
         private readonly IComputerCaseTypesizeService _computerCaseTypesizeService;
         private readonly IMotherboardFormFactorService _motherboardFormFactorService;
+        
+        /// <summary>
+        /// Стандартный конструктор
+        /// </summary>
+        /// <param name="itemTypeService">Сервис типов предметов</param>
+        /// <param name="vendorService">Сервис производителей</param>
+        /// <param name="repositories">Репозитории проекта</param>
+        /// <param name="computerCaseTypesizeService">Сервис типоразмеров корпусов</param>
+        /// <param name="motherboardFormFactorService">Сервис форм-факторов материнских плат</param>
 
         public ComputerCaseService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IComputerCaseTypesizeService computerCaseTypesizeService, IMotherboardFormFactorService motherboardFormFactorService) : base(itemTypeService, vendorService) {
             _repositories = repositories;
@@ -21,6 +34,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _motherboardFormFactorService = motherboardFormFactorService;
         }
         
+        /// <summary>
+        /// Создание сущности компьютерного корпуса из обёртки
+        /// </summary>
+        /// <param name="item">Обёрнутый компьютерный корпус</param>
+        /// <exception cref="NullReferenceException">Если указанного производителя, типоразмера или форм-фактора мат. платы не существует</exception>
         public void Create(ComputerCaseWrapper item) {
             
             var created = new ComputerCase();
@@ -51,6 +69,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             
         }
 
+        /// <summary>
+        /// Получение объекта-обёртки сущности кулера для процессора по его номеру
+        /// </summary>
+        /// <param name="id">Номер корпуса</param>
+        /// <returns>Обёрнутый корпус или null в случае его отсутствия</returns>
         public ComputerCaseWrapper? Get(int id) {
             ComputerCase? obj =  _computerCases.Get(id);
 
@@ -75,6 +98,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             return wrapped;
         }
 
+        /// <summary>
+        /// Получение списка всех компьютерных корпусов в виде обёрток
+        /// </summary>
+        /// <returns>Список обёрнутых компьютерных корпусов</returns>
         public List<ComputerCaseWrapper> List() {
             return _computerCases.List().Select(
                 obj => {
@@ -94,6 +121,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             ).ToList();
         }
 
+        /// <summary>
+        /// Обновление сущности компьютерного корпуса
+        /// </summary>
+        /// <param name="id">Номер кулера</param>
+        /// <param name="item">Изменённые данные</param>
+        /// <exception cref="NullReferenceException">Если указанного производителя, типоразмера или форм-фактора мат. платы не существует</exception>
         public void Update(int id, ComputerCaseWrapper item) {
             ComputerCase? obj = _computerCases.Get(id);
             
@@ -118,10 +151,19 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             _computerCases.Update(obj);
         }
 
+        /// <summary>
+        /// Удаление сущности компьютерного корпуса
+        /// </summary>
+        /// <param name="id">Номер компьютерного корпуса</param>
         public void Delete(int id) {
             _repositories.Items.ComputerComponents.ComputerCases.Delete(id);
         }
 
+        /// <summary>
+        /// Фильтрация списка сущностей компьютерных корпусов
+        /// </summary>
+        /// <param name="filters">Список фильтров</param>
+        /// <returns>Отфильтрованный список обёрток компьютерных корпусов</returns>
         public List<ComputerCaseWrapper> Filter(List<Func<ComputerCaseWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {
@@ -130,6 +172,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             return result;
         }
 
+        /// <summary>
+        /// Сохранение базы данных
+        /// </summary>
+        /// <returns>Количество изменений</returns>
         public int Save() {
             return _repositories.Save();
         }

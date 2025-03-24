@@ -7,6 +7,9 @@ using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Domain.Interface;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
+    /// <summary>
+    /// Интерфейс для сервиса заказов
+    /// </summary>
     public class OrderService: IOrderService {
 
         private readonly IGenosStorExpressRepositories _repositories;
@@ -14,6 +17,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         private readonly IOrderStatusService _orderStatusService;
         private readonly IAllItemsService _allItemsService;
 
+        /// <summary>
+        /// Стандартный конструктор
+        /// </summary>
+        /// <param name="repositories">Репозитории с данными</param>
+        /// <param name="cartService">Сервис корзин</param>
+        /// <param name="orderStatusService">Сервис статусов заказов</param>
+        /// <param name="allItemsService">Общий сервис товаров</param>
         public OrderService(IGenosStorExpressRepositories repositories, ICartService cartService, IOrderStatusService orderStatusService, IAllItemsService allItemsService) {
             _repositories = repositories;
             _cartService = cartService;
@@ -21,6 +31,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _allItemsService = allItemsService;
         }
         
+        /// <summary>
+        /// Получение заказа по номеру
+        /// </summary>
+        /// <param name="orderId">Номер заказа</param>
+        /// <param name="customerId">Номер заказчика</param>
+        /// <returns>Обёртку заказа или null, если у покупателя такой заказ отсутствует</returns>
+        /// <exception cref="NullReferenceException">Если заказа не существует</exception>
         public OrderWrapper Get(int orderId, string customerId) {
             Order? order = _repositories.Orders.Orders.Get(orderId);
 
@@ -41,6 +58,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             };
         }
 
+        /// <summary>
+        /// Получение списка заказов покупателя
+        /// </summary>
+        /// <param name="customerId">Номер покупателя</param>
+        /// <returns>Список всех заказов покупателя</returns>
         public IList<OrderWrapper> List(string customerId) {
             var orders = _repositories.Orders.Orders.List().Where(o => o.Customer.Id == customerId).ToList();
 
@@ -57,6 +79,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             }).ToList();
         }
 
+        /// <summary>
+        /// Перевод заказа в статус "Получен"
+        /// </summary>
+        /// <param name="orderId">Номер заказа</param>
+        /// <exception cref="NullReferenceException">Если заказа не существует</exception>
         public double CalculateTotal(int orderId) {
             Order? order = _repositories.Orders.Orders.Get(orderId);
 
@@ -75,6 +102,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             return customer;
         }
         
+        /// <summary>
+        /// Создание заказа из корзины
+        /// </summary>
+        /// <param name="customerId">Номер покупателя</param>
+        /// <returns>Краткую информацию о созданном заказе</returns>
+        /// <exception cref="NullReferenceException">Если покупателя не существует или если в базе данных нет статуса "Создан"</exception>
         public ShortOrderWrapper CreateOrderFromCart(string customerId) {
             
             Customer? customer = _getCustomer(customerId);
@@ -119,6 +152,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             };
         }
 
+        /// <summary>
+        /// Перевод заказа в статус "Отменён"
+        /// </summary>
+        /// <param name="orderId">Номер заказа</param>
+        /// <exception cref="NullReferenceException">Если заказа не существует или если в базе данных нет статуса "Получен"</exception>
         public void ReceiveOrder(int orderId) {
             
             Order? order = _repositories.Orders.Orders.Get(orderId);
@@ -139,6 +177,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             
         }
 
+        /// <summary>
+        /// Получение списка активных заказов
+        /// </summary>
+        /// <returns>Список активных (не отменённых и не полученных) заказов</returns>
+        /// <exception cref="NullReferenceException">Если заказа не существует или если в базе данных нет статуса "Отменён"</exception>
         public void CancelOrder(int orderId) {
             
             Order? order = _repositories.Orders.Orders.Get(orderId);
@@ -159,10 +202,19 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             
         }
         
+        /// <summary>
+        /// Проверка существования заказа
+        /// </summary>
+        /// <param name="orderId">Номер заказа</param>
+        /// <returns><c>true</c> если заказ существует, иначе <c>false</c></returns>
         public bool OrderExists(int orderId) {
             return Get(orderId) != null;
         }
 
+        /// <summary>
+        /// Получение списка активных заказов
+        /// </summary>
+        /// <returns>Список активных (не отменённых и не полученных) заказов</returns>
         public List<ShortOrderWrapper> GetActiveOrders() {
             return List().Where(
                 o => o.OrderStatus.Name != "Cancelled" && o.OrderStatus.Name != "Received"
@@ -172,6 +224,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             }).ToList();
         }
 
+        /// <summary>
+        /// Получение списка активных заказов в сыром виде. Только для администратора
+        /// </summary>
+        /// <param name="sudoId">Номер администратора</param>
+        /// <returns>Список активных (не отменённых и не полученных) заказов в виде сущностей</returns>
         public List<Order> GetActiveOrdersRaw(string sudoId) {
             Administrator? sudo = _repositories.Users.Administrators.Get(sudoId);
             if (sudo == null) {
@@ -198,11 +255,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         private void Update(Order item) {
             _repositories.Orders.Orders.Update(item);
         }
-
-        public List<Order> ListOfSpecificCustomer(Customer customer) {
-	        return List().Where(o => o.Customer.Id == customer.Id).ToList();
-        }
-
+        
+        /// <summary>
+        /// Сохранение данных репозиториев
+        /// </summary>
+        /// <returns>Количество сохранённых сущностей</returns>
         public int Save() {
             return _repositories.Save();
         }

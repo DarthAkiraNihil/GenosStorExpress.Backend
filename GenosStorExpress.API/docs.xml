@@ -49,13 +49,14 @@
             Важно отметить, что некоторые операций может выполнить только администротор.
             </summary>
         </member>
-        <member name="M:GenosStorExpress.API.Controllers.ItemsController.#ctor(GenosStorExpress.Application.Service.Interface.Entity.Items.IItemServiceRouter,GenosStorExpress.Application.Service.Interface.Entity.Items.IItemTypeService,GenosStorExpress.Application.Service.Interface.Entity.Items.IItemImageService)">
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.#ctor(GenosStorExpress.Application.Service.Interface.Entity.Items.IItemServiceRouter,GenosStorExpress.Application.Service.Interface.Entity.Items.IItemTypeService,GenosStorExpress.Application.Service.Interface.Entity.Items.IItemImageService,GenosStorExpress.Application.Service.Interface.Entity.Items.IAllItemsService)">
             <summary>
             Стандартный конструктор
             </summary>
             <param name="itemServiceRouter">Маршрутизатор сервисов товаров по типам</param>
             <param name="itemTypeService">Сервис типов товаров</param>
             <param name="itemImageService">Сервис изображений товаров</param>
+            /// <param name="itemsService">Общий сервис товаров</param>
         </member>
         <member name="M:GenosStorExpress.API.Controllers.ItemsController.List(System.String)">
             <summary>
@@ -103,10 +104,52 @@
             <param name="id">Номер товара</param>
             <returns>Изображение товара</returns>
         </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.LeaveReview(System.Int32,GenosStorExpress.Application.Wrappers.Entity.Item.ReviewWrapper)">
+            <summary>
+            Оставление отзыва на товар
+            </summary>
+            <param name="id">Номер товара</param>
+            <param name="review">Отзыв</param>
+            <response code="204">Успех</response>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.ItemsController.GetReviews(System.Int32)">
+            <summary>
+            Получение отзывов на товар
+            </summary>
+            <param name="id">Номер товара</param>
+            <returns>Список отзывов</returns>
+            <response code="200">Успех</response>
+        </member>
         <member name="T:GenosStorExpress.API.Controllers.OrdersController">
             <summary>
             Контроллер <c>OrdersController</c> предоставляет методы для управления заказами
             </summary>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.OrdersController.#ctor(Microsoft.AspNetCore.Identity.UserManager{GenosStorExpress.Domain.Entity.User.User},GenosStorExpress.Application.Service.Interface.Entity.Orders.IOrderService)">
+            <summary>
+            Стандартный конструктор
+            </summary>
+            <param name="userManager">Менеджер пользователей</param>
+            <param name="orderService">Сервис заказов</param>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.OrdersController.GetDetails(System.Int32)">
+            <summary>
+            Получение деталей заказа
+            </summary>
+            <param name="id">Номер заказа</param>
+            <returns>Подробную информацию о заказе</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.OrdersController.GetList">
+            <summary>
+            Получение списка заказов текущего пользователя
+            </summary>
+            <returns>Список заказов текущего пользователя</returns>
+        </member>
+        <member name="M:GenosStorExpress.API.Controllers.OrdersController.CreateOrder">
+            <summary>
+            Создание заказа (из корзины)
+            </summary>
+            <returns>Краткая информация о созданном заказе</returns>
         </member>
         <member name="T:GenosStorExpress.API.Controllers.ReportsController">
             <summary>

@@ -16,8 +16,7 @@ namespace GenosStorExpress.API.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/account")]
-public class AccountController : ControllerBase {
-    private readonly UserManager<User> _userManager;
+public class AccountController : AbstractController {
     private readonly SignInManager<User> _signInManager;
     private readonly IConfiguration _configuration;
 
@@ -27,8 +26,7 @@ public class AccountController : ControllerBase {
     /// <param name="userManager">Стандартный менеджер пользователей</param>
     /// <param name="signInManager">Менеджер аутентификации</param>
     /// <param name="configuration">Конфигурация</param>
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration) {
-        _userManager = userManager;
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration) : base(userManager) {
         _signInManager = signInManager;
         _configuration = configuration;
     }

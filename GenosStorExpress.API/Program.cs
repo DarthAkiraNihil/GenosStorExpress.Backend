@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -125,10 +126,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => {
 	var basePath = AppContext.BaseDirectory;
 
-	var xmlPathApi = Path.Combine(basePath, "docs.xml");
-	var xmlPathApp = Path.Combine(basePath, "docs_app.xml");
+	var xmlPathApi = Path.Combine(basePath, "GenosStorExpress.API.xml");
+	var xmlPathApp = Path.Combine(basePath, "GenosStorExpress.Application.xml");
+	
 	options.IncludeXmlComments(xmlPathApi);
 	options.IncludeXmlComments(xmlPathApp);
+	
+	options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme {
+		Type = SecuritySchemeType.Http,
+		Scheme = "bearer",
+		BearerFormat = "JWT",
+		Description = "Авторизация с помощью токена JWT"
+	});
 });
 
 
@@ -157,8 +166,7 @@ builder.Services
 	       };
        });
 
-builder.Services.AddAuthorization(options =>
-{
+builder.Services.AddAuthorization(options => {
 	options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("administrator"));
 	options.AddPolicy("RequireIndividualEntityRole", policy => policy.RequireRole("individual_entity"));
 	options.AddPolicy("RequireLegalEntityRole", policy => policy.RequireRole("legal_entity"));
@@ -167,11 +175,9 @@ builder.Services.AddAuthorization(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
+    app.UseSwaggerUI(c => {
 	    c.SwaggerEndpoint("/swagger/v1/swagger.json", "GenosStorExpress API V1");
 	    c.RoutePrefix = string.Empty;
     });

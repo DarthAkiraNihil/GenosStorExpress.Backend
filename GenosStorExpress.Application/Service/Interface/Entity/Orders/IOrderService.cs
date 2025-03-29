@@ -23,6 +23,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
         /// <summary>
         /// Создание заказа из корзины
         /// </summary>
+        /// 
         /// <param name="customerId">Номер покупателя</param>
         /// <returns>Краткую информацию о созданном заказе</returns>
         ShortOrderWrapper CreateOrderFromCart(string customerId);

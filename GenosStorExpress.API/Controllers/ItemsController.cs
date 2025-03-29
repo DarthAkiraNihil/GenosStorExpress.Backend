@@ -1,8 +1,10 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
+using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Utils;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -14,11 +16,12 @@ namespace GenosStorExpress.API.Controllers {
     /// </summary>
     [Route("api/items")]
     [ApiController]
-    public class ItemsController : ControllerBase {
+    public class ItemsController : AbstractController {
         
         private readonly IItemServiceRouter _itemServiceRouter;
         private readonly IItemTypeService _itemTypeService;
         private readonly IItemImageService _itemImageService;
+        private readonly IAllItemsService _itemsService;
 
         /// <summary>
         /// Стандартный конструктор
@@ -26,12 +29,15 @@ namespace GenosStorExpress.API.Controllers {
         /// <param name="itemServiceRouter">Маршрутизатор сервисов товаров по типам</param>
         /// <param name="itemTypeService">Сервис типов товаров</param>
         /// <param name="itemImageService">Сервис изображений товаров</param>
-        public ItemsController(IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService, IItemImageService itemImageService) {
+        /// <param name="itemsService">Общий сервис товаров</param>
+        /// <param name="userManager">Менеджер пользователей</param>
+        public ItemsController(UserManager<User> userManager, IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService, IItemImageService itemImageService, IAllItemsService itemsService) : base(userManager) {
             _itemServiceRouter = itemServiceRouter;
             _itemTypeService = itemTypeService;
             _itemImageService = itemImageService;
+            _itemsService = itemsService;
         }
-        
+
         /// <summary>
         /// Получение списка товаров определённой категории 
         /// </summary>
@@ -80,15 +86,16 @@ namespace GenosStorExpress.API.Controllers {
             if (descriptor == ItemTypeDescriptor.Unknown) {
                 return BadRequest(new DetailObject($"Неизвестный тип товара - {type}"));
             }
-            
+
             try {
                 AnonymousItemWrapper item = _itemServiceRouter.Get(descriptor, id);
                 return Ok(item);
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
-            } catch (Exception e) {
-                return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
             }
+            // } catch (Exception e) {
+            //     return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+            // }
 
         }
         
@@ -194,5 +201,69 @@ namespace GenosStorExpress.API.Controllers {
                 return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
             }
         }
+        
+        /// <summary>
+        /// Оставление отзыва на товар
+        /// </summary>
+        /// <param name="id">Номер товара</param>
+        /// <param name="review">Отзыв</param>
+        /// <response code="204">Успех</response>
+        [Authorize(Roles = "individual_entity,legal_entity")]
+        [HttpGet("{id:int}/leave_review")]
+        public IActionResult LeaveReview(int id, [FromBody]ReviewWrapper review) {
+            try {
+                _itemsService.LeaveReview(id, review);
+                return NoContent();
+            } catch (NullReferenceException e) {
+                return BadRequest(new DetailObject(e.Message));
+            } catch (Exception e) {
+                return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+            }
+        }
+        
+        /// <summary>
+        /// Получение отзывов на товар
+        /// </summary>
+        /// <param name="id">Номер товара</param>
+        /// <returns>Список отзывов</returns>
+        /// <response code="200">Успех</response>
+        [HttpGet("{id:int}/reviews")]
+        public IActionResult GetReviews(int id) {
+            try {
+                return Ok(_itemsService.GetReviews(id));
+            } catch (NullReferenceException e) {
+                return BadRequest(new DetailObject(e.Message));
+            } catch (Exception e) {
+                return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+            }
+        }
+        
+        /// <summary>
+        /// Установка изображения товара. Только под администратором.
+        /// </summary>
+        /// <param name="id">Номер товара</param>
+        /// <param name="file">Изображение товара</param>
+        /// <returns>204 в случае успеха</returns>
+        [Authorize(Roles = "administrator")]
+        [HttpGet("{id:int}/set_image")]
+        public IActionResult SetImage(int id, IFormFile file) {
+            
+            User? user = _getCurrentUser();
+            if (user is null) {
+                return Unauthorized(new DetailObject("Доступ запрещён"));
+            }
+
+            try {
+                var stream = new MemoryStream();
+                file.CopyTo(stream);
+                _itemsService.SetImage(user.Id, id, stream);
+                return NoContent();
+            } catch (NullReferenceException e) {
+                return BadRequest(new DetailObject(e.Message));
+            } catch (Exception e) {
+                return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+            }
+        }
+    
     }
 }

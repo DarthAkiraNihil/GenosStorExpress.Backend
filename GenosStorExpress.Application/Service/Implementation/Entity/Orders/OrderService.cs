@@ -129,6 +129,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 CreatedAt = DateTime.Now,
                 OrderStatus = status
             };
+
+            if (cart.Items.Count == 0) {
+                throw new InvalidOperationException("Корзина пуста. Создать заказ невозможно");
+            }
             
             foreach (var item in cart.Items) {
                 var discount = item.Item.ActiveDiscount;

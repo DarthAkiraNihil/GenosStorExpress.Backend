@@ -2,7 +2,8 @@
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IMotherboardFormFactorService: IEnumService<MotherboardFormFactor> {
-		
-    }
+    /// <summary>
+    /// Интерфейс сервиса форм-факторов материнских плат
+    /// </summary>
+    public interface IMotherboardFormFactorService : IEnumService<MotherboardFormFactor>;
 }

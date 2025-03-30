@@ -4,9 +4,10 @@ using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents {
-    public interface ICPUCoreService:
+    /// <summary>
+    /// Интерфейс сервиса ядер процессоров
+    /// </summary>
+    public interface ICPUCoreService :
         IStandardService<CPUCoreWrapper>,
-        ISupportsGetRaw<CPUCore> {
-		
-    }
+        ISupportsGetRaw<CPUCore>;
 }

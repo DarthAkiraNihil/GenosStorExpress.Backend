@@ -2,7 +2,8 @@
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IVesaSizeService: IEnumService<VesaSize> {
-		
-    }
+    /// <summary>
+    /// Интерфейс сервиса размеров Vesa
+    /// </summary>
+    public interface IVesaSizeService : IEnumService<VesaSize>;
 }

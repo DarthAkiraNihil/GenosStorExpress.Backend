@@ -4,8 +4,11 @@ using GenosStorExpress.Domain.Entity.Item.Characteristic;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IDefinitionService:
+
+    /// <summary>
+    /// Интерфейс сервиса разрешений мониторов
+    /// </summary>
+    public interface IDefinitionService :
         IStandardService<DefinitionWrapper>,
-        ISupportsGetRaw<Definition> {
-    }
+        ISupportsGetRaw<Definition>;
 }

@@ -2,7 +2,8 @@
 using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents {
-    public interface ISimpleComputerComponentTypeService: IEnumService<SimpleComputerComponentType> {
-		
-    }
+    /// <summary>
+    /// Интерфейс сервиса типов простых компьютерных компонентов
+    /// </summary>
+    public interface ISimpleComputerComponentTypeService : IEnumService<SimpleComputerComponentType>;
 }

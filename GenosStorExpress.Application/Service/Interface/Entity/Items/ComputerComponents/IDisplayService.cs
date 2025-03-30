@@ -3,6 +3,9 @@ using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents {
+    /// <summary>
+    /// Интерфейс сервиса мониторов
+    /// </summary>
     public interface IDisplayService:
         IStandardService<DisplayWrapper>,
         ISupportsFilter<DisplayWrapper> {

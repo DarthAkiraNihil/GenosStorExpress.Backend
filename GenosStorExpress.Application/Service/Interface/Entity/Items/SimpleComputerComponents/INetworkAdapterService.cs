@@ -4,9 +4,10 @@ using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents {
-    public interface INetworkAdapterService:
+    /// <summary>
+    /// Интерфейс сервиса сетевых адаптеров
+    /// </summary>
+    public interface INetworkAdapterService :
         IStandardService<NetworkAdapterWrapper>,
-        ISupportsGetRaw<NetworkAdapter> {
-		
-    }
+        ISupportsGetRaw<NetworkAdapter>;
 }

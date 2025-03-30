@@ -2,7 +2,8 @@
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IKeyboardTypesizeService: IEnumService<KeyboardTypesize> {
-		
-    }
+    /// <summary>
+    /// Интерфейс сервиса типоразмеров клавиатур
+    /// </summary>
+    public interface IKeyboardTypesizeService : IEnumService<KeyboardTypesize>;
 }

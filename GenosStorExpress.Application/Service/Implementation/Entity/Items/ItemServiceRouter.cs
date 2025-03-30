@@ -5,18 +5,35 @@ using GenosStorExpress.Application.Wrappers.Enum;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items;
 
+/// <summary>
+/// Реализация сервиса-маршрутизатора сервисов товаров
+/// </summary>
 public class ItemServiceRouter: IItemServiceRouter {
     
     private readonly IComputerComponentServices _computerComponents;
     private readonly IPreparedAssemblyService _preparedAssemblyService;
     private readonly IItemBuilderService _itemBuilderService;
 
+    /// <summary>
+    /// Стандартный конструктор
+    /// </summary>
+    /// <param name="computerComponents">Сервисы компьютерных комплектующих</param>
+    /// <param name="preparedAssemblyService">Сервис готовых сборок</param>
+    /// <param name="itemBuilderService">Сервис сборщика товаров</param>
     public ItemServiceRouter(IComputerComponentServices computerComponents, IPreparedAssemblyService preparedAssemblyService, IItemBuilderService itemBuilderService) {
         _computerComponents = computerComponents;
         _preparedAssemblyService = preparedAssemblyService;
         _itemBuilderService = itemBuilderService;
     }
 
+    /// <summary>
+    /// Получение информации о товаре по его типу по номеру
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товара</param>
+    /// <param name="id">Номер товара</param>
+    /// <returns>Анонимную обёртку товара</returns>
+    /// <exception cref="NullReferenceException">Если такого товара не существует</exception>
+    /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
     public AnonymousItemWrapper Get(ItemTypeDescriptor itemType, int id) {
         
         switch (itemType) {
@@ -126,6 +143,12 @@ public class ItemServiceRouter: IItemServiceRouter {
         throw new ArgumentException("Unknown descriptor");
     }
 
+    /// <summary>
+    /// Получение списка товаров по дескриптору
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товара</param>
+    /// <returns>Список товаров указанного типа</returns>
+    /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
     public IList<AnonymousItemWrapper> List(ItemTypeDescriptor itemType) {
         switch (itemType) {
             case ItemTypeDescriptor.ComputerCase: {
@@ -205,6 +228,12 @@ public class ItemServiceRouter: IItemServiceRouter {
         throw new ArgumentException("Unknown descriptor");
     }
 
+    /// <summary>
+    /// Создание товара по его анонимной обёртке
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товара</param>
+    /// <param name="item">Анонимная обёртка создаваемого товара</param>
+    /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
     public void Create(ItemTypeDescriptor itemType, AnonymousItemWrapper item) {
         switch (itemType) {
             case ItemTypeDescriptor.ComputerCase: {
@@ -298,6 +327,13 @@ public class ItemServiceRouter: IItemServiceRouter {
         throw new ArgumentException("Unknown descriptor");
     }
     
+    /// <summary>
+    /// Обновление информации о товаре
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товара</param>
+    /// <param name="id">Номер обновляемого товара</param>
+    /// <param name="wrapped">Анонимная обёртка с обновлёнными данными</param>
+    /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
     public void Update(ItemTypeDescriptor itemType, int id, AnonymousItemWrapper wrapped) {
         
         switch (itemType) {
@@ -364,6 +400,12 @@ public class ItemServiceRouter: IItemServiceRouter {
         throw new ArgumentException("Unknown descriptor");
     }
 
+    /// <summary>
+    /// Удаление товара
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товара</param>
+    /// <param name="id">Номер удаляемого товара</param>
+    /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
     public void Delete(ItemTypeDescriptor itemType, int id) {
         
         switch (itemType) {
@@ -430,6 +472,11 @@ public class ItemServiceRouter: IItemServiceRouter {
         throw new ArgumentException("Unknown descriptor");
     }
 
+    /// <summary>
+    /// Сохранение контекста
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товара</param>
+    /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
     public void Save(ItemTypeDescriptor itemType) {
         switch (itemType) {
             case ItemTypeDescriptor.ComputerCase: {

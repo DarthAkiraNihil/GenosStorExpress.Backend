@@ -2,7 +2,8 @@
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IUnderlightService: IEnumService<Underlight> {
-		
-    }
+    /// <summary>
+    /// Интерфейс сервиса подсветок мониторов
+    /// </summary>
+    public interface IUnderlightService : IEnumService<Underlight>;
 }

@@ -4,9 +4,10 @@ using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents {
-    public interface IMotherboardChipsetService:
+    /// <summary>
+    /// Интерфейс сервиса чипсетов материнских плат
+    /// </summary>
+    public interface IMotherboardChipsetService :
         IStandardService<MotherboardChipsetWrapper>,
-        ISupportsGetRaw<MotherboardChipset> {
-		
-    }
+        ISupportsGetRaw<MotherboardChipset>;
 }

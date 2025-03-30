@@ -2,6 +2,8 @@
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IVendorService: IEnumService<Vendor> {
-    }
+    /// <summary>
+    /// Интерфейс сервиса производителей
+    /// </summary>
+    public interface IVendorService : IEnumService<Vendor>;
 }

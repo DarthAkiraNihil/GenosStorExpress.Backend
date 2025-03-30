@@ -2,7 +2,8 @@
 using GenosStorExpress.Domain.Entity.Item.Characteristic;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics {
-    public interface IPCIEVersionService: IEnumService<PCIEVersion> {
-		
-    }
+    /// <summary>
+    /// Интерфейс сервиса версий PCI-e
+    /// </summary>
+    public interface IPCIEVersionService : IEnumService<PCIEVersion>;
 }

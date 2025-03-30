@@ -4,9 +4,10 @@ using GenosStorExpress.Domain.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents {
-    public interface IAudioChipsetService:
+    /// <summary>
+    /// Интерфейс сервиса аудиочипсетов
+    /// </summary>
+    public interface IAudioChipsetService :
         IStandardService<AudioChipsetWrapper>,
-        ISupportsGetRaw<AudioChipset> {
-		
-    }
+        ISupportsGetRaw<AudioChipset>;
 }

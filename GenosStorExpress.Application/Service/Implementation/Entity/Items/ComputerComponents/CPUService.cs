@@ -78,6 +78,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.HasIntegratedGraphics = item.HasIntegratedGraphics;
             
             _cpus.Create(created);
+            item.Id = created.Id;
         }
 
         /// <summary>

@@ -41,6 +41,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.Type = type;
             
             _rams.Create(created);
+            item.Id = created.Id;
         }
 
         public RAMWrapper? Get(int id) {

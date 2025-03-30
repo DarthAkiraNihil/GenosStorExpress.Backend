@@ -28,6 +28,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(CPU cpu) {
             _context.CPUs.Add(cpu);
+            _context.SaveChanges();
         }
 
         public void Update(CPU cpu) {

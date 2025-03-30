@@ -104,7 +104,7 @@ namespace GenosStorExpress.API.Controllers {
         /// </summary>
         /// <param name="value">Данные о создаваемом товаре</param>
         /// <returns>Информацию о созданном товаре</returns>
-        [Authorize(Roles = "administrator")]
+        //[Authorize(Roles = "administrator")]
         [HttpPost]
         public ActionResult<AnonymousItemWrapper> Create([FromBody]AnonymousItemWrapper value) {
             
@@ -132,7 +132,7 @@ namespace GenosStorExpress.API.Controllers {
         /// <param name="id">Номер товара</param>
         /// <param name="value">Обновлённая информация о товаре</param>
         /// <returns>204 в случае успеха</returns>
-        [Authorize(Roles = "administrator")]
+        //[Authorize(Roles = "administrator")]
         [HttpPut("{id:int}")]
         public IActionResult Update(int id, [FromBody]AnonymousItemWrapper value) {
             
@@ -164,7 +164,7 @@ namespace GenosStorExpress.API.Controllers {
         /// <param name="type">Тип товара. Допустимые значения</param>
         /// <param name="id">Номер товара</param>
         /// <returns>204 в случае успеха</returns>
-        [Authorize(Roles = "administrator")]
+        // [Authorize(Roles = "administrator")]
         [HttpDelete("{type}/{id:int}")]
         public IActionResult Delete(string type, int id) {
             ItemTypeDescriptor descriptor = _itemTypeService.GetDescriptor(type);

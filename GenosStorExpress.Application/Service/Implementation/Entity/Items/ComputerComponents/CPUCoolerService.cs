@@ -59,6 +59,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.RadiatorMaterial = radiatorMaterial;
             
             _cpuCoolers.Create(created);
+            item.Id = created.Id;
         }
         
         /// <summary>

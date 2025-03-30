@@ -22,6 +22,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(HDD hdd) {
             _context.HDDs.Add(hdd);
+            _context.SaveChanges();
         }
 
         public void Update(HDD hdd) {

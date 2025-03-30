@@ -23,6 +23,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(CPUCooler cpuCooler) {
             _context.CPUCoolers.Add(cpuCooler);
+            _context.SaveChanges();
         }
 
         public void Update(CPUCooler cpuCooler) {

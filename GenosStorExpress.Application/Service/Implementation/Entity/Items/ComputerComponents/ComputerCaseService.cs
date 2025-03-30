@@ -66,7 +66,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                                                         }).ToList();
             
             _computerCases.Create(created);
-            
+            item.Id = created.Id;
         }
 
         /// <summary>

@@ -26,6 +26,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(RAM ram) {
             _context.RAMs.Add(ram);
+            _context.SaveChanges();
         }
 
         public void Update(RAM ram) {

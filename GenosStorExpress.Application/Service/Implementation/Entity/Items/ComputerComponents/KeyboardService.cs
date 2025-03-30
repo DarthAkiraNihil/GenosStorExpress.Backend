@@ -42,6 +42,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.Typesize = typesize;
             
             _keyboards.Create(created);
+            item.Id = created.Id;
         }
 
         public KeyboardWrapper? Get(int id) {

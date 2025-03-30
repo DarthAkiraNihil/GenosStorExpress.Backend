@@ -36,6 +36,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.IsWireless = item.IsWireless;
             
             _mouses.Create(created);
+            item.Id = created.Id;
         }
 
         public MouseWrapper? Get(int id) {

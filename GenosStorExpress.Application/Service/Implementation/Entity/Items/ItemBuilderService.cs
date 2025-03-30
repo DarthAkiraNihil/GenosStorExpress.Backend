@@ -486,7 +486,7 @@ public class ItemBuilderService: IItemBuilderService {
         _buildBaseAnonymous(built, wrapper);
 
         built.Characteristics = new Dictionary<string, dynamic> {
-            { "max_ram_frequency", wrapper.MaxUpdateFrequency },
+            { "max_update_frequency", wrapper.MaxUpdateFrequency },
             { "screen_diagonal", wrapper.ScreenDiagonal },
             { "matrix_type", wrapper.MatrixType },
             { "underlight", wrapper.Underlight },
@@ -582,7 +582,7 @@ public class ItemBuilderService: IItemBuilderService {
             { "cpu_socket", wrapper.CPUSocket },
             { "pcie_version", wrapper.PCIEVersion },
             { "supported_ram_types", wrapper.SupportedRAMTypes },
-            { "supported_ram_types", wrapper.VideoPorts },
+            { "video_ports", wrapper.VideoPorts },
             { "supported_cpu_cores", wrapper.SupportedCPUCores },
             { "motherboard_chipset", wrapper.MotherboardChipset },
             { "audio_chipset", wrapper.AudioChipset },
@@ -727,9 +727,9 @@ public class ItemBuilderService: IItemBuilderService {
         _buildBaseAnonymous(built, wrapper);
 
         built.Characteristics = new Dictionary<string, dynamic> {
-            { "rams", wrapper.RAMs },
-            { "disk_drives", wrapper.DiskDrives },
-            { "cpu", wrapper.CPU},
+            {"rams", wrapper.RAMs },
+            {"disk_drives", wrapper.DiskDrives },
+            {"cpu", wrapper.CPU},
             {"motherboard", wrapper.Motherboard},
             {"graphics_card", wrapper.GraphicsCard},
             {"power_supply", wrapper.PowerSupply},

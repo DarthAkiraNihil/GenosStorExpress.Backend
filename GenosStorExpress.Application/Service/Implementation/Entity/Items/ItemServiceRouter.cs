@@ -208,59 +208,87 @@ public class ItemServiceRouter: IItemServiceRouter {
     public void Create(ItemTypeDescriptor itemType, AnonymousItemWrapper item) {
         switch (itemType) {
             case ItemTypeDescriptor.ComputerCase: {
-                _computerComponents.ComputerCases.Create(_itemBuilderService.BuildComputerCase(item));
+                var created = _itemBuilderService.BuildComputerCase(item);
+                _computerComponents.ComputerCases.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.CPUCooler: {
-                _computerComponents.CPUCoolers.Create(_itemBuilderService.BuildCPUCooler(item));
+                var created = _itemBuilderService.BuildCPUCooler(item);
+                _computerComponents.CPUCoolers.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.CPU: {
-                _computerComponents.CPUs.Create(_itemBuilderService.BuildCPU(item));
+                var created = _itemBuilderService.BuildCPU(item);
+                _computerComponents.CPUs.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.Display: {
-                _computerComponents.Displays.Create(_itemBuilderService.BuildDisplay(item));
+                var created = _itemBuilderService.BuildDisplay(item);
+                _computerComponents.Displays.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.GraphicsCard: {
-                _computerComponents.GraphicsCards.Create(_itemBuilderService.BuildGraphicsCard(item));
+                var created = _itemBuilderService.BuildGraphicsCard(item);
+                _computerComponents.GraphicsCards.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.HDD: {
-                _computerComponents.HDDs.Create(_itemBuilderService.BuildHDD(item));
+                var created = _itemBuilderService.BuildHDD(item);
+                _computerComponents.HDDs.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.Keyboard: {
-                _computerComponents.Keyboards.Create(_itemBuilderService.BuildKeyboard(item));
+                var created = _itemBuilderService.BuildKeyboard(item);
+                _computerComponents.Keyboards.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.Motherboard: {
-                _computerComponents.Motherboards.Create(_itemBuilderService.BuildMotherboard(item));
+                var created = _itemBuilderService.BuildMotherboard(item);
+                _computerComponents.Motherboards.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.Mouse: {
-                _computerComponents.Mouses.Create(_itemBuilderService.BuildMouse(item));
+                var created = _itemBuilderService.BuildMouse(item);
+                _computerComponents.Mouses.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.NVMeSSD: {
-                _computerComponents.NVMeSSDs.Create(_itemBuilderService.BuildNVMeSSD(item));
+                var created = _itemBuilderService.BuildNVMeSSD(item);
+                _computerComponents.NVMeSSDs.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.PowerSupply: {
-                _computerComponents.PowerSupplies.Create(_itemBuilderService.BuildPowerSupply(item));
+                var created = _itemBuilderService.BuildPowerSupply(item);
+                _computerComponents.PowerSupplies.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.RAM: {
-                _computerComponents.RAMs.Create(_itemBuilderService.BuildRAM(item));
+                var created = _itemBuilderService.BuildRAM(item);
+                _computerComponents.RAMs.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.SataSSD: {
-                _computerComponents.SataSSDs.Create(_itemBuilderService.BuildSataSSD(item));
+                var created = _itemBuilderService.BuildSataSSD(item);
+                _computerComponents.SataSSDs.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.PreparedAssembly: {
-                _preparedAssemblyService.Create(_itemBuilderService.BuildPreparedAssembly(item));
+                var created = _itemBuilderService.BuildPreparedAssembly(item);
+                _preparedAssemblyService.Create(created);
+                item.Id = created.Id;
                 return;
             }
             case ItemTypeDescriptor.Unknown: {

@@ -26,6 +26,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(NVMeSSD nvmeSSD) {
             _context.NVMeSSDs.Add(nvmeSSD);
+            _context.SaveChanges();
         }
 
         public void Update(NVMeSSD nvmeSSD) {

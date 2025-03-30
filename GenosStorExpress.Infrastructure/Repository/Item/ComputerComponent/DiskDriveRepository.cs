@@ -24,6 +24,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(DiskDrive item) {
             _context.DiskDrives.Add(item);
+            _context.SaveChanges();
         }
 
         public void Update(DiskDrive item) {

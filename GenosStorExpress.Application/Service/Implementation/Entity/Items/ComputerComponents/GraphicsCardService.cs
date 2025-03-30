@@ -46,6 +46,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.GPU = gpu;
             
             _graphicsCards.Create(created);
+            item.Id = created.Id;
         }
 
         public GraphicsCardWrapper? Get(int id) {

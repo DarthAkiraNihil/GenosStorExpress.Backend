@@ -25,6 +25,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(Keyboard keyboard) {
             _context.Keyboards.Add(keyboard);
+            _context.SaveChanges();
         }
 
         public void Update(Keyboard keyboard) {

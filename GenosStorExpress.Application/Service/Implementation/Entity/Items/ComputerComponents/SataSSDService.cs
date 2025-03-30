@@ -22,6 +22,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             var created = new SataSSD();
             _setEntityPropertiesFromWrapper(created, item);
             _sataSSDs.Create(created);
+            item.Id = created.Id;
         }
 
         public SataSSDWrapper? Get(int id) {

@@ -27,6 +27,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(ComputerCase computerCase) {
             _context.ComputerCases.Add(computerCase);
+            _context.SaveChanges();
         }
 
         public void Update(ComputerCase computerCase) {

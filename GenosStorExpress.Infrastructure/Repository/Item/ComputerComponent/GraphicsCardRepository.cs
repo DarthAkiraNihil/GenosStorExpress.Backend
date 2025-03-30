@@ -28,6 +28,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(GraphicsCard graphicsCard) {
             _context.GraphicsCards.Add(graphicsCard);
+            _context.SaveChanges();
         }
 
         public void Update(GraphicsCard graphicsCard) {

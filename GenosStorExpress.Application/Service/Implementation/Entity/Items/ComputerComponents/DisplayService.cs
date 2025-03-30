@@ -76,6 +76,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.VesaSize = vesaSize;
             
             _displays.Create(created);
+            item.Id = created.Id;
         }
 
         /// <summary>

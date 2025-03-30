@@ -24,6 +24,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(Display display) {
             _context.Displays.Add(display);
+            _context.SaveChanges();
         }
 
         public void Update(Display display) {

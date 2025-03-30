@@ -24,6 +24,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.RPM = item.RPM;
             
             _hdds.Create(created);
+            item.Id = created.Id;
         }
 
         public HDDWrapper? Get(int id) {

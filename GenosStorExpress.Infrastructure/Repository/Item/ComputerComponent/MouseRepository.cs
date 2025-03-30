@@ -28,6 +28,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(Mouse mouse) {
             _context.Mouses.Add(mouse);
+            _context.SaveChanges();
         }
 
         public void Update(Mouse mouse) {

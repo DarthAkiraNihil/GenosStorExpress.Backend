@@ -26,6 +26,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(PowerSupply powerSupply) {
             _context.PowerSupplies.Add(powerSupply);
+            _context.SaveChanges();
         }
 
         public void Update(PowerSupply powerSupply) {

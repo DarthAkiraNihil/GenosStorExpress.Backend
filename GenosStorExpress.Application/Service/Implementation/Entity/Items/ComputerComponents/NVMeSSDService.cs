@@ -22,6 +22,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             var created = new NVMeSSD();
             _setEntityPropertiesFromWrapper(created, item);
             _nvmeSSDs.Create(created);
+            item.Id = created.Id;
         }
 
         public NVMeSSDWrapper? Get(int id) {

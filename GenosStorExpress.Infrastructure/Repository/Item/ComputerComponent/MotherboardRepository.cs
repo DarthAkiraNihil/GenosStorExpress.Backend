@@ -32,6 +32,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Create(Motherboard motherboard) {
             _context.Motherboards.Add(motherboard);
+            _context.SaveChanges();
         }
 
         public void Update(Motherboard motherboard) {

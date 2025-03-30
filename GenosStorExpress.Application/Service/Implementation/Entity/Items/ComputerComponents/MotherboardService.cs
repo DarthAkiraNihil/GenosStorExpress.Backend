@@ -112,7 +112,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             }
             
             _motherboards.Create(created);
-            
+            item.Id = created.Id;
         }
 
         /// <summary>

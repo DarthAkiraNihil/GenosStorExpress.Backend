@@ -30,6 +30,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
 
         public void Update(SataSSD sataSSD) {
             _context.Entry(sataSSD).State = EntityState.Modified;
+            _context.SaveChanges();
         }
 
         public void Delete(int id) {

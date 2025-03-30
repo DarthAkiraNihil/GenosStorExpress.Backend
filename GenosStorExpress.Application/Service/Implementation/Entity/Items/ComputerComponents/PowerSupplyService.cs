@@ -36,6 +36,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             created.Certificate80Plus = certificate;
             
             _powerSupplies.Create(created);
+            item.Id = created.Id;
             
         }
 

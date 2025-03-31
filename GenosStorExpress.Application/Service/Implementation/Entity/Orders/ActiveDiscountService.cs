@@ -2,7 +2,6 @@
 using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.Orders;
 using GenosStorExpress.Domain.Interface;
-using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
     /// <summary>

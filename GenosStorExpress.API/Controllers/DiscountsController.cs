@@ -14,7 +14,7 @@ namespace GenosStorExpress.API.Controllers;
 /// </summary>
 [Route("api/discount")]
 [ApiController]
-public class DiscountController : AbstractController {
+public class DiscountsController : AbstractController {
     
     private readonly IActiveDiscountService _activeDiscountService;
 
@@ -23,7 +23,7 @@ public class DiscountController : AbstractController {
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
     /// <param name="activeDiscountService">Сервис скидок</param>
-    public DiscountController(UserManager<User> userManager, IActiveDiscountService activeDiscountService) : base(userManager) {
+    public DiscountsController(UserManager<User> userManager, IActiveDiscountService activeDiscountService) : base(userManager) {
         _activeDiscountService = activeDiscountService;
     }
 

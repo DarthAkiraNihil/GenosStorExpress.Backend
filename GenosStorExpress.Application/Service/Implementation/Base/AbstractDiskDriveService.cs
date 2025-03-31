@@ -5,10 +5,23 @@ using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 
 namespace GenosStorExpress.Application.Service.Implementation.Base;
 
+/// <summary>
+/// Абстрактный класс, предоставляющий методы, общие для всех сервисов дисковых накопителей
+/// </summary>
 public abstract class AbstractDiskDriveService: AbstractComputerComponentService {
+    /// <summary>
+    /// Стандартный конструктор
+    /// </summary>
+    /// <param name="itemTypeService">Сервис типов товаров</param>
+    /// <param name="vendorService">Сервис производителей</param>
     protected AbstractDiskDriveService(IItemTypeService itemTypeService, IVendorService vendorService) : base(itemTypeService, vendorService) {
     }
     
+    /// <summary>
+    /// Установка свойств сущности, общих с обёрткой
+    /// </summary>
+    /// <param name="entity">Обёрнутая сущность, свойства которой устанавливаются</param>
+    /// <param name="wrapper">Обёртка сущности</param>
     protected void _setEntityPropertiesFromWrapper(DiskDrive entity, DiskDriveWrapper wrapper) {
         base._setEntityPropertiesFromWrapper(entity, wrapper);
         entity.Capacity = wrapper.Capacity;
@@ -16,6 +29,11 @@ public abstract class AbstractDiskDriveService: AbstractComputerComponentService
         entity.WriteSpeed = wrapper.WriteSpeed;
     }
     
+    /// <summary>
+    /// Установка свойств обёртки, общих с сущностью
+    /// </summary>
+    /// <param name="entity">Оборачиваемая сущность</param>
+    /// <param name="wrapper">Обёртка, свойства которой устанавливаются</param>
     protected void _setWrapperPropertiesFromEntity(DiskDrive entity, DiskDriveWrapper wrapper) {
         base._setWrapperPropertiesFromEntity(entity, wrapper);
         wrapper.Capacity = entity.Capacity;

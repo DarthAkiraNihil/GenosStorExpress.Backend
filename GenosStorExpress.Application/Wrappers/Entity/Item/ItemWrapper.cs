@@ -1,5 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using GenosStorExpress.Application.Wrappers.Entity.Base;
+using GenosStorExpress.Application.Wrappers.Entity.Orders;
 
 namespace GenosStorExpress.Application.Wrappers.Entity.Item;
 
@@ -29,6 +30,11 @@ public class ItemWrapper: WithModelWrapper {
     /// </summary>
     [JsonPropertyName("overall_rating")]
     public double OverallRating { get; set; }
+    /// <summary>
+    /// Информация о скидке на товар
+    /// </summary>
+    [JsonPropertyName("active_discount")]
+    public ActiveDiscountWrapper? ActiveDiscount { get; set; }
 
     /// <summary>
     /// Стандартный конструктор

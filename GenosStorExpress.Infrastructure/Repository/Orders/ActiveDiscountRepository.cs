@@ -22,6 +22,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
 
         public void Create(ActiveDiscount activeDiscount) {
             _context.ActiveDiscounts.Add(activeDiscount);
+            _context.SaveChanges();
         }
 
         public void Update(ActiveDiscount activeDiscount) {

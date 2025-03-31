@@ -1,5 +1,6 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
+using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.Item;
 
 namespace GenosStorExpress.Application.Service.Implementation.Base;
@@ -52,6 +53,13 @@ public abstract class AbstractItemService {
         wrapper.Description = entity.Description;
         wrapper.ItemType = entity.ItemType.Name;
         wrapper.OverallRating = _getOverallRating(entity);
+        if (entity.ActiveDiscount != null) {
+            wrapper.ActiveDiscount = new ActiveDiscountWrapper {
+                Id = entity.ActiveDiscount.Id,
+                Value = entity.ActiveDiscount.Value,
+                EndsAt = entity.ActiveDiscount.EndsAt
+            };
+        }
     }
 
     private double _getOverallRating(Item item) {

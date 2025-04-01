@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -110,9 +111,63 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             return _repositories.Save();
         }
         
-        public List<KeyboardWrapper> Filter(List<Func<KeyboardWrapper, bool>> filters) {
+
+        public IList<KeyboardWrapper> Filter(FilterContainerWrapper filters) {
+            
+            var filters_ = new List<Func<KeyboardWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+            IDictionary<string, bool> havings = filters.Havings;
+
+            if (choices.ContainsKey("typesize")) {
+                filters_.Add(
+                    i => choices["typesize"].CreateFilterClosure(n => n.Contains(i.Typesize))
+                );
+            }
+
+            if (choices.ContainsKey("type")) {
+                filters_.Add(
+                    i => choices["type"].CreateFilterClosure(n => n.Contains(i.Type))
+                );
+            }
+
+            if (havings.ContainsKey("has_rgb_lighting")) {
+                filters_.Add(
+                    i => i.HasRGBLighting == havings["has_rgb_lighting"]
+                );
+            }
+
+            if (havings.ContainsKey("is_wireless")) {
+                filters_.Add(
+                    i => i.IsWireless == havings["is_wireless"]
+                );
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
             var result = List();
-            foreach (var filter in filters) {
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

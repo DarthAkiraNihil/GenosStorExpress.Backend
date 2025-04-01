@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -162,9 +163,80 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         /// </summary>
         /// <param name="filters">Список фильтров</param>
         /// <returns>Отфильтрованный список обёрток кулеров для процессора</returns>
-        public List<CPUCoolerWrapper> Filter(List<Func<CPUCoolerWrapper, bool>> filters) {
+        public IList<CPUCoolerWrapper> Filter(FilterContainerWrapper filters) {
+            var filters_ = new List<Func<CPUCoolerWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+
+            if (choices.ContainsKey("foundation_material")) {
+                filters_.Add(
+                    i => choices["foundation_material"].CreateFilterClosure(n => n.Contains(i.FoundationMaterial))
+                );
+            }
+
+            if (choices.ContainsKey("radiator_material")) {
+                filters_.Add(
+                    i => choices["radiator_material"].CreateFilterClosure(n => n.Contains(i.RadiatorMaterial))
+                );
+            }
+
+            if (ranges.ContainsKey("max_fan_rpm")) {
+                if (ranges["max_fan_rpm"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["max_fan_rpm"].From <= i.MaxFanRPM && i.MaxFanRPM <= ranges["max_fan_rpm"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tubes_count")) {
+                if (ranges["tubes_count"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tubes_count"].From <= i.TubesCount && i.TubesCount <= ranges["tubes_count"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tubes_diameter")) {
+                if (ranges["tubes_diameter"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tubes_diameter"].From <= i.TubesDiameter && i.TubesDiameter <= ranges["tubes_diameter"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("fan_count")) {
+                if (ranges["fan_count"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["fan_count"].From <= i.FanCount && i.FanCount <= ranges["fan_count"].To
+                    );
+                }
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
             var result = List();
-            foreach (var filter in filters) {
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

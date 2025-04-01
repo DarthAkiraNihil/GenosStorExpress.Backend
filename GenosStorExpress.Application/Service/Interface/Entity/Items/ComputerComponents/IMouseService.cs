@@ -1,5 +1,6 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Base;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents {
@@ -8,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IMouseService:
         IStandardService<MouseWrapper>,
-        ISupportsFilter<MouseWrapper> {
+        ISupportsFilter<MouseWrapper, FilterContainerWrapper> {
 		
     }
 }

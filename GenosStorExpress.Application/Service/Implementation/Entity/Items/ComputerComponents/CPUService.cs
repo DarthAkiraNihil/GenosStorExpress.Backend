@@ -5,6 +5,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCompon
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -203,9 +204,96 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         /// </summary>
         /// <param name="filters">Список фильтров</param>
         /// <returns>Отфильтрованный список обёрток центральных процессоров</returns>
-        public List<CPUWrapper> Filter(List<Func<CPUWrapper, bool>> filters) {
+        public IList<CPUWrapper> Filter(FilterContainerWrapper filters) {
+            
+            var filters_ = new List<Func<CPUWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+            IDictionary<string, bool> havings = filters.Havings;
+
+            if (choices.ContainsKey("socket")) {
+                filters_.Add(
+                    i => choices["socket"].CreateFilterClosure(n => n.Contains(i.Socket))
+                );
+            }
+
+            if (choices.ContainsKey("supported_ram_types")) {
+                filters_.Add(
+                    i => choices["supported_ram_types"].CreateFilterClosure(n => {
+                        foreach (var entry in i.SupportedRamTypes) {
+                            if (entry == n) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    })
+                );
+            }
+
+            if (havings.ContainsKey("has_integrated_graphics")) {
+                filters_.Add(
+                    i => i.HasIntegratedGraphics == havings["has_integrated_graphics"]
+                );
+            }
+
+            if (ranges.ContainsKey("cores_count")) {
+                if (ranges["cores_count"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["cores_count"].From <= i.CoresCount && i.CoresCount <= ranges["cores_count"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("technical_process")) {
+                if (ranges["technical_process"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["technical_process"].From <= i.TechnicalProcess && i.TechnicalProcess <= ranges["technical_process"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("base_frequency")) {
+                if (ranges["base_frequency"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["base_frequency"].From <= i.BaseFrequency && i.BaseFrequency <= ranges["base_frequency"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("supported_ram_size")) {
+                if (ranges["supported_ram_size"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["supported_ram_size"].From <= i.SupportedRAMSize && i.SupportedRAMSize <= ranges["supported_ram_size"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
             var result = List();
-            foreach (var filter in filters) {
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

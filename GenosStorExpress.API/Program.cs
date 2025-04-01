@@ -112,6 +112,7 @@ builder.Services.AddScoped<ILegalEntityService, LegalEntityService>();
 builder.Services.AddScoped<IUserEntitiesService, UserEntitiesService>();
 builder.Services.AddScoped<IEntityServices, EntityServices>();
 
+builder.Services.AddScoped<IFilterTransformerService, FilterTransformerService>();
 builder.Services.AddScoped<IItemBuilderService, ItemBuilderService>();
 builder.Services.AddScoped<IItemServiceRouter, ItemServiceRouter>();
 

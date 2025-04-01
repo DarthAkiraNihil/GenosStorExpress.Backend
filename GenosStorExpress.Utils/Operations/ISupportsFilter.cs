@@ -1,5 +1,7 @@
 ﻿namespace GenosStorExpress.Utils.Operations {
-    public interface ISupportsFilter<T> where T : class {
-        List<T> Filter(List<Func<T, bool>> filters);
+    public interface ISupportsFilter<T, F>
+        where T : class
+        where F : class {
+        IList<T> Filter(F filters);
     }
 }

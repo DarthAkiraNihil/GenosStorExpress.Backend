@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -98,10 +99,69 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         public int Save() {
             return _repositories.Save();
         }
-        
-        public List<PowerSupplyWrapper> Filter(List<Func<PowerSupplyWrapper, bool>> filters) {
+
+        public IList<PowerSupplyWrapper> Filter(FilterContainerWrapper filters) {
+            
+            var filters_ = new List<Func<PowerSupplyWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+            IDictionary<string, bool> havings = filters.Havings;
+
+            if (ranges.ContainsKey("sata_ports")) {
+                if (ranges["sata_ports"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["sata_ports"].From <= i.SataPorts && i.SataPorts <= ranges["sata_ports"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("molex_ports")) {
+                if (ranges["molex_ports"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["molex_ports"].From <= i.MolexPorts && i.MolexPorts <= ranges["molex_ports"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("power_output")) {
+                if (ranges["power_output"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["power_output"].From <= i.PowerOutput && i.PowerOutput <= ranges["power_output"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("certificates_80plus")) {
+                filters_.Add(
+                    i => choices["certificates_80plus"].CreateFilterClosure(n => n.Contains(i.Certificate80Plus))
+                );
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
             var result = List();
-            foreach (var filter in filters) {
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

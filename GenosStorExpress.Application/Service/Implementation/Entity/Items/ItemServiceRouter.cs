@@ -1,7 +1,9 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
+﻿using GenosStorExpress.Application.Service.Interface.Common;
+using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
+using GenosStorExpress.Application.Wrappers.Filters;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items;
 
@@ -13,6 +15,7 @@ public class ItemServiceRouter: IItemServiceRouter {
     private readonly IComputerComponentServices _computerComponents;
     private readonly IPreparedAssemblyService _preparedAssemblyService;
     private readonly IItemBuilderService _itemBuilderService;
+    private readonly IFilterTransformerService _filterTransformerService;
 
     /// <summary>
     /// Стандартный конструктор
@@ -20,10 +23,12 @@ public class ItemServiceRouter: IItemServiceRouter {
     /// <param name="computerComponents">Сервисы компьютерных комплектующих</param>
     /// <param name="preparedAssemblyService">Сервис готовых сборок</param>
     /// <param name="itemBuilderService">Сервис сборщика товаров</param>
-    public ItemServiceRouter(IComputerComponentServices computerComponents, IPreparedAssemblyService preparedAssemblyService, IItemBuilderService itemBuilderService) {
+    /// <param name="filterTransformerService">Сервис трансформера фильтров</param>
+    public ItemServiceRouter(IComputerComponentServices computerComponents, IPreparedAssemblyService preparedAssemblyService, IItemBuilderService itemBuilderService, IFilterTransformerService filterTransformerService) {
         _computerComponents = computerComponents;
         _preparedAssemblyService = preparedAssemblyService;
         _itemBuilderService = itemBuilderService;
+        _filterTransformerService = filterTransformerService;
     }
 
     /// <summary>
@@ -542,5 +547,87 @@ public class ItemServiceRouter: IItemServiceRouter {
         }
         throw new ArgumentException("Unknown descriptor");
     }
-    
+
+    /// <summary>
+    /// Фильтрация списка товаров по критериям
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товаров</param>
+    /// <param name="filters">Фильтры</param>
+    /// <returns>Отфильтрованный список</returns>
+    /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
+    public IList<AnonymousItemWrapper> Filter(ItemTypeDescriptor itemType, IDictionary<string, dynamic> filters) {
+        FilterContainerWrapper container = _filterTransformerService.TransformFilters(filters);
+        switch (itemType) {
+            case ItemTypeDescriptor.ComputerCase: {
+                return _computerComponents.ComputerCases.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.CPUCooler: {
+                return _computerComponents.CPUCoolers.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.CPU: {
+                return _computerComponents.CPUs.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.Display: {
+                return _computerComponents.Displays.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.GraphicsCard: {
+                return _computerComponents.GraphicsCards.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.HDD: {
+                return _computerComponents.HDDs.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.Keyboard: {
+                return _computerComponents.Keyboards.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.Motherboard: {
+                return _computerComponents.Motherboards.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.Mouse: {
+                return _computerComponents.Mouses.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.NVMeSSD: {
+                return _computerComponents.NVMeSSDs.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.PowerSupply: {
+                return _computerComponents.PowerSupplies.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.RAM: {
+                return _computerComponents.RAMs.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.SataSSD: {
+                return _computerComponents.SataSSDs.Filter(container).Select(
+                    i => _itemBuilderService.BuildWrapper(i)
+                ).ToList();
+            }
+            case ItemTypeDescriptor.PreparedAssembly:
+            case ItemTypeDescriptor.Unknown: {
+                throw new ArgumentException("Unknown descriptor");
+            }
+        }
+        throw new ArgumentException("Unknown descriptor");
+    }
 }

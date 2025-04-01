@@ -1,4 +1,5 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
+﻿using System.Collections;
+using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
 using GenosStorExpress.Domain.Entity.User;
@@ -43,7 +44,7 @@ namespace GenosStorExpress.API.Controllers {
         /// <param name="type">Тип товара. Допустимые значения</param>
         /// <returns>Список товаров с основной информацией</returns>
         [HttpGet("{type}")]
-        public ActionResult<IEnumerable<ItemWrapper>> List(string type) {
+        public ActionResult<IEnumerable<ItemWrapper>> List(string type, [FromBody] IDictionary<string, dynamic>? filters = null) {
             
             ItemTypeDescriptor descriptor = _itemTypeService.GetDescriptor(type);
 
@@ -52,7 +53,13 @@ namespace GenosStorExpress.API.Controllers {
             }
 
             try {
-                IEnumerable<ItemWrapper> list = _itemServiceRouter.List(descriptor).Select(
+                IEnumerable<ItemWrapper> list = null;
+                if (filters != null) {
+                    list = _itemServiceRouter.Filter(descriptor, filters);
+                } else {
+                    list = _itemServiceRouter.List(descriptor);
+                }
+                return Ok(list.Select(
                     i => new ItemWrapper {
                         Name = i.Name,
                         Model = i.Model,
@@ -60,8 +67,7 @@ namespace GenosStorExpress.API.Controllers {
                         Price = i.Price,
                         Id = i.Id,
                         ItemType = i.ItemType
-                    });
-                return Ok(list);
+                    }));
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
             } catch (Exception e) {

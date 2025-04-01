@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -189,6 +190,76 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         public List<DisplayWrapper> Filter(List<Func<DisplayWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {
+                result = result.Where(filter).ToList();
+            }
+            return result;
+        }
+
+        public IList<DisplayWrapper> Filter(FilterContainerWrapper filters) {
+            var filters_ = new List<Func<DisplayWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+            IDictionary<string, bool> havings = filters.Havings;
+
+            if (ranges.ContainsKey("max_update_frequency")) {
+                if (ranges["max_update_frequency"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["max_update_frequency"].From <= i.MaxUpdateFrequency && i.MaxUpdateFrequency <= ranges["max_update_frequency"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("screen_diagonal")) {
+                if (ranges["screen_diagonal"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["screen_diagonal"].From <= i.ScreenDiagonal && i.ScreenDiagonal <= ranges["screen_diagonal"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("matrix_type")) {
+                filters_.Add(
+                    i => choices["matrix_type"].CreateFilterClosure(n => n.Contains(i.MatrixType))
+                );
+            }
+
+            if (choices.ContainsKey("underlight")) {
+                filters_.Add(
+                    i => choices["underlight"].CreateFilterClosure(n => n.Contains(i.Underlight))
+                );
+            }
+
+            if (choices.ContainsKey("vesa_size")) {
+                filters_.Add(
+                    i => choices["vesa_size"].CreateFilterClosure(n => n.Contains(i.VesaSize))
+                );
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
+            var result = List();
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

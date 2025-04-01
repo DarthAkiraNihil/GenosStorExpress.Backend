@@ -4,6 +4,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristic
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -63,6 +64,89 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         public List<NVMeSSDWrapper> Filter(List<Func<NVMeSSDWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {
+                result = result.Where(filter).ToList();
+            }
+            return result;
+        }
+
+        public IList<NVMeSSDWrapper> Filter(FilterContainerWrapper filters) {
+            var filters_ = new List<Func<NVMeSSDWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+
+            if (ranges.ContainsKey("capacity")) {
+                if (ranges["capacity"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["capacity"].From <= i.Capacity && i.Capacity <= ranges["capacity"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("read_speed")) {
+                if (ranges["read_speed"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["read_speed"].From <= i.ReadSpeed && i.ReadSpeed <= ranges["read_speed"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("write_speed")) {
+                if (ranges["write_speed"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["write_speed"].From <= i.WriteSpeed && i.WriteSpeed <= ranges["write_speed"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tbw")) {
+                if (ranges["tbw"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tbw"].From <= i.TBW && i.TBW <= ranges["tbw"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("dwpd")) {
+                if (ranges["dwpd"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["dwpd"].From <= i.DWPD && i.DWPD <= ranges["dwpd"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("bits_for_cell")) {
+                if (ranges["bits_for_cell"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["bits_for_cell"].From <= i.BitsForCell && i.BitsForCell <= ranges["bits_for_cell"].To
+                    );
+                }
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
+            var result = List();
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

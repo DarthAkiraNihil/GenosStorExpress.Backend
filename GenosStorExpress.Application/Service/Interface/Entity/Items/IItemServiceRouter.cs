@@ -1,4 +1,5 @@
-﻿using GenosStorExpress.Application.Wrappers.Entity.Item;
+﻿using System.Collections;
+using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items;
@@ -20,6 +21,13 @@ public interface IItemServiceRouter {
     /// <param name="itemType">Дескриптор типа товара</param>
     /// <returns>Список товаров указанного типа</returns>
     IList<AnonymousItemWrapper> List(ItemTypeDescriptor itemType);
+    /// <summary>
+    /// Фильтрация списка товаров по критериям
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товаров</param>
+    /// <param name="filters">Фильтры</param>
+    /// <returns>Отфильтрованный список</returns>
+    IList<AnonymousItemWrapper> Filter(ItemTypeDescriptor itemType, IDictionary<string, dynamic> filters);
     /// <summary>
     /// Создание товара по его анонимной обёртке
     /// </summary>

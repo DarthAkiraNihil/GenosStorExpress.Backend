@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -69,10 +70,69 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         public int Save() {
             return _repositories.Save();
         }
-        
-        public List<HDDWrapper> Filter(List<Func<HDDWrapper, bool>> filters) {
+
+        public IList<HDDWrapper> Filter(FilterContainerWrapper filters) {
+            var filters_ = new List<Func<HDDWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+
+            if (ranges.ContainsKey("capacity")) {
+                if (ranges["capacity"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["capacity"].From <= i.Capacity && i.Capacity <= ranges["capacity"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("read_speed")) {
+                if (ranges["read_speed"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["read_speed"].From <= i.ReadSpeed && i.ReadSpeed <= ranges["read_speed"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("write_speed")) {
+                if (ranges["write_speed"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["write_speed"].From <= i.WriteSpeed && i.WriteSpeed <= ranges["write_speed"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("rpm")) {
+                if (ranges["rpm"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["rpm"].From <= i.RPM && i.RPM <= ranges["rpm"].To
+                    );
+                }
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
             var result = List();
-            foreach (var filter in filters) {
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

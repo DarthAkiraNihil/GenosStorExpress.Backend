@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -102,6 +103,69 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         public List<MouseWrapper> Filter(List<Func<MouseWrapper, bool>> filters) {
             var result = List();
             foreach (var filter in filters) {
+                result = result.Where(filter).ToList();
+            }
+            return result;
+        }
+
+        public IList<MouseWrapper> Filter(FilterContainerWrapper filters) {
+            
+            var filters_ = new List<Func<MouseWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+            IDictionary<string, bool> havings = filters.Havings;
+
+            if (choices.ContainsKey("dpi_modes")) {
+                filters_.Add(
+                    i => choices["dpi_modes"].CreateFilterClosure(n => {
+                        foreach (var entry in i.DPIModes) {
+                            if (entry.ToString() == n) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    })
+                );
+            }
+
+            if (havings.ContainsKey("is_wireless")) {
+                filters_.Add(
+                    i => i.IsWireless == havings["is_wireless"]
+                );
+            }
+
+            if (havings.ContainsKey("has_programmable_buttons")) {
+                filters_.Add(
+                    i => i.HasProgrammableButtons == havings["has_programmable_buttons"]
+                );
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
+            var result = List();
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

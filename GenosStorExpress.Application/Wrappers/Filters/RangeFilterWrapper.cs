@@ -12,4 +12,12 @@ public class RangeFilterWrapper {
     /// "До"
     /// </summary>
     public int To { get; set; }
+
+    /// <summary>
+    /// Метод проверки корректности фильтра ("от" меньше "до")
+    /// </summary>
+    /// <returns>Статус корректности фильтра</returns>
+    public bool IsValid() {
+        return From <= To;
+    }
 }

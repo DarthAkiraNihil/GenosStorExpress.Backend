@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -119,10 +120,68 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         public int Save() {
             return _repositories.Save();
         }
-        
-        public List<RAMWrapper> Filter(List<Func<RAMWrapper, bool>> filters) {
+
+        public IList<RAMWrapper> Filter(FilterContainerWrapper filters) {
+            var filters_ = new List<Func<RAMWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+            IDictionary<string, bool> havings = filters.Havings;
+
+            if (ranges.ContainsKey("total_size")) {
+                if (ranges["total_size"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["total_size"].From <= i.TotalSize && i.TotalSize <= ranges["total_size"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("module_size")) {
+                if (ranges["module_size"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["module_size"].From <= i.ModuleSize && i.ModuleSize <= ranges["module_size"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("frequency")) {
+                if (ranges["frequency"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["frequency"].From <= i.Frequency && i.Frequency <= ranges["frequency"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("type")) {
+                filters_.Add(
+                    i => choices["type"].CreateFilterClosure(n => n.Contains(i.Type))
+                );
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
             var result = List();
-            foreach (var filter in filters) {
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;

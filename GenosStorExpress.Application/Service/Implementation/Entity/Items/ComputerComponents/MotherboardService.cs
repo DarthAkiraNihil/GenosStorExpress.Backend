@@ -5,6 +5,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCompon
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
@@ -291,14 +292,122 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         /// </summary>
         /// <param name="filters">Список фильтров</param>
         /// <returns>Отфильтрованный список обёрток материнских плат</returns>
-        public List<MotherboardWrapper> Filter(List<Func<MotherboardWrapper, bool>> filters) {
+        public IList<MotherboardWrapper> Filter(FilterContainerWrapper filters) {
+            
+            var filters_ = new List<Func<MotherboardWrapper, bool>>();
+
+            IDictionary<string, RangeFilterWrapper> ranges = filters.Ranges;
+            IDictionary<string, ChoiceFilterWrapper> choices = filters.Choices;
+            IDictionary<string, bool> havings = filters.Havings;
+
+            if (choices.ContainsKey("formfactor")) {
+                filters_.Add(
+                    i => choices["form_factor"].CreateFilterClosure(n => n.Contains(i.FormFactor))
+                );
+            }
+            
+            if (choices.ContainsKey("socket")) {
+                filters_.Add(
+                    i => choices["socket"].CreateFilterClosure(n => n.Contains(i.CPUSocket))
+                );
+            }
+
+            if (choices.ContainsKey("supported_cpu_cores")) {
+                filters_.Add(
+                    i => choices["supported_cpu_cores"].CreateFilterClosure(n => {
+                        foreach (var entry in i.SupportedCPUCores) {
+                            if (entry.Name == n) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    })
+                );
+            }
+
+            if (choices.ContainsKey("suppported_ram_types")) {
+                filters_.Add(
+                    i => choices["suppported_ram_types"].CreateFilterClosure(n => {
+                        foreach (var entry in i.SupportedRAMTypes) {
+                            if (entry == n) {
+                                return true;
+                            }
+                        }
+
+                        return false;
+                    })
+                );
+            }
+            
+
+            if (ranges.ContainsKey("ram_slots_count")) {
+                if (ranges["ram_slots_count"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["ram_slots_count"].From <= i.RAMSlots && i.RAMSlots <= ranges["ram_slots_count"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("pcie_slots_count")) {
+                if (ranges["pcie_slots_count"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["pcie_slots_count"].From <= i.PCIESlotsCount && i.PCIESlotsCount <= ranges["pcie_slots_count"].To
+                    );
+                }
+            }
+
+            if (havings.ContainsKey("has_nvme_suppport")) {
+                filters_.Add(
+                    i => i.HasNVMeSupport == havings["has_nvme_support"]
+                );
+            }
+
+            if (ranges.ContainsKey("sata_ports_count")) {
+                if (ranges["sata_ports_count"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["sata_ports_count"].From <= i.SataPortsCount && i.SataPortsCount <= ranges["sata_ports_count"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("usb_ports_count")) {
+                if (ranges["usb_ports_count"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["usb_ports_count"].From <= i.USBPortsCount && i.USBPortsCount <= ranges["usb_ports_count"].To
+                    );
+                }
+            }
+            
+            if (ranges.ContainsKey("price")) {
+                if (ranges["price"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["price"].From <= i.Price && i.Price <= ranges["price"].To
+                    );
+                }
+            }
+
+            if (ranges.ContainsKey("tdp")) {
+                if (ranges["tdp"].IsValid()) {
+                    filters_.Add(
+                        i => ranges["tdp"].From <= i.TDP && i.TDP <= ranges["tdp"].To
+                    );
+                }
+            }
+
+            if (choices.ContainsKey("vendors")) {
+                filters_.Add(
+                    i => choices["vendors"].CreateFilterClosure(n => n.Contains(i.Vendor))
+                );
+            }
+            
             var result = List();
-            foreach (var filter in filters) {
+            foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
         }
-        
+
         /// <summary>
         /// Сохранение базы данных
         /// </summary>

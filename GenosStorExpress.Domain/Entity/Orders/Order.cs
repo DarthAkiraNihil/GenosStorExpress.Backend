@@ -19,7 +19,7 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 		public Order() {
 			OrderStatus = new OrderStatus();
 			Items = new List<OrderItems>();
-			Customer = new VoidCustomer();
+			// Customer = new VoidCustomer();
 		}
 	}
 }

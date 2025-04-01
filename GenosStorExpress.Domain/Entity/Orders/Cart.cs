@@ -11,7 +11,7 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 
 		public Cart() {
 			Items = new List<CartItem>();
-			Customer = new VoidCustomer();
+			// Customer = new VoidCustomer();
 		}
 	}
 }

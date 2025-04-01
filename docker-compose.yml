@@ -17,4 +17,13 @@ services:
             - ./postgresql/data:/var/lib/postgresql/data    
         ports:
             - '5960:5432'
-     
+    pgadmin:
+        image: 'docker.io/dpage/pgadmin4:latest'
+        container_name: pgadmin_gse
+        environment:
+            PGADMIN_DEFAULT_EMAIL: akira_nihil@dancorp.org
+            PGADMIN_DEFAULT_PASSWORD: String6!
+        ports:
+            - '15080:80'
+        volumes:
+            - ./pgadmin-data:/var/lib/pgadmin/

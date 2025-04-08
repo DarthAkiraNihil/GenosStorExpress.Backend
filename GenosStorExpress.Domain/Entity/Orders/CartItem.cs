@@ -8,7 +8,7 @@ namespace GenosStorExpress.Domain.Entity.Orders {
     public class CartItem {
         [Column(Order = 1)]
         [ForeignKey("Cart")]
-		public int CartId { get; set; }
+		public string CartId { get; set; }
         [Column(Order = 2)]
         [ForeignKey("Item")]
 		public int ItemId { get; set; }

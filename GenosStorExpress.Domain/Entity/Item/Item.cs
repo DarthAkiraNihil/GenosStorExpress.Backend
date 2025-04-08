@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GenosStorExpress.Domain.Entity.Item {
 	[Table("Items")]
-	public abstract class Item: WithModel {
+	public class Item: WithModel {
 		public int Id { get; set; }
 
 		[Required]
@@ -16,14 +16,14 @@ namespace GenosStorExpress.Domain.Entity.Item {
 		[MaxLength(Int32.MaxValue)]
 		public string Description { get; set; }
 		
-		public IList<Cart> Carts { get; set; }
+		public IList<CartItem> Carts { get; set; }
 		public IList<Review> Reviews { get; set; }
 
 		public ActiveDiscount? ActiveDiscount { get; set; }
 		public ItemType ItemType { get; set; }
 
 		public Item() {
-			Carts = new List<Cart>();
+			Carts = new List<CartItem>();
 			Reviews = new List<Review>();
 			Description = string.Empty;
 			ImageBase64 = string.Empty;

@@ -179,19 +179,22 @@ namespace GenosStorExpress.Infrastructure.Context
 				    UserName = "akira@dancorp.org",
 				    Email = "akira@dancorp.org",
 			    };
-
+			    
 			    var adminCreationResult = await userManager.CreateAsync(admin, "String6!");
 			    if (adminCreationResult.Succeeded) {
 				    await userManager.AddToRoleAsync(admin, "administrator");
 			    }
 
 			    var individualEntity = new IndividualEntity {
+				    Id = Guid.NewGuid().ToString(),
 				    UserName = "amogus@amogus.net",
 				    Email = "amogus@amogus.net",
 				    Name = "Amogus",
 				    Surname = "Amogusov",
 				    PhoneNumber = "+1234567890"
 			    };
+			    individualEntity.CartId = individualEntity.Id;
+			    individualEntity.Cart.CustomerId = individualEntity.Id;
 
 			    var individualEntityCreationResult = await userManager.CreateAsync(individualEntity, "String6!");
 			    if (individualEntityCreationResult.Succeeded) {
@@ -199,7 +202,8 @@ namespace GenosStorExpress.Infrastructure.Context
 			    }
 
 			    var legalEntity = new LegalEntity {
-				    UserName= "jensen_huang@nvidia.com",
+				    Id = Guid.NewGuid().ToString(),
+				    UserName = "jensen_huang@nvidia.com",
 				    Email = "jensen_huang@nvidia.com",
 				    INN = 102420484096,
 				    KPP = 128256512,
@@ -207,6 +211,8 @@ namespace GenosStorExpress.Infrastructure.Context
 				    LegalAddress = "USA",
 				    IsVerified = true
 			    };
+			    legalEntity.CartId = legalEntity.Id;
+			    legalEntity.Cart.CustomerId = legalEntity.Id;
 
 			    var legalEntityCreationResult = await userManager.CreateAsync(legalEntity, "String6!");
 			    if (legalEntityCreationResult.Succeeded) {

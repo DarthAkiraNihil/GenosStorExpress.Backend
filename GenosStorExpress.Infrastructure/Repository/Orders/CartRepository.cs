@@ -14,13 +14,40 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
 
         public List<Cart> List() {
             return _context.Carts
-                           .Include(i => i.Items)
+                           .Include(i => i.Items.Select(ci => new CartItem {
+                               Cart = ci.Cart,
+                               CartId = ci.CartId,
+                               ItemId = ci.ItemId,
+                               Item = ci.Item,
+                               Quantity = ci.Quantity,
+                           }))
                            .ToList();
         }
 
-        public Cart? Get(int id) {
+        public Cart? Get(string id) {
             return _context.Carts
                            .Include(i => i.Items)
+                           .Select( c => new Cart {
+                               CustomerId = c.CustomerId,
+                               Customer = c.Customer,
+                               Items = c.Items.Select(ci => new CartItem {
+                                   Cart = ci.Cart,
+                                   CartId = ci.CartId,
+                                   ItemId = ci.ItemId,
+                                   Item = new Domain.Entity.Item.Item {
+                                       Name = ci.Item.Name,
+                                       Model = ci.Item.Model,
+                                       Id = ci.Item.Id,
+                                       Price = ci.Item.Price,
+                                       Description = ci.Item.Description,
+                                       Carts = ci.Item.Carts,
+                                       Reviews = ci.Item.Reviews,
+                                       ActiveDiscount = ci.Item.ActiveDiscount,
+                                       ItemType = ci.Item.ItemType,
+                                   },
+                                   Quantity = ci.Quantity,
+                               }).ToList(),
+                           })
                            .FirstOrDefault(i => i.CustomerId == id);
         }
 

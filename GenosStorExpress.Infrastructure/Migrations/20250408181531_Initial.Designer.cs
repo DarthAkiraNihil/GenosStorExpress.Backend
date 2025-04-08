@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GenosStorExpress.Infrastructure.Migrations
 {
     [DbContext(typeof(GenosStorExpressDatabaseContext))]
-    [Migration("20250317142230_Initial")]
+    [Migration("20250408181531_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -387,6 +387,7 @@ namespace GenosStorExpress.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(2147483647)
                         .HasColumnType("text");
 
                     b.Property<string>("ImageBase64")
@@ -445,6 +446,7 @@ namespace GenosStorExpress.Infrastructure.Migrations
 
                     b.Property<string>("Comment")
                         .IsRequired()
+                        .HasMaxLength(2147483647)
                         .HasColumnType("text");
 
                     b.Property<int>("ItemId")
@@ -597,7 +599,8 @@ namespace GenosStorExpress.Infrastructure.Migrations
 
                     b.Property<string>("Owner")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(80)
+                        .HasColumnType("character varying(80)");
 
                     b.Property<byte>("ValidThruMonth")
                         .HasColumnType("smallint");
@@ -633,26 +636,18 @@ namespace GenosStorExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("GenosStorExpress.Domain.Entity.Orders.Cart", b =>
                 {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomerId"));
-
-                    b.Property<int?>("ItemId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("text");
 
                     b.HasKey("CustomerId");
-
-                    b.HasIndex("ItemId");
 
                     b.ToTable("Carts", "public");
                 });
 
             modelBuilder.Entity("GenosStorExpress.Domain.Entity.Orders.CartItem", b =>
                 {
-                    b.Property<int>("CartId")
-                        .HasColumnType("integer")
+                    b.Property<string>("CartId")
+                        .HasColumnType("text")
                         .HasColumnOrder(1);
 
                     b.Property<int>("ItemId")
@@ -1103,8 +1098,9 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 {
                     b.HasBaseType("GenosStorExpress.Domain.Entity.User.User");
 
-                    b.Property<int>("CartId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CartId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasIndex("CartId")
                         .IsUnique();
@@ -1684,13 +1680,6 @@ namespace GenosStorExpress.Infrastructure.Migrations
                     b.Navigation("BankSystem");
                 });
 
-            modelBuilder.Entity("GenosStorExpress.Domain.Entity.Orders.Cart", b =>
-                {
-                    b.HasOne("GenosStorExpress.Domain.Entity.Item.Item", null)
-                        .WithMany("Carts")
-                        .HasForeignKey("ItemId");
-                });
-
             modelBuilder.Entity("GenosStorExpress.Domain.Entity.Orders.CartItem", b =>
                 {
                     b.HasOne("GenosStorExpress.Domain.Entity.Orders.Cart", "Cart")
@@ -1700,7 +1689,7 @@ namespace GenosStorExpress.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("GenosStorExpress.Domain.Entity.Item.Item", "Item")
-                        .WithMany()
+                        .WithMany("Carts")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

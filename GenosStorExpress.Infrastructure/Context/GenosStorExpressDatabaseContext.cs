@@ -243,12 +243,21 @@ namespace GenosStorExpress.Infrastructure.Context{
 			
 			cartEntity.HasKey(c => c.CustomerId);
 			cartEntity.HasMany(c => c.Items);
+			cartEntity.Navigation(c => c.Customer).AutoInclude();
 			          //.WithMany(i => i.Carts);
 
-			var cartItemsEntity = modelBuilder.Entity<CartItem>();
+			var cartItemEntity = modelBuilder.Entity<CartItem>();
 			
-			cartItemsEntity.Navigation(o => o.Cart).AutoInclude().IsRequired();
-			cartItemsEntity.Navigation(o=> o.Item).AutoInclude().IsRequired();
+			cartItemEntity
+				.HasOne(ci => ci.Item)
+				.WithMany(c => c.Carts);
+			
+			cartItemEntity
+				.HasOne(c => c.Cart)
+				.WithMany(c => c.Items);
+			
+			cartItemEntity.Navigation(o => o.Cart).AutoInclude().IsRequired();
+			cartItemEntity.Navigation(o=> o.Item).AutoInclude().IsRequired();
 			
 			var customerEntity = modelBuilder.Entity<Customer>();
 
@@ -259,6 +268,7 @@ namespace GenosStorExpress.Infrastructure.Context{
 				.IsRequired();
 
 			customerEntity.HasMany(c => c.Orders);
+			customerEntity.Navigation(c => c.Cart).AutoInclude();
 
 			modelBuilder.Entity<Order>()
 			            .HasMany(o => o.Items);

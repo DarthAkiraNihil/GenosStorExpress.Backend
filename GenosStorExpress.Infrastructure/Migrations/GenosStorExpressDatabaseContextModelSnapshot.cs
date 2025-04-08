@@ -633,26 +633,18 @@ namespace GenosStorExpress.Infrastructure.Migrations
 
             modelBuilder.Entity("GenosStorExpress.Domain.Entity.Orders.Cart", b =>
                 {
-                    b.Property<int>("CustomerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomerId"));
-
-                    b.Property<int?>("ItemId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CustomerId")
+                        .HasColumnType("text");
 
                     b.HasKey("CustomerId");
-
-                    b.HasIndex("ItemId");
 
                     b.ToTable("Carts", "public");
                 });
 
             modelBuilder.Entity("GenosStorExpress.Domain.Entity.Orders.CartItem", b =>
                 {
-                    b.Property<int>("CartId")
-                        .HasColumnType("integer")
+                    b.Property<string>("CartId")
+                        .HasColumnType("text")
                         .HasColumnOrder(1);
 
                     b.Property<int>("ItemId")
@@ -1103,8 +1095,9 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 {
                     b.HasBaseType("GenosStorExpress.Domain.Entity.User.User");
 
-                    b.Property<int>("CartId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CartId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasIndex("CartId")
                         .IsUnique();
@@ -1684,13 +1677,6 @@ namespace GenosStorExpress.Infrastructure.Migrations
                     b.Navigation("BankSystem");
                 });
 
-            modelBuilder.Entity("GenosStorExpress.Domain.Entity.Orders.Cart", b =>
-                {
-                    b.HasOne("GenosStorExpress.Domain.Entity.Item.Item", null)
-                        .WithMany("Carts")
-                        .HasForeignKey("ItemId");
-                });
-
             modelBuilder.Entity("GenosStorExpress.Domain.Entity.Orders.CartItem", b =>
                 {
                     b.HasOne("GenosStorExpress.Domain.Entity.Orders.Cart", "Cart")
@@ -1700,7 +1686,7 @@ namespace GenosStorExpress.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("GenosStorExpress.Domain.Entity.Item.Item", "Item")
-                        .WithMany()
+                        .WithMany("Carts")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

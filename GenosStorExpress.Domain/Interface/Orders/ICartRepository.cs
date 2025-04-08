@@ -3,7 +3,9 @@ using GenosStorExpress.Domain.Interface.Base;
 using GenosStorExpress.Utils.Operations;
 
 namespace GenosStorExpress.Domain.Interface.Orders {
-    public interface ICartRepository: IRepository<Cart>, ISupportsDeleteRaw<Cart> {
-		
-    }
+    public interface ICartRepository : ISupportsDeleteRaw<Cart>,
+        ISupportsCreate<Cart>,
+        ISupportsGetByStringId<Cart>,
+        ISupportsList<Cart>,
+        ISupportsUpdate<Cart>;
 }

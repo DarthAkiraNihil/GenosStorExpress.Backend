@@ -118,7 +118,7 @@ public class AccountController : AbstractController {
     /// <param name="model">Данные для входа</param>
     /// <returns>Токен и роль пользователя в случае успеха, иначе 401</returns>
     [HttpPost("sign_in")]
-    public async Task<IActionResult> Login(SignInDataWrapper model)
+    public async Task<IActionResult> SignIn(SignInDataWrapper model)
     {
         if (!ModelState.IsValid) {
             return BadRequest(ModelState);

@@ -87,6 +87,18 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Carts",
+                schema: "public",
+                columns: table => new
+                {
+                    CustomerId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carts", x => x.CustomerId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Certificates80Plus",
                 schema: "public",
                 columns: table => new
@@ -490,6 +502,33 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Customer",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    CartId = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customer", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Customer_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalSchema: "public",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Customer_Carts_CartId",
+                        column: x => x.CartId,
+                        principalSchema: "public",
+                        principalTable: "Carts",
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Items",
                 schema: "public",
                 columns: table => new
@@ -498,7 +537,7 @@ namespace GenosStorExpress.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Price = table.Column<double>(type: "double precision", nullable: false),
                     ImageBase64 = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", maxLength: 2147483647, nullable: false),
                     ActiveDiscountId = table.Column<int>(type: "integer", nullable: true),
                     ItemTypeId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
@@ -591,23 +630,139 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carts",
+                name: "BankCards",
                 schema: "public",
                 columns: table => new
                 {
-                    CustomerId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ItemId = table.Column<int>(type: "integer", nullable: true)
+                    Number = table.Column<long>(type: "bigint", nullable: false),
+                    ValidThruMonth = table.Column<byte>(type: "smallint", nullable: false),
+                    ValidThruYear = table.Column<byte>(type: "smallint", nullable: false),
+                    CVC = table.Column<byte>(type: "smallint", nullable: false),
+                    Owner = table.Column<string>(type: "character varying(80)", maxLength: 80, nullable: false),
+                    BankSystemId = table.Column<long>(type: "bigint", nullable: false),
+                    CustomerId = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Carts", x => x.CustomerId);
+                    table.PrimaryKey("PK_BankCards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Carts_Items_ItemId",
+                        name: "FK_BankCards_BankSystems_BankSystemId",
+                        column: x => x.BankSystemId,
+                        principalSchema: "public",
+                        principalTable: "BankSystems",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BankCards_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalSchema: "public",
+                        principalTable: "Customer",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IndividualEntities",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    Surname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IndividualEntities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_IndividualEntities_Customer_Id",
+                        column: x => x.Id,
+                        principalSchema: "public",
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LegalEntities",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    INN = table.Column<long>(type: "bigint", nullable: false),
+                    KPP = table.Column<long>(type: "bigint", nullable: false),
+                    PhysicalAddress = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    LegalAddress = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
+                    IsVerified = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LegalEntities", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LegalEntities_Customer_Id",
+                        column: x => x.Id,
+                        principalSchema: "public",
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Orders",
+                schema: "public",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CustomerId = table.Column<string>(type: "text", nullable: false),
+                    OrderStatusId = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Orders_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalSchema: "public",
+                        principalTable: "Customer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_OrderStatus_OrderStatusId",
+                        column: x => x.OrderStatusId,
+                        principalSchema: "public",
+                        principalTable: "OrderStatus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CartItems",
+                schema: "public",
+                columns: table => new
+                {
+                    CartId = table.Column<string>(type: "text", nullable: false),
+                    ItemId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItems", x => new { x.CartId, x.ItemId });
+                    table.ForeignKey(
+                        name: "FK_CartItems_Carts_CartId",
+                        column: x => x.CartId,
+                        principalSchema: "public",
+                        principalTable: "Carts",
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalSchema: "public",
                         principalTable: "Items",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -646,7 +801,7 @@ namespace GenosStorExpress.Infrastructure.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Rating = table.Column<byte>(type: "smallint", nullable: false),
-                    Comment = table.Column<string>(type: "text", nullable: false),
+                    Comment = table.Column<string>(type: "text", maxLength: 2147483647, nullable: false),
                     ItemId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -738,57 +893,31 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CartItems",
+                name: "OrderItems",
                 schema: "public",
                 columns: table => new
                 {
-                    CartId = table.Column<int>(type: "integer", nullable: false),
+                    OrderId = table.Column<long>(type: "bigint", nullable: false),
                     ItemId = table.Column<int>(type: "integer", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false)
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    BoughtFor = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CartItems", x => new { x.CartId, x.ItemId });
+                    table.PrimaryKey("PK_OrderItems", x => new { x.OrderId, x.ItemId });
                     table.ForeignKey(
-                        name: "FK_CartItems_Carts_CartId",
-                        column: x => x.CartId,
-                        principalSchema: "public",
-                        principalTable: "Carts",
-                        principalColumn: "CustomerId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CartItems_Items_ItemId",
+                        name: "FK_OrderItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalSchema: "public",
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Customer",
-                schema: "public",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    CartId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customer", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Customer_AspNetUsers_Id",
-                        column: x => x.Id,
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
                         principalSchema: "public",
-                        principalTable: "AspNetUsers",
+                        principalTable: "Orders",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Customer_Carts_CartId",
-                        column: x => x.CartId,
-                        principalSchema: "public",
-                        principalTable: "Carts",
-                        principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1214,114 +1343,6 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BankCards",
-                schema: "public",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Number = table.Column<long>(type: "bigint", nullable: false),
-                    ValidThruMonth = table.Column<byte>(type: "smallint", nullable: false),
-                    ValidThruYear = table.Column<byte>(type: "smallint", nullable: false),
-                    CVC = table.Column<byte>(type: "smallint", nullable: false),
-                    Owner = table.Column<string>(type: "text", nullable: false),
-                    BankSystemId = table.Column<long>(type: "bigint", nullable: false),
-                    CustomerId = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BankCards", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BankCards_BankSystems_BankSystemId",
-                        column: x => x.BankSystemId,
-                        principalSchema: "public",
-                        principalTable: "BankSystems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BankCards_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalSchema: "public",
-                        principalTable: "Customer",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "IndividualEntities",
-                schema: "public",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    Surname = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IndividualEntities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_IndividualEntities_Customer_Id",
-                        column: x => x.Id,
-                        principalSchema: "public",
-                        principalTable: "Customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LegalEntities",
-                schema: "public",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    INN = table.Column<long>(type: "bigint", nullable: false),
-                    KPP = table.Column<long>(type: "bigint", nullable: false),
-                    PhysicalAddress = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    LegalAddress = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
-                    IsVerified = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LegalEntities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LegalEntities_Customer_Id",
-                        column: x => x.Id,
-                        principalSchema: "public",
-                        principalTable: "Customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Orders",
-                schema: "public",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CustomerId = table.Column<string>(type: "text", nullable: false),
-                    OrderStatusId = table.Column<long>(type: "bigint", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Orders_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalSchema: "public",
-                        principalTable: "Customer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Orders_OrderStatus_OrderStatusId",
-                        column: x => x.OrderStatusId,
-                        principalSchema: "public",
-                        principalTable: "OrderStatus",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ComputerCaseMotherboardFormFactor",
                 schema: "public",
                 columns: table => new
@@ -1649,35 +1670,6 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItems",
-                schema: "public",
-                columns: table => new
-                {
-                    OrderId = table.Column<long>(type: "bigint", nullable: false),
-                    ItemId = table.Column<int>(type: "integer", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    BoughtFor = table.Column<double>(type: "double precision", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderItems", x => new { x.OrderId, x.ItemId });
-                    table.ForeignKey(
-                        name: "FK_OrderItems_Items_ItemId",
-                        column: x => x.ItemId,
-                        principalSchema: "public",
-                        principalTable: "Items",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalSchema: "public",
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "NVMeSSDs",
                 schema: "public",
                 columns: table => new
@@ -1829,12 +1821,6 @@ namespace GenosStorExpress.Infrastructure.Migrations
                 name: "IX_CartItems_ItemId",
                 schema: "public",
                 table: "CartItems",
-                column: "ItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Carts_ItemId",
-                schema: "public",
-                table: "Carts",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(

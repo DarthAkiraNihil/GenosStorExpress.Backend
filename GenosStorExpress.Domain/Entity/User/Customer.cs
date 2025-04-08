@@ -7,7 +7,7 @@ namespace GenosStorExpress.Domain.Entity.User {
 		public IList<BankCard> BankCards {  get; set; }
 		[Required]
 		public Cart Cart { get; set; }
-		public int CartId { get; set; }
+		public string CartId { get; set; }
 
 		protected Customer() {
 			Orders = new List<Order>();

@@ -82,9 +82,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException($"Товара с номером {itemId} не существует");
             }
             
-            var cart = customer.Cart;
-            // cart = _repositories.Orders.Carts.Get(cart.CustomerId)!;
-            var cartItem = _repositories.Orders.CartItems.List().First(i => i.Item == item && i.CartId == cart.CustomerId);
+            // var cart = customer.Cart;
+            var cart = _repositories.Orders.Carts.Get(customerId)!;
+            var cartItem = cart.Items.First(i => i.Item == item && i.CartId == cart.CustomerId);
             _repositories.Orders.CartItems.DeleteRaw(cartItem);
             cart.Items.Remove(cartItem);
             
@@ -164,7 +164,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException($"Товара с номером {itemId} не существует");
             }
             
-            var cart = customer.Cart;
+            var cart = _repositories.Orders.Carts.Get(customerId)!;
             return cart.Items.Select(i => i.Item).Contains(item);
         }
 

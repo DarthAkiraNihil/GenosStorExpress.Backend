@@ -8,7 +8,6 @@ public class AnonymousItemWrapper: ItemWrapper {
     /// Характеристики товара
     /// </summary>
     public IDictionary<string, dynamic> Characteristics { get; set; }
-    
     /// <summary>
     /// Стандартный конструктор
     /// </summary>

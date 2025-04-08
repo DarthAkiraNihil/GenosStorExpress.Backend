@@ -35,6 +35,12 @@ public class ItemWrapper: WithModelWrapper {
     /// </summary>
     [JsonPropertyName("active_discount")]
     public ActiveDiscountWrapper? ActiveDiscount { get; set; }
+    
+    /// <summary>
+    /// Флаг наличия данного товара в корзине текущего покупателя
+    /// </summary>
+    [JsonPropertyName("is_in_cart")]
+    public bool IsInCart { get; set; }
 
     /// <summary>
     /// Стандартный конструктор

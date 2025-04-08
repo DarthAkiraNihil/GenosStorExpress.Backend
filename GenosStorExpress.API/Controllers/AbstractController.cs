@@ -27,6 +27,7 @@ public abstract class AbstractController: ControllerBase {
     /// <returns>Текущий пользователь или null</returns>
     protected User? _getCurrentUser() {
         var task = _userManager.GetUserAsync(HttpContext.User);
+        task.Wait();
         if (task.IsCompletedSuccessfully) {
             return task.Result;
         }

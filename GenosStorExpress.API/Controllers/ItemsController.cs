@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using GenosStorExpress.Application.Service.Interface.Entity.Items;
+﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
 using GenosStorExpress.Domain.Entity.User;
@@ -22,6 +22,7 @@ namespace GenosStorExpress.API.Controllers {
         private readonly IItemTypeService _itemTypeService;
         private readonly IItemImageService _itemImageService;
         private readonly IAllItemsService _itemsService;
+        private readonly ICartService _cartService;
 
         /// <summary>
         /// Стандартный конструктор
@@ -31,17 +32,20 @@ namespace GenosStorExpress.API.Controllers {
         /// <param name="itemImageService">Сервис изображений товаров</param>
         /// <param name="itemsService">Общий сервис товаров</param>
         /// <param name="userManager">Менеджер пользователей</param>
-        public ItemsController(UserManager<User> userManager, IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService, IItemImageService itemImageService, IAllItemsService itemsService) : base(userManager) {
+        /// <param name="cartService">Сервис корзин</param>
+        public ItemsController(UserManager<User> userManager, IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService, IItemImageService itemImageService, IAllItemsService itemsService, ICartService cartService) : base(userManager) {
             _itemServiceRouter = itemServiceRouter;
             _itemTypeService = itemTypeService;
             _itemImageService = itemImageService;
             _itemsService = itemsService;
+            _cartService = cartService;
         }
 
         /// <summary>
         /// Получение списка товаров определённой категории 
         /// </summary>
         /// <param name="type">Тип товара. Допустимые значения</param>
+        /// <param name="filters">Фильтры, применяемые к списку товаров</param>
         /// <returns>Список товаров с основной информацией</returns>
         [HttpGet("{type}")]
         public ActionResult<IEnumerable<ItemWrapper>> List(string type, [FromBody] IDictionary<string, dynamic>? filters = null) {
@@ -53,7 +57,7 @@ namespace GenosStorExpress.API.Controllers {
             }
 
             try {
-                IEnumerable<ItemWrapper> list = null;
+                IEnumerable<ItemWrapper> list;
                 if (filters != null) {
                     list = _itemServiceRouter.Filter(descriptor, filters);
                 } else {
@@ -66,7 +70,8 @@ namespace GenosStorExpress.API.Controllers {
                         Description = i.Description,
                         Price = i.Price,
                         Id = i.Id,
-                        ItemType = i.ItemType
+                        ItemType = i.ItemType,
+                        IsInCart = _isInCart(i.Id)
                     }));
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
@@ -94,6 +99,7 @@ namespace GenosStorExpress.API.Controllers {
 
             try {
                 AnonymousItemWrapper item = _itemServiceRouter.Get(descriptor, id);
+                item.IsInCart = _isInCart(item.Id);
                 return Ok(item);
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
@@ -268,6 +274,15 @@ namespace GenosStorExpress.API.Controllers {
             } catch (Exception e) {
                 return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
             }
+        }
+
+        private bool _isInCart(int itemId) {
+            User? user = _getCurrentUser();
+            if (user == null) {
+                return false;
+            }
+
+            return _cartService.IsInCart(itemId, user.Id);
         }
 
     }

@@ -45,7 +45,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
         /// Получение содержимого корзины
         /// </summary>
         /// <param name="customerId">Номер покупателя</param>
-        /// <returns></returns>
+        /// <returns>Содержимое корзины покупателя</returns>
         CartWrapper GetCart(string customerId);
         
     }

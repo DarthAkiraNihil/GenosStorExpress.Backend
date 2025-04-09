@@ -52,6 +52,7 @@ public abstract class AbstractItemService {
         wrapper.Price = entity.Price;
         wrapper.Description = entity.Description;
         wrapper.ItemType = entity.ItemType.Name;
+        wrapper.ReviewsCount = entity.Reviews.Count;
         wrapper.OverallRating = _getOverallRating(entity);
         if (entity.ActiveDiscount != null) {
             wrapper.ActiveDiscount = new ActiveDiscountWrapper {

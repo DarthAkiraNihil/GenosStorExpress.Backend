@@ -36,7 +36,10 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void DeleteRaw(CartItem item) {
-            _context.CartItems.Remove(item);
+            CartItem? raw = _context.CartItems.FirstOrDefault(ci => ci.CartId == item.CartId && ci.ItemId == item.ItemId);
+            if (raw != null) {
+                _context.CartItems.Remove(raw);
+            }
         }
     }
 }

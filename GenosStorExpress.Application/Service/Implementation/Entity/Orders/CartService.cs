@@ -84,9 +84,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             
             // var cart = customer.Cart;
             var cart = _repositories.Orders.Carts.Get(customerId)!;
-            var cartItem = cart.Items.First(i => i.Item == item && i.CartId == cart.CustomerId);
+            var cartItem = cart.Items.First(i => i.ItemId == item.Id && i.CartId == cart.CustomerId);
             _repositories.Orders.CartItems.DeleteRaw(cartItem);
-            cart.Items.Remove(cartItem);
+            // cart.Items.Remove(cartItem);
             
             _repositories.Save();
         }

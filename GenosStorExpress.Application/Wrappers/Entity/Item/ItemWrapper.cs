@@ -31,6 +31,11 @@ public class ItemWrapper: WithModelWrapper {
     [JsonPropertyName("overall_rating")]
     public double OverallRating { get; set; }
     /// <summary>
+    /// Количество отзывов на товар
+    /// </summary>
+    [JsonPropertyName("reviews_count")]
+    public double ReviewsCount { get; set; }
+    /// <summary>
     /// Информация о скидке на товар
     /// </summary>
     [JsonPropertyName("active_discount")]

@@ -257,7 +257,7 @@ namespace GenosStorExpress.Infrastructure.Context{
 				.WithMany(c => c.Items);
 			
 			cartItemEntity.Navigation(o => o.Cart).AutoInclude().IsRequired();
-			cartItemEntity.Navigation(o=> o.Item).AutoInclude().IsRequired();
+			// cartItemEntity.Navigation(o=> o.Item).AutoInclude().IsRequired();
 			
 			var customerEntity = modelBuilder.Entity<Customer>();
 

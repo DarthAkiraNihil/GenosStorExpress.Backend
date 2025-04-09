@@ -165,7 +165,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             }
             
             var cart = _repositories.Orders.Carts.Get(customerId)!;
-            return cart.Items.Select(i => i.Item).Contains(item);
+            return cart.Items.Select(i => i.ItemId).Contains(itemId);
         }
 
         /// <summary>

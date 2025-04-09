@@ -220,7 +220,7 @@ namespace GenosStorExpress.API.Controllers {
         /// <param name="review">Отзыв</param>
         /// <response code="204">Успех</response>
         [Authorize(Roles = "individual_entity,legal_entity")]
-        [HttpGet("{id:int}/leave_review")]
+        [HttpPost("{id:int}/leave_review")]
         public IActionResult LeaveReview(int id, [FromBody]ReviewWrapper review) {
             try {
                 _itemsService.LeaveReview(id, review);
@@ -239,7 +239,7 @@ namespace GenosStorExpress.API.Controllers {
         /// <returns>Список отзывов</returns>
         /// <response code="200">Успех</response>
         [HttpGet("{id:int}/reviews")]
-        public IActionResult GetReviews(int id) {
+        public ActionResult<ReviewWrapper> GetReviews(int id) {
             try {
                 return Ok(_itemsService.GetReviews(id));
             } catch (NullReferenceException e) {

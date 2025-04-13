@@ -50,7 +50,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException($"Товара с номером {itemId} не существует");
             }
             
-            var cart = customer.Cart;
+            var cart = _repositories.Orders.Carts.Get(customerId)!;
             var cartItem = new CartItem {
                 Cart = cart,
                 Item = item,
@@ -110,8 +110,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException($"Товара с номером {itemId} не существует");
             }
             
-            var cart = customer.Cart;
-            cart.Items.First(i => i.Item == item).Quantity++;
+            var cart = _repositories.Orders.Carts.Get(customerId)!;
+            var cartItem = cart.Items.First(i => i.ItemId == item.Id);
+            cartItem.Quantity++;
+            // _repositories.Orders.Carts.Update(cart);
+            _repositories.Orders.CartItems.Update(cartItem);
+            // cart.Items.First(i => i.ItemId == itemId).Quantity++;
             _repositories.Save();
         }
 
@@ -134,13 +138,14 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException($"Товара с номером {itemId} не существует");
             }
             
-            var cart = customer.Cart;
-            var itemToRemove = cart.Items.First(i => i.Item == item);
+            var cart = _repositories.Orders.Carts.Get(customerId)!;
+            var itemToRemove = cart.Items.First(i => i.ItemId == itemId);
             itemToRemove.Quantity--;
             if (itemToRemove.Quantity == 0) {
                 RemoveFromCart(itemId, customerId);
                 return;
             }
+            _repositories.Orders.CartItems.Update(itemToRemove);
             _repositories.Save();
         }
 
@@ -180,7 +185,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException("Покупатель с указанным ID не найден");
             }
             
-            var cart = customer.Cart;
+            var cart = _repositories.Orders.Carts.Get(customerId)!;
             while (cart.Items.Count > 0) {
                 RemoveFromCart(cart.Items[0].Item.Id, customerId);
             }
@@ -199,7 +204,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException("Покупатель с указанным ID не найден");
             }
             
-            var cart = customer.Cart;
+            var cart = _repositories.Orders.Carts.Get(customerId)!;
             return new CartWrapper {
                 Items = cart.Items.Select(
                     i => new CartItemWrapper {

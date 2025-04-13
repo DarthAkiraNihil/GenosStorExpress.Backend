@@ -133,8 +133,9 @@ public class AccountController : AbstractController {
             if (user is LegalEntity legalEntity && !legalEntity.IsVerified) {
                 return BadRequest(new DetailObject("Юридическое лицо не подтверждено"));
             }
+
             var token = GenerateJwtToken(user);
-            return Ok(new { Token = token, Role = user.UserType });
+            return Ok(new { Token = token, Role = user.UserType.ToString(), Username = user.Email });
         }
         return Unauthorized();
     }
@@ -144,8 +145,8 @@ public class AccountController : AbstractController {
     /// </summary>
     /// <returns>Ничего в случае успеха</returns>
     [Authorize]
-    [HttpPost("logout")]
-    public async Task<IActionResult> Logout() {
+    [HttpPost("sign_out")]
+    public new async Task<IActionResult> SignOut() {
         await _signInManager.SignOutAsync();
         return NoContent();
     }

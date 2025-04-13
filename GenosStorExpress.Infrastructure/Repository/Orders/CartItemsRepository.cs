@@ -25,6 +25,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void Update(CartItem item) {
+            _context.ChangeTracker.Clear();
             _context.Entry(item).State = EntityState.Modified;
         }
 

@@ -52,13 +52,14 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             
             var cart = _repositories.Orders.Carts.Get(customerId)!;
             var cartItem = new CartItem {
-                Cart = cart,
+                // Cart = cart,
+                CartId = cart.CustomerId,
                 Item = item,
                 Quantity = 1
             };
-            cart.Items.Add(cartItem);
+            //cart.Items.Add(cartItem);
             _repositories.Orders.CartItems.Create(cartItem);
-            // _repositories.Orders.Carts.Update(cart);
+            //_repositories.Orders.Carts.Update(cart);
             _repositories.Save();
 
         }

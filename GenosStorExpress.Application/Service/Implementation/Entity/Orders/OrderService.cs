@@ -41,13 +41,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         public OrderWrapper Get(int orderId, string customerId) {
             Order? order = _repositories.Orders.Orders.Get(orderId);
 
-            if (order == null || order.Customer.Id != customerId) {
+            if (order == null || order.CustomerId != customerId) {
                 throw new NullReferenceException($"Заказа с номером {orderId} не существует");
             }
 
             return new OrderWrapper {
                 Id = order.Id,
-                Status = order.OrderStatus.Name,
+                Status = order.OrderStatus!.Name,
                 CreatedAt = order.CreatedAt,
                 Items = order.Items.Select(
                     i => new OrderItemWrapper {
@@ -64,11 +64,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// <param name="customerId">Номер покупателя</param>
         /// <returns>Список всех заказов покупателя</returns>
         public IList<OrderWrapper> List(string customerId) {
-            var orders = _repositories.Orders.Orders.List().Where(o => o.Customer.Id == customerId).ToList();
+            var orders = _repositories.Orders.Orders.List().Where(o => o.CustomerId == customerId).ToList();
 
             return orders.Select(order => new OrderWrapper {
                 Id = order.Id,
-                Status = order.OrderStatus.Name,
+                Status = order.OrderStatus!.Name,
                 CreatedAt = order.CreatedAt,
                 Items = order.Items.Select(
                     i => new OrderItemWrapper {
@@ -109,6 +109,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// <returns>Краткую информацию о созданном заказе</returns>
         /// <exception cref="NullReferenceException">Если покупателя не существует или если в базе данных нет статуса "Создан"</exception>
         public ShortOrderWrapper CreateOrderFromCart(string customerId) {
+
+            using var transaction = _repositories.BeginTransaction();
             
             Customer? customer = _getCustomer(customerId);
 
@@ -116,7 +118,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException("Покупатель с указанным ID не найден");
             }
             
-            var cart = customer.Cart;
+            var cart = _repositories.Orders.Carts.Get(customer.Id)!;
             var orderItems = new List<OrderItems>();
             var status = _orderStatusService.GetEntityByDescriptor(OrderStatusDescriptor.Created);
 
@@ -125,21 +127,24 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             }
             
             var order = new Order {
-                Customer = customer,
+                CustomerId = customerId,
                 CreatedAt = DateTime.Now,
-                OrderStatus = status
+                OrderStatusId = status.Id
             };
+            
+            _repositories.Orders.Orders.Create(order);
+            _repositories.Save();
 
             if (cart.Items.Count == 0) {
                 throw new InvalidOperationException("Корзина пуста. Создать заказ невозможно");
             }
             
             foreach (var item in cart.Items) {
-                var discount = item.Item.ActiveDiscount;
+                var discount = item.Item!.ActiveDiscount;
                 orderItems.Add(
                     new OrderItems {
-                        Order = order,
-                        Item = item.Item,
+                        OrderId = order.Id,
+                        ItemId = item.Item.Id,
                         BoughtFor = discount != null ? item.Item.Price * discount.Value: item.Item.Price,
                         Quantity = item.Quantity
                     }
@@ -148,11 +153,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             
             order.Items = orderItems;
             _cartService.ClearCart(customerId);
-            Create(order);
+            // Create(order);
             _repositories.Save();
+            transaction.Commit();
             return new ShortOrderWrapper {
                 OrderId = order.Id,
-                Status = order.OrderStatus.Name
+                Status = order.OrderStatus!.Name
             };
         }
 
@@ -221,10 +227,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// <returns>Список активных (не отменённых и не полученных) заказов</returns>
         public List<ShortOrderWrapper> GetActiveOrders() {
             return List().Where(
-                o => o.OrderStatus.Name != "Cancelled" && o.OrderStatus.Name != "Received"
+                o => o.OrderStatus!.Name != "Cancelled" && o.OrderStatus.Name != "Received"
             ).Select(i => new ShortOrderWrapper {
                 OrderId = i.Id,
-                Status = i.OrderStatus.Name
+                Status = i.OrderStatus!.Name
             }).ToList();
         }
 
@@ -240,12 +246,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             }
             
             return List().Where(
-                o => o.OrderStatus.Name != "Cancelled" && o.OrderStatus.Name != "Received"
+                o => o.OrderStatus!.Name != "Cancelled" && o.OrderStatus.Name != "Received"
             ).ToList();
-        }
-
-        private void Create(Order item) {
-            _repositories.Orders.Orders.Create(item);
         }
 
         private Order? Get(int id) {

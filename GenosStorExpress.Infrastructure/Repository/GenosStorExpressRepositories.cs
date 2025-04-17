@@ -6,6 +6,7 @@ using GenosStorExpress.Infrastructure.Context;
 using GenosStorExpress.Infrastructure.Repository.Item;
 using GenosStorExpress.Infrastructure.Repository.Orders;
 using GenosStorExpress.Infrastructure.Repository.User;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace GenosStorExpress.Infrastructure.Repository {
     public class GenosStorExpressRepositories: IGenosStorExpressRepositories {
@@ -45,6 +46,10 @@ namespace GenosStorExpress.Infrastructure.Repository {
                 }
                 return _users;
             }
+        }
+
+        public IDbContextTransaction BeginTransaction() {
+            return _context.Database.BeginTransaction();
         }
 
         public int Save() {

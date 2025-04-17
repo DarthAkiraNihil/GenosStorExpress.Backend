@@ -279,7 +279,7 @@ namespace GenosStorExpress.Infrastructure.Context{
 			var orderItemsEntity = modelBuilder.Entity<OrderItems>();
 			
 			orderItemsEntity.Navigation(o => o.Order).AutoInclude().IsRequired();
-			orderItemsEntity.Navigation(o => o.Item).AutoInclude().IsRequired();
+			// orderItemsEntity.Navigation(o => o.Item).AutoInclude().IsRequired();
 			
 			base.OnModelCreating(modelBuilder);
 		}

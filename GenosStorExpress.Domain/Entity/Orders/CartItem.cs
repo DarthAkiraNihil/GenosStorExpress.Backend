@@ -17,13 +17,13 @@ namespace GenosStorExpress.Domain.Entity.Orders {
         public int Quantity { get; set; }
 
         [Column(Order = 1)]
-		public virtual Item.Item Item { get; set; }
+		public virtual Item.Item? Item { get; set; }
 		[Column(Order = 2)]
-		public virtual Cart Cart { get; set; }
+		public virtual Cart? Cart { get; set; }
 
 		public CartItem() {
-			// Cart = new Cart();
-			// Item = new VoidItem();
+			CartId = string.Empty;
 		}
+
     }
 }

@@ -20,13 +20,9 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 		public double BoughtFor { get; set; }
 
 		[Column(Order = 1)]
-		public Order Order { get; set; }
+		public virtual Order? Order { get; set; }
 		[Column(Order = 2)]
-		public Item.Item Item { get; set; }
-
-		public OrderItems() {
-			Order = new Order();
-			Item = new VoidItem();
-		}
+		public virtual Item.Item? Item { get; set; }
+		
 	}
 }

@@ -25,6 +25,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Orders {
         }
 
         public void Create(Order order) {
+            _context.ChangeTracker.Clear();
             _context.Orders.Add(order);
         }
 

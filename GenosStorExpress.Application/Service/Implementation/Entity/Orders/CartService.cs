@@ -189,6 +189,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             var cart = _repositories.Orders.Carts.Get(customerId)!;
             while (cart.Items.Count > 0) {
                 RemoveFromCart(cart.Items[0].Item.Id, customerId);
+                cart.Items.RemoveAt(0);
             }
         }
 

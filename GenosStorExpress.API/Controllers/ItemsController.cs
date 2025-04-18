@@ -45,10 +45,27 @@ namespace GenosStorExpress.API.Controllers {
         /// Получение списка товаров определённой категории 
         /// </summary>
         /// <param name="type">Тип товара. Допустимые значения</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
         /// <param name="filters">Фильтры, применяемые к списку товаров</param>
         /// <returns>Список товаров с основной информацией</returns>
         [HttpGet("{type}")]
-        public ActionResult<IEnumerable<ItemWrapper>> List(string type, [FromBody] IDictionary<string, dynamic>? filters = null) {
+        public ActionResult<PaginatedAnonymousItemWrapper> List(string type, [FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10, [FromQuery] IDictionary<string, dynamic>? filters = null) {
+
+            if (filters != null) {
+                if (filters.ContainsKey("pageNumber")) {
+                    filters.Remove("pageNumber");
+                }
+
+                if (filters.ContainsKey("pageSize")) {
+                    filters.Remove("pageSize");
+                }
+
+                if (filters.Count == 0) {
+                    filters = null;
+                }
+
+            }
             
             ItemTypeDescriptor descriptor = _itemTypeService.GetDescriptor(type);
 
@@ -57,22 +74,19 @@ namespace GenosStorExpress.API.Controllers {
             }
 
             try {
-                IEnumerable<ItemWrapper> list;
+                PaginatedAnonymousItemWrapper result;
                 if (filters != null) {
-                    list = _itemServiceRouter.Filter(descriptor, filters);
+                    result = _itemServiceRouter.Filter(descriptor, filters, pageNumber, pageSize);
                 } else {
-                    list = _itemServiceRouter.List(descriptor);
+                    result = _itemServiceRouter.List(descriptor, pageNumber, pageSize);
                 }
-                return Ok(list.Select(
-                    i => new ItemWrapper {
-                        Name = i.Name,
-                        Model = i.Model,
-                        Description = i.Description,
-                        Price = i.Price,
-                        Id = i.Id,
-                        ItemType = i.ItemType,
-                        IsInCart = _isInCart(i.Id)
-                    }));
+
+                if (result.Items.Count == 0) {
+                    result.Previous = null;
+                    result.Next = null;
+                }
+                
+                return Ok(result);
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
             } catch (Exception e) {

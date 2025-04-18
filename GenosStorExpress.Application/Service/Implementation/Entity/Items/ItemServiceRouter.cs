@@ -152,79 +152,165 @@ public class ItemServiceRouter: IItemServiceRouter {
     /// Получение списка товаров по дескриптору
     /// </summary>
     /// <param name="itemType">Дескриптор типа товара</param>
+    /// /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
     /// <returns>Список товаров указанного типа</returns>
     /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
-    public IList<AnonymousItemWrapper> List(ItemTypeDescriptor itemType) {
+    public PaginatedAnonymousItemWrapper List(ItemTypeDescriptor itemType, int pageNumber, int pageSize) {
         switch (itemType) {
             case ItemTypeDescriptor.ComputerCase: {
-                return _computerComponents.ComputerCases.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.ComputerCases.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.CPUCooler: {
-                return _computerComponents.CPUCoolers.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.CPUCoolers.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.CPU: {
-                return _computerComponents.CPUs.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.CPUs.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Display: {
-                return _computerComponents.Displays.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.Displays.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.GraphicsCard: {
-                return _computerComponents.GraphicsCards.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.GraphicsCards.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.HDD: {
-                return _computerComponents.HDDs.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.HDDs.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Keyboard: {
-                return _computerComponents.Keyboards.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.Keyboards.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Motherboard: {
-                return _computerComponents.Motherboards.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.Motherboards.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Mouse: {
-                return _computerComponents.Mouses.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.Mouses.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.NVMeSSD: {
-                return _computerComponents.NVMeSSDs.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.NVMeSSDs.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.PowerSupply: {
-                return _computerComponents.PowerSupplies.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.PowerSupplies.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.RAM: {
-                return _computerComponents.RAMs.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.RAMs.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.SataSSD: {
-                return _computerComponents.SataSSDs.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.SataSSDs.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.PreparedAssembly: {
-                return _preparedAssemblyService.List().Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _preparedAssemblyService.List();
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 0 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Unknown: {
                 throw new ArgumentException("Unknown descriptor");
@@ -553,75 +639,155 @@ public class ItemServiceRouter: IItemServiceRouter {
     /// </summary>
     /// <param name="itemType">Дескриптор типа товаров</param>
     /// <param name="filters">Фильтры</param>
+    /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
     /// <returns>Отфильтрованный список</returns>
     /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
-    public IList<AnonymousItemWrapper> Filter(ItemTypeDescriptor itemType, IDictionary<string, dynamic> filters) {
+    public PaginatedAnonymousItemWrapper Filter(ItemTypeDescriptor itemType, IDictionary<string, dynamic> filters, int pageNumber, int pageSize) {
         FilterContainerWrapper container = _filterTransformerService.TransformFilters(filters);
         switch (itemType) {
             case ItemTypeDescriptor.ComputerCase: {
-                return _computerComponents.ComputerCases.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.ComputerCases.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.CPUCooler: {
-                return _computerComponents.CPUCoolers.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.CPUCoolers.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.CPU: {
-                return _computerComponents.CPUs.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.CPUs.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Display: {
-                return _computerComponents.Displays.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.Displays.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.GraphicsCard: {
-                return _computerComponents.GraphicsCards.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.GraphicsCards.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.HDD: {
-                return _computerComponents.HDDs.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.HDDs.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Keyboard: {
-                return _computerComponents.Keyboards.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.Keyboards.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Motherboard: {
-                return _computerComponents.Motherboards.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.Motherboards.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.Mouse: {
-                return _computerComponents.Mouses.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.Mouses.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.NVMeSSD: {
-                return _computerComponents.NVMeSSDs.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.NVMeSSDs.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.PowerSupply: {
-                return _computerComponents.PowerSupplies.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.PowerSupplies.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.RAM: {
-                return _computerComponents.RAMs.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.RAMs.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.SataSSD: {
-                return _computerComponents.SataSSDs.Filter(container).Select(
-                    i => _itemBuilderService.BuildWrapper(i)
-                ).ToList();
+                var list = _computerComponents.SataSSDs.Filter(container);
+                return new PaginatedAnonymousItemWrapper {
+                    Count = list.Count,
+                    Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                    Next = (pageNumber + 1) * pageSize >= list.Count ? null : (pageNumber + 1).ToString(),
+                    Items = list.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                        i => _itemBuilderService.BuildWrapper(i)
+                    ).ToList()
+                };
             }
             case ItemTypeDescriptor.PreparedAssembly:
             case ItemTypeDescriptor.Unknown: {

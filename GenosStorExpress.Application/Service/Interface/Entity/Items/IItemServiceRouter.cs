@@ -19,15 +19,19 @@ public interface IItemServiceRouter {
     /// Получение списка товаров по дескриптору
     /// </summary>
     /// <param name="itemType">Дескриптор типа товара</param>
+    /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
     /// <returns>Список товаров указанного типа</returns>
-    IList<AnonymousItemWrapper> List(ItemTypeDescriptor itemType);
+    PaginatedAnonymousItemWrapper List(ItemTypeDescriptor itemType, int pageNumber, int pageSize);
     /// <summary>
     /// Фильтрация списка товаров по критериям
     /// </summary>
     /// <param name="itemType">Дескриптор типа товаров</param>
     /// <param name="filters">Фильтры</param>
+    /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
     /// <returns>Отфильтрованный список</returns>
-    IList<AnonymousItemWrapper> Filter(ItemTypeDescriptor itemType, IDictionary<string, dynamic> filters);
+    PaginatedAnonymousItemWrapper Filter(ItemTypeDescriptor itemType, IDictionary<string, dynamic> filters, int pageNumber, int pageSize);
     /// <summary>
     /// Создание товара по его анонимной обёртке
     /// </summary>

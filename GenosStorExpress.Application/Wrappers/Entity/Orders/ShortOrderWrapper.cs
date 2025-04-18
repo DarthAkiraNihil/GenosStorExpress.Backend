@@ -7,7 +7,6 @@ namespace GenosStorExpress.Application.Wrappers.Entity.Orders;
 /// </summary>
 public class ShortOrderWrapper {
     /// <summary>
-    /// 
     /// Номер заказа
     /// </summary>
     [JsonPropertyName("order_id")]
@@ -16,7 +15,15 @@ public class ShortOrderWrapper {
     /// Статус заказа
     /// </summary>
     public string Status { get; set; }
-    
+    /// <summary>
+    /// Дата создания
+    /// </summary>
+    [JsonPropertyName("created_at")]
+    public DateTime CreatedAt { get; set; }
+    /// <summary>
+    /// Количество товаров в заказе
+    /// </summary>
+    public int Count { get; set; }
     /// <summary>
     /// Стандартный конструктор
     /// </summary>

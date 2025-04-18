@@ -62,21 +62,26 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// Получение списка заказов покупателя
         /// </summary>
         /// <param name="customerId">Номер покупателя</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
         /// <returns>Список всех заказов покупателя</returns>
-        public IList<OrderWrapper> List(string customerId) {
+        public PaginatedShortOrderInfoWrapper List(string customerId, int pageNumber, int pageSize) {
             var orders = _repositories.Orders.Orders.List().Where(o => o.CustomerId == customerId).ToList();
-
-            return orders.Select(order => new OrderWrapper {
-                Id = order.Id,
-                Status = order.OrderStatus!.Name,
-                CreatedAt = order.CreatedAt,
-                Items = order.Items.Select(
-                    i => new OrderItemWrapper {
-                        Item = _allItemsService.Get(i.ItemId)!,
-                        Quantity = i.Quantity,
-                        BoughtFor = i.BoughtFor,
-                    }).ToList()
-            }).ToList();
+            
+            return new PaginatedShortOrderInfoWrapper {
+                Count = orders.Count,
+                Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                Next = (pageNumber + 1) * pageSize >= orders.Count ? null : (pageNumber + 1).ToString(),
+                Items = orders.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                    i => new ShortOrderWrapper {
+                        OrderId = i.Id,
+                        Count = i.Items.Count,
+                        CreatedAt = i.CreatedAt,
+                        Status = i.OrderStatus!.Name,
+                    }
+                ).ToList()
+            };
+            
         }
 
         /// <summary>
@@ -158,7 +163,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             transaction.Commit();
             return new ShortOrderWrapper {
                 OrderId = order.Id,
-                Status = order.OrderStatus!.Name
+                Status = order.OrderStatus!.Name,
+                CreatedAt = order.CreatedAt,
+                Count = orderItems.Count
             };
         }
 

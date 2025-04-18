@@ -19,7 +19,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
         /// </summary>
         /// <param name="customerId">Номер покупателя</param>
         /// <returns>Список всех заказов покупателя</returns>
-        IList<OrderWrapper> List(string customerId);
+        PaginatedShortOrderInfoWrapper List(string customerId, int pageNumber, int pageSize);
         /// <summary>
         /// Создание заказа из корзины
         /// </summary>

@@ -45,8 +45,10 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
         /// Получение содержимого корзины
         /// </summary>
         /// <param name="customerId">Номер покупателя</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
         /// <returns>Содержимое корзины покупателя</returns>
-        CartWrapper GetCart(string customerId);
+        PaginatedCartWrapper GetCart(string customerId, int pageNumber, int pageSize);
         
     }
 }

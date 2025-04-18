@@ -126,14 +126,14 @@ public class CartsController: AbstractController {
     /// <response code="200">Успех</response>
     [Authorize(Roles="individual_entity,legal_entity")]
     [HttpGet]
-    public ActionResult<CartWrapper> GetCart() {
+    public ActionResult<PaginatedCartWrapper> GetCart([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
         User? user = _getCurrentUser();
         if (user is null) {
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
 
         try {
-            return Ok(_cartService.GetCart(user.Id));
+            return Ok(_cartService.GetCart(user.Id, pageNumber, pageSize));
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {

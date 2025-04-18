@@ -56,17 +56,19 @@ public class OrdersController: AbstractController {
     /// <summary>
     /// Получение списка заказов текущего пользователя
     /// </summary>
+    /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
     /// <returns>Список заказов текущего пользователя</returns>
     [Authorize(Roles = "individual_entity,legal_entity")]
     [HttpGet]
-    public ActionResult<IEnumerable<OrderWrapper>> GetList() {
+    public ActionResult<PaginatedShortOrderInfoWrapper> GetList([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
         User? user = _getCurrentUser();
         if (user == null) {
             return Unauthorized(new { message = "Доступ запрещён" });
         }
 
         try {
-            IEnumerable<OrderWrapper> orders = _orderService.List(user.Id);
+            PaginatedShortOrderInfoWrapper orders = _orderService.List(user.Id, pageNumber, pageSize);
             return Ok(orders);
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));

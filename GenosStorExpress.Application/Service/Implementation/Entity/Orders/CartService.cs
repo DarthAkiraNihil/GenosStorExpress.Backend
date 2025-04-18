@@ -188,7 +188,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             
             var cart = _repositories.Orders.Carts.Get(customerId)!;
             while (cart.Items.Count > 0) {
-                RemoveFromCart(cart.Items[0].Item.Id, customerId);
+                RemoveFromCart(cart.Items[0].Item!.Id, customerId);
                 cart.Items.RemoveAt(0);
             }
         }
@@ -197,9 +197,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// Получение содержимого корзины
         /// </summary>
         /// <param name="customerId">Номер покупателя</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
         /// <returns>Содержимое корзины покупателя</returns>
         /// <exception cref="NullReferenceException">Если указанный покупатель не найден</exception>
-        public CartWrapper GetCart(string customerId) {
+        public PaginatedCartWrapper GetCart(string customerId, int pageNumber, int pageSize) {
             Customer? customer = _getCustomer(customerId);
 
             if (customer == null) {
@@ -207,13 +209,16 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             }
             
             var cart = _repositories.Orders.Carts.Get(customerId)!;
-            return new CartWrapper {
-                Items = cart.Items.Select(
+            return new PaginatedCartWrapper {
+                Count = cart.Items.Count,
+                Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                Next = (pageNumber + 1) * pageSize >= cart.Items.Count ? null : (pageNumber + 1).ToString(),
+                Items = cart.Items.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
                     i => new CartItemWrapper {
-                        Item = _allItemsService.Get(i.Item.Id)!,
+                        Item = _allItemsService.Get(i.Item!.Id)!,
                         Quantity = i.Quantity
                     }).ToList()
-                };
+            };
         }
     }
 }

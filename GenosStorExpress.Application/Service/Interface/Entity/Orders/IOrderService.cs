@@ -13,11 +13,22 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
         /// <param name="orderId">Номер заказа</param>
         /// <param name="customerId">Номер заказчика</param>
         /// <returns>Обёртку заказа или null, если у покупателя такой заказ отсутствует</returns>
-        OrderWrapper? Get(int orderId, string customerId);
+        ShortOrderWrapper? Get(int orderId, string customerId);
+        /// <summary>
+        /// Получение товаров в заказе
+        /// </summary>
+        /// <param name="orderId">Номер заказа</param>
+        /// <param name="customerId">Номер заказчика</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
+        /// <returns></returns>
+        PaginatedOrderItemWrapper? GetItems(int orderId, string customerId, int pageNumber, int pageSize);
         /// <summary>
         /// Получение списка заказов покупателя
         /// </summary>
         /// <param name="customerId">Номер покупателя</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
         /// <returns>Список всех заказов покупателя</returns>
         PaginatedShortOrderInfoWrapper List(string customerId, int pageNumber, int pageSize);
         /// <summary>

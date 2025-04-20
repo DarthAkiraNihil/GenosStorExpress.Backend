@@ -30,7 +30,59 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _orderStatusService = orderStatusService;
             _allItemsService = allItemsService;
         }
-        
+
+        /// <summary>
+        /// Получение краткой информации о заказе по номеру
+        /// </summary>
+        /// <param name="orderId">Номер заказа</param>
+        /// <param name="customerId">Номер заказчика</param>
+        /// <returns>Обёртку заказа или null, если у покупателя такой заказ отсутствует</returns>
+        /// <exception cref="NullReferenceException">Если заказа не существует</exception>
+        ShortOrderWrapper IOrderService.Get(int orderId, string customerId) {
+            Order? order = _repositories.Orders.Orders.Get(orderId);
+
+            if (order == null || order.CustomerId != customerId) {
+                throw new NullReferenceException($"Заказа с номером {orderId} не существует");
+            }
+
+            return new ShortOrderWrapper {
+                Id = order.Id,
+                Status = order.OrderStatus!.Name,
+                CreatedAt = order.CreatedAt,
+                Count = order.Items.Count
+            };
+        }
+
+        /// <summary>
+        /// Получение пагинированного списка товаров в заказе
+        /// </summary>
+        /// <param name="orderId">Номер заказа</param>
+        /// <param name="customerId">Номер заказчика</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
+        /// <returns>Пагинированный список товаров в заказе</returns>
+        /// <exception cref="NullReferenceException">Если указанного заказа не существует</exception>
+        public PaginatedOrderItemWrapper GetItems(int orderId, string customerId, int pageNumber, int pageSize) {
+            Order? order = _repositories.Orders.Orders.Get(orderId);
+
+            if (order == null || order.CustomerId != customerId) {
+                throw new NullReferenceException($"Заказа с номером {orderId} не существует");
+            }
+
+            return new PaginatedOrderItemWrapper {
+                Count = order.Items.Count,
+                Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                Next = (pageNumber + 1) * pageSize >= order.Items.Count ? null : (pageNumber + 1).ToString(),
+                Items = order.Items.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                    i => new OrderItemWrapper {
+                        Item = _allItemsService.Get(i.ItemId)!,
+                        Quantity = i.Quantity,
+                        BoughtFor = i.BoughtFor,
+                    }
+                ).ToList()
+            };
+        }
+
         /// <summary>
         /// Получение заказа по номеру
         /// </summary>
@@ -74,7 +126,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 Next = (pageNumber + 1) * pageSize >= orders.Count ? null : (pageNumber + 1).ToString(),
                 Items = orders.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
                     i => new ShortOrderWrapper {
-                        OrderId = i.Id,
+                        Id = i.Id,
                         Count = i.Items.Count,
                         CreatedAt = i.CreatedAt,
                         Status = i.OrderStatus!.Name,
@@ -162,7 +214,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _repositories.Save();
             transaction.Commit();
             return new ShortOrderWrapper {
-                OrderId = order.Id,
+                Id = order.Id,
                 Status = order.OrderStatus!.Name,
                 CreatedAt = order.CreatedAt,
                 Count = orderItems.Count
@@ -236,7 +288,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             return List().Where(
                 o => o.OrderStatus!.Name != "Cancelled" && o.OrderStatus.Name != "Received"
             ).Select(i => new ShortOrderWrapper {
-                OrderId = i.Id,
+                Id = i.Id,
                 Status = i.OrderStatus!.Name
             }).ToList();
         }

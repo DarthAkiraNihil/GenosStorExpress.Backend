@@ -9,8 +9,7 @@ public class ShortOrderWrapper {
     /// <summary>
     /// Номер заказа
     /// </summary>
-    [JsonPropertyName("order_id")]
-    public long OrderId { get; set; }
+    public long Id { get; set; }
     /// <summary>
     /// Статус заказа
     /// </summary>

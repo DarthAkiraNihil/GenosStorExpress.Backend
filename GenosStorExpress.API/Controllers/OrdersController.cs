@@ -33,14 +33,43 @@ public class OrdersController: AbstractController {
     /// <returns>Подробную информацию о заказе</returns>
     [Authorize(Roles="individual_entity,legal_entity")]
     [HttpGet("{id:int}")]
-    public ActionResult<OrderWrapper> GetDetails(int id) {
+    public ActionResult<ShortOrderWrapper> GetDetails(int id) {
         User? user = _getCurrentUser();
         if (user == null) {
             return Unauthorized(new { message = "Доступ запрещён" });
         }
 
         try {
-            OrderWrapper? order = _orderService.Get(id, user.Id);
+            ShortOrderWrapper? order = _orderService.Get(id, user.Id);
+            if (order is null) {
+                return BadRequest(new DetailObject($"Заказа с номером {id} не существует"));
+            }
+
+            return order;
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+    
+    /// <summary>
+    /// Получение списка товаров в заказе
+    /// </summary>
+    /// <param name="id">Номер заказа</param>
+    /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
+    /// <returns></returns>
+    [Authorize(Roles="individual_entity,legal_entity")]
+    [HttpGet("{id:int}/items")]
+    public ActionResult<PaginatedOrderItemWrapper> GetItems(int id, [FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+
+        try {
+            PaginatedOrderItemWrapper? order = _orderService.GetItems(id, user.Id, pageNumber, pageSize);
             if (order is null) {
                 return BadRequest(new DetailObject($"Заказа с номером {id} не существует"));
             }

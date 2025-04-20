@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IDisplayService:
         IStandardService<DisplayWrapper>,
-        ISupportsFilter<DisplayWrapper, FilterContainerWrapper> {
+        ISupportsFilter<DisplayWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

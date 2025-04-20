@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IPowerSupplyService:
         IStandardService<PowerSupplyWrapper>,
-        ISupportsFilter<PowerSupplyWrapper, FilterContainerWrapper> {
+        ISupportsFilter<PowerSupplyWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

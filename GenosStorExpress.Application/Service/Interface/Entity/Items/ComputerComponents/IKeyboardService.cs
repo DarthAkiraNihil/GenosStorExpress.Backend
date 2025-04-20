@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IKeyboardService:
         IStandardService<KeyboardWrapper>,
-        ISupportsFilter<KeyboardWrapper, FilterContainerWrapper> {
+        ISupportsFilter<KeyboardWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

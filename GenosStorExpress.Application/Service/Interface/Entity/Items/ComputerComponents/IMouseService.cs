@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IMouseService:
         IStandardService<MouseWrapper>,
-        ISupportsFilter<MouseWrapper, FilterContainerWrapper> {
+        ISupportsFilter<MouseWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

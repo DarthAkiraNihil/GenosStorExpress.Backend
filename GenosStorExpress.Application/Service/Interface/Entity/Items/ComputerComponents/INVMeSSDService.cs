@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface INVMeSSDService:
         IStandardService<NVMeSSDWrapper>,
-        ISupportsFilter<NVMeSSDWrapper, FilterContainerWrapper> {
+        ISupportsFilter<NVMeSSDWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

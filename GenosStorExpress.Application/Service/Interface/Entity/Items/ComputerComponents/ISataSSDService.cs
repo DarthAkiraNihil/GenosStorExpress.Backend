@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface ISataSSDService:
         IStandardService<SataSSDWrapper>,
-        ISupportsFilter<SataSSDWrapper, FilterContainerWrapper> {
+        ISupportsFilter<SataSSDWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

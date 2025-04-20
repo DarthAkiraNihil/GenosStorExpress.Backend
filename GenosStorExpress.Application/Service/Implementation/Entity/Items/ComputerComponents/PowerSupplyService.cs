@@ -160,11 +160,63 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 );
             }
             
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
             var result = List();
             foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
+        }
+        
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription> {
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "price",
+                    VerboseName = "Цена"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vendors",
+                    VerboseName = "Производители",
+                    Choices = _repositories.Items.Characteristics.Vendors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tdp",
+                    VerboseName = "tdp"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "certificates_80plus",
+                    VerboseName = "certificates_80plus",
+                    Choices = _repositories.Items.Characteristics.Certificates80Plus.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "power_output",
+                    VerboseName = "power_output"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "sata_ports",
+                    VerboseName = "sata_ports"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "molex_ports",
+                    VerboseName = "molex_ports"
+                },
+            };
         }
     }
 }

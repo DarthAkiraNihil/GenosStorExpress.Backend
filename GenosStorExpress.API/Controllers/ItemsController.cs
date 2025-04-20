@@ -2,6 +2,7 @@
 using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -87,6 +88,30 @@ namespace GenosStorExpress.API.Controllers {
                 }
                 
                 return Ok(result);
+            } catch (NullReferenceException e) {
+                return BadRequest(new DetailObject(e.Message));
+            } catch (Exception e) {
+                return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+            }
+            
+        }
+        
+        /// <summary>
+        /// Получение информации о возможных фильтрах для данного типа товара
+        /// </summary>
+        /// <param name="type">Дескриптор типа товаров</param>
+        /// <returns></returns>
+        [HttpGet("{type}/filter_data")]
+        public ActionResult<IList<FilterDescription>> FilterData(string type) {
+            
+            ItemTypeDescriptor descriptor = _itemTypeService.GetDescriptor(type);
+
+            if (descriptor == ItemTypeDescriptor.Unknown) {
+                return BadRequest(new DetailObject($"Неизвестный тип товара - {type}"));
+            }
+
+            try {
+                return Ok(_itemServiceRouter.FilterData(descriptor));
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
             } catch (Exception e) {

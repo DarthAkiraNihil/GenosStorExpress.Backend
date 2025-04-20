@@ -19,6 +19,11 @@ public class FilterTransformerService: IFilterTransformerService {
         var container = new FilterContainerWrapper();
         
         foreach(KeyValuePair<string, dynamic> entry in filters) {
+            if (entry.Key.Equals("name")) {
+                container.Name = entry.Value;
+                continue;
+            }
+            
             RangeFilterWrapper? range = _getRangeFilter(entry.Value);
             if (range != null) {
                 container.Ranges.Add(entry.Key, range);

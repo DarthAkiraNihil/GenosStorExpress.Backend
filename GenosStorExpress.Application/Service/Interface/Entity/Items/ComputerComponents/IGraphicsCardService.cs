@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IGraphicsCardService:
         IStandardService<GraphicsCardWrapper>,
-        ISupportsFilter<GraphicsCardWrapper, FilterContainerWrapper> {
+        ISupportsFilter<GraphicsCardWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

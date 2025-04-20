@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface ICPUService:
         IStandardService<CPUWrapper>,
-        ISupportsFilter<CPUWrapper, FilterContainerWrapper> {
+        ISupportsFilter<CPUWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

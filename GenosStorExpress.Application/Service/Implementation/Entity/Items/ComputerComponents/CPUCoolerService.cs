@@ -235,11 +235,74 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 );
             }
             
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
             var result = List();
             foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
+        }
+        
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription> {
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "price",
+                    VerboseName = "Цена"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vendors",
+                    VerboseName = "Производители",
+                    Choices = _repositories.Items.Characteristics.Vendors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tdp",
+                    VerboseName = "tdp"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "max_fan_rpm",
+                    VerboseName = "max_fan_rpm"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tubes_count",
+                    VerboseName = "tubes_count"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tubes_diameter",
+                    VerboseName = "tubes_diameter"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "fan_count",
+                    VerboseName = "fan_count"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "foundation_material",
+                    VerboseName = "foundation_material",
+                    Choices = _repositories.Items.Characteristics.CoolerMaterials.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "radiator_material",
+                    VerboseName = "radiator_material",
+                    Choices = _repositories.Items.Characteristics.CoolerMaterials.List().Select(i => i.Name).ToList()
+                },
+            };
         }
     }
 }

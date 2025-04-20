@@ -9,6 +9,6 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IComputerCaseService:
         IStandardService<ComputerCaseWrapper>,
-        ISupportsFilter<ComputerCaseWrapper, FilterContainerWrapper> {
+        ISupportsFilter<ComputerCaseWrapper, FilterContainerWrapper, FilterDescription> {
     }
 }

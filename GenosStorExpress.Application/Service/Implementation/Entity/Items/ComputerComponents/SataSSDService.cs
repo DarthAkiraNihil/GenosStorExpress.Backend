@@ -137,11 +137,72 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 );
             }
             
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
             var result = List();
             foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
+        }
+        
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription> {
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "price",
+                    VerboseName = "Цена"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vendors",
+                    VerboseName = "Производители",
+                    Choices = _repositories.Items.Characteristics.Vendors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tdp",
+                    VerboseName = "tdp"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "capacity",
+                    VerboseName = "capacity"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "read_speed",
+                    VerboseName = "read_speed"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "write_speed",
+                    VerboseName = "write_speed"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tbw",
+                    VerboseName = "tbw"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "dwpd",
+                    VerboseName = "dwpd"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "bits_for_cell",
+                    VerboseName = "bits_for_cell"
+                },
+            };
         }
     }
 }

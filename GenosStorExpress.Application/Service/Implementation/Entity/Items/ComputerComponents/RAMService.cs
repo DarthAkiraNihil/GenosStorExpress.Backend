@@ -180,11 +180,63 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 );
             }
             
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
             var result = List();
             foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
+        }
+        
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription> {
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "price",
+                    VerboseName = "Цена"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vendors",
+                    VerboseName = "Производители",
+                    Choices = _repositories.Items.Characteristics.Vendors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tdp",
+                    VerboseName = "tdp"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "type",
+                    VerboseName = "type",
+                    Choices = _repositories.Items.Characteristics.RAMTypes.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "total_size",
+                    VerboseName = "total_size"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "module_size",
+                    VerboseName = "module_size"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "frequency",
+                    VerboseName = "frequency"
+                },
+            };
         }
     }
 }

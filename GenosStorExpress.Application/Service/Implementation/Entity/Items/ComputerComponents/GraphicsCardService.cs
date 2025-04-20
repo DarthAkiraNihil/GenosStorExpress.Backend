@@ -186,12 +186,65 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 );
             }
             
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
             var result = List();
             foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
-
+            
+        }
+        
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription> {
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "price",
+                    VerboseName = "Цена"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vendors",
+                    VerboseName = "Производители",
+                    Choices = _repositories.Items.Characteristics.Vendors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tdp",
+                    VerboseName = "tdp"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "gpu",
+                    VerboseName = "gpu",
+                    Choices = _repositories.Items.SimpleComputerComponents.GPUs.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "video_port",
+                    VerboseName = "video_port",
+                    Choices = _repositories.Items.Characteristics.VideoPorts.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "video_ram",
+                    VerboseName = "video_ram"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "max_displays_supported",
+                    VerboseName = "max_displays_supported"
+                },
+            };
         }
     }
 }

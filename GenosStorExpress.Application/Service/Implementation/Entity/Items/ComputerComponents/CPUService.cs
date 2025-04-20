@@ -292,11 +292,84 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 );
             }
             
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
             var result = List();
             foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
+        }
+        
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription> {
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "price",
+                    VerboseName = "Цена"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vendors",
+                    VerboseName = "Производители",
+                    Choices = _repositories.Items.Characteristics.Vendors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tdp",
+                    VerboseName = "tdp"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "socket",
+                    VerboseName = "socket",
+                    Choices = _repositories.Items.Characteristics.CPUSockets.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "supported_ram_types",
+                    VerboseName = "supported_ram_types",
+                    Choices = _repositories.Items.Characteristics.RAMTypes.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "cores_count",
+                    VerboseName = "cores_count"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "threads_count",
+                    VerboseName = "threads_count"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "technical_process",
+                    VerboseName = "technical_process"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "base_frequency",
+                    VerboseName = "base_frequency"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "supported_ram_size",
+                    VerboseName = "supported_ram_size"
+                },
+                new FilterDescription {
+                    Type = FilterType.Having,
+                    Name = "has_integrated_graphics",
+                    VerboseName = "has_integrated_graphics"
+                },
+            };
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
+using GenosStorExpress.Application.Wrappers.Filters;
 
 namespace GenosStorExpress.Application.Service.Interface.Entity.Items;
 
@@ -32,6 +33,12 @@ public interface IItemServiceRouter {
     /// <param name="pageSize">Размер страницы</param>
     /// <returns>Отфильтрованный список</returns>
     PaginatedAnonymousItemWrapper Filter(ItemTypeDescriptor itemType, IDictionary<string, dynamic> filters, int pageNumber, int pageSize);
+    /// <summary>
+    /// Получение информации о возможных фильтрах для данного типа товара
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товаров</param>
+    /// <returns>Список возможных фильтров</returns>
+    IList<FilterDescription> FilterData(ItemTypeDescriptor itemType);
     /// <summary>
     /// Создание товара по его анонимной обёртке
     /// </summary>

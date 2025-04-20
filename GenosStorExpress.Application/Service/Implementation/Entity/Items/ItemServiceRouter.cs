@@ -796,4 +796,59 @@ public class ItemServiceRouter: IItemServiceRouter {
         }
         throw new ArgumentException("Unknown descriptor");
     }
+
+    /// <summary>
+    /// Получение информации о возможных фильтрах для данного типа товара
+    /// </summary>
+    /// <param name="itemType">Дескриптор типа товаров</param>
+    /// <returns>Список возможных фильтров</returns>
+    /// <exception cref="ArgumentException">Если был передан неизвестный дескриптор товара</exception>
+    public IList<FilterDescription> FilterData(ItemTypeDescriptor itemType) {
+        switch (itemType) {
+            case ItemTypeDescriptor.ComputerCase: {
+                return _computerComponents.ComputerCases.FilterData();
+            }
+            case ItemTypeDescriptor.CPUCooler: {
+                return _computerComponents.CPUCoolers.FilterData();
+            }
+            case ItemTypeDescriptor.CPU: {
+                return _computerComponents.CPUs.FilterData();
+            }
+            case ItemTypeDescriptor.Display: {
+                return _computerComponents.Displays.FilterData();
+            }
+            case ItemTypeDescriptor.GraphicsCard: {
+                return _computerComponents.GraphicsCards.FilterData();
+            }
+            case ItemTypeDescriptor.HDD: {
+                return _computerComponents.HDDs.FilterData();
+            }
+            case ItemTypeDescriptor.Keyboard: {
+                return _computerComponents.Keyboards.FilterData();
+            }
+            case ItemTypeDescriptor.Motherboard: {
+                return _computerComponents.Motherboards.FilterData();
+            }
+            case ItemTypeDescriptor.Mouse: {
+                return _computerComponents.Mouses.FilterData();
+            }
+            case ItemTypeDescriptor.NVMeSSD: {
+                return _computerComponents.NVMeSSDs.FilterData();
+            }
+            case ItemTypeDescriptor.PowerSupply: {
+                return _computerComponents.PowerSupplies.FilterData();
+            }
+            case ItemTypeDescriptor.RAM: {
+                return _computerComponents.RAMs.FilterData();
+            }
+            case ItemTypeDescriptor.SataSSD: {
+                return _computerComponents.SataSSDs.FilterData();
+            }
+            case ItemTypeDescriptor.PreparedAssembly:
+            case ItemTypeDescriptor.Unknown: {
+                throw new ArgumentException("Unknown descriptor");
+            }
+        }
+        throw new ArgumentException("Unknown descriptor");
+    }
 }

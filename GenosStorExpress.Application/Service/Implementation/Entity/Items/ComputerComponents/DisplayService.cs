@@ -258,11 +258,70 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 );
             }
             
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
             var result = List();
             foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
+        }
+        
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription> {
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "price",
+                    VerboseName = "Цена"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vendors",
+                    VerboseName = "Производители",
+                    Choices = _repositories.Items.Characteristics.Vendors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tdp",
+                    VerboseName = "tdp"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "matrix_type",
+                    VerboseName = "matrix_type",
+                    Choices = _repositories.Items.Characteristics.MatrixTypes.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "underlight",
+                    VerboseName = "underlight",
+                    Choices = _repositories.Items.Characteristics.Underlights.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vesa_size",
+                    VerboseName = "vesa_size",
+                    Choices = _repositories.Items.Characteristics.VesaSizes.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "max_update_frequency",
+                    VerboseName = "max_update_frequency"
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "screen_diagonal",
+                    VerboseName = "screen_diagonal"
+                },
+            };
         }
     }
 }

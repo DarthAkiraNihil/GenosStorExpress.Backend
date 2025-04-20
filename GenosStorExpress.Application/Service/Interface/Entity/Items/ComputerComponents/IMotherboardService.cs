@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IMotherboardService:
         IStandardService<MotherboardWrapper>,
-        ISupportsFilter<MotherboardWrapper, FilterContainerWrapper> {
+        ISupportsFilter<MotherboardWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

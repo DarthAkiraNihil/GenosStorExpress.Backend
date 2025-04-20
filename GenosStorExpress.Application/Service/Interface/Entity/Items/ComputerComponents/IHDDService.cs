@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IHDDService:
         IStandardService<HDDWrapper>,
-        ISupportsFilter<HDDWrapper, FilterContainerWrapper> {
+        ISupportsFilter<HDDWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

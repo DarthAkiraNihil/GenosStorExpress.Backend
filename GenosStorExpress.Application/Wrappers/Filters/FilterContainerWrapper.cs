@@ -6,6 +6,10 @@
 public class FilterContainerWrapper {
     
     /// <summary>
+    /// Фильтр по имени
+    /// </summary>
+    public string Name { get; set; }
+    /// <summary>
     /// Фильтры-выборки
     /// </summary>
     public IDictionary<string, ChoiceFilterWrapper> Choices { get; set; }
@@ -22,6 +26,7 @@ public class FilterContainerWrapper {
     /// Стандартный конструктор
     /// </summary>
     public FilterContainerWrapper() {
+        Name = String.Empty;
         Choices = new Dictionary<string, ChoiceFilterWrapper>();
         Ranges = new Dictionary<string, RangeFilterWrapper>();
         Havings = new Dictionary<string, bool>();

@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface ICPUCoolerService:
         IStandardService<CPUCoolerWrapper>,
-        ISupportsFilter<CPUCoolerWrapper, FilterContainerWrapper> {
+        ISupportsFilter<CPUCoolerWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

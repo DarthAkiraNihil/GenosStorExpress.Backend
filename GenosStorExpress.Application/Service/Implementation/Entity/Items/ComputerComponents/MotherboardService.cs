@@ -401,11 +401,91 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 );
             }
             
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
             var result = List();
             foreach (var filter in filters_) {
                 result = result.Where(filter).ToList();
             }
             return result;
+        }
+        
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription> {
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "price",
+                    VerboseName = "Цена"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "vendors",
+                    VerboseName = "Производители",
+                    Choices = _repositories.Items.Characteristics.Vendors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "tdp",
+                    VerboseName = "tdp"
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "form_factor",
+                    VerboseName = "form_factor",
+                    Choices = _repositories.Items.Characteristics.MotherboardFormFactors.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "socket",
+                    VerboseName = "socket",
+                    Choices = _repositories.Items.Characteristics.CPUSockets.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "supported_cpu_cores",
+                    VerboseName = "supported_cpu_cores",
+                    Choices = _repositories.Items.SimpleComputerComponents.CPUCores.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Choice,
+                    Name = "supported_ram_types",
+                    VerboseName = "supported_ram_types",
+                    Choices = _repositories.Items.Characteristics.RAMTypes.List().Select(i => i.Name).ToList()
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "ram_slots_count",
+                    VerboseName = "ram_slots_count",
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "pcie_slots_count",
+                    VerboseName = "pcie_slots_count",
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "sata_ports_count",
+                    VerboseName = "sata_ports_count",
+                },
+                new FilterDescription {
+                    Type = FilterType.Range,
+                    Name = "usb_ports_count",
+                    VerboseName = "usb_ports_count",
+                },
+                new FilterDescription {
+                    Type = FilterType.Having,
+                    Name = "has_nvme_support",
+                    VerboseName = "has_nvme_support",
+                },
+            };
         }
 
         /// <summary>

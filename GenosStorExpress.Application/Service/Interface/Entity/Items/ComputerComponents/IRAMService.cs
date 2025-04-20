@@ -9,7 +9,7 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerCo
     /// </summary>
     public interface IRAMService:
         IStandardService<RAMWrapper>,
-        ISupportsFilter<RAMWrapper, FilterContainerWrapper> {
+        ISupportsFilter<RAMWrapper, FilterContainerWrapper, FilterDescription> {
 		
     }
 }

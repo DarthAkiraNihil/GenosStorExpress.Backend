@@ -1,5 +1,6 @@
 ﻿using GenosStorExpress.Application.Service.Implementation.Base;
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
+using GenosStorExpress.Application.Wrappers.Entity;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Domain.Entity.Item;
 using GenosStorExpress.Domain.Interface;
@@ -75,9 +76,10 @@ public class AllItemsService: AbstractItemService, IAllItemsService {
     /// Оставление отзыва на товар
     /// </summary>
     /// <param name="itemId">Номер товара</param>
+    /// <param name="customerId">Номер покупателя</param>
     /// <param name="review">Отзыв</param>
     /// <exception cref="NullReferenceException">Если указанного товара не существует</exception>
-    public void LeaveReview(int itemId, ReviewWrapper review) {
+    public void LeaveReview(int itemId, string customerId, ReviewWrapper review) {
         Item? obj =  _items.Get(itemId);
 
         if (obj == null) {
@@ -87,6 +89,7 @@ public class AllItemsService: AbstractItemService, IAllItemsService {
         var left = new Review {
             Rating = review.Rating,
             Comment = review.Comment,
+            CustomerId = customerId,
             Item = obj
         };
         
@@ -99,20 +102,57 @@ public class AllItemsService: AbstractItemService, IAllItemsService {
     /// Получение отзывов на товар
     /// </summary>
     /// <param name="itemId">Номер товара</param>
+    /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
     /// <returns>Список отзывов на товар</returns>
     /// <exception cref="NullReferenceException">Если указанного товара не существует</exception>
-    public IList<ReviewWrapper> GetReviews(int itemId) {
+    public PaginatedReviewWrapper GetReviews(int itemId, int pageNumber, int pageSize) {
+        Item? obj =  _items.Get(itemId);
+
+        if (obj == null) {
+            throw new NullReferenceException($"Товара с номером {itemId} не существует");
+        }
+
+        var reviews = obj.Reviews;
+        
+        return new PaginatedReviewWrapper {
+            Count = reviews.Count,
+            Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+            Next = (pageNumber + 1) * pageSize >= reviews.Count ? null : (pageNumber + 1).ToString(),
+            Items = reviews.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                r => new ReviewWrapper {
+                    Rating = r.Rating,
+                    Comment = r.Comment,
+                    Author = r.Customer!.Email!
+                }
+            ).ToList()
+        };
+        
+    }
+
+    /// <summary>
+    /// Получение отзыва на товар от конкретного покупателя
+    /// </summary>
+    /// <param name="itemId">Номер товара</param>
+    /// <param name="customerId">Номер покупателя</param>
+    /// <returns></returns>
+    public ReviewWrapper? GetReview(int itemId, string customerId) {
         Item? obj =  _items.Get(itemId);
 
         if (obj == null) {
             throw new NullReferenceException($"Товара с номером {itemId} не существует");
         }
         
-        return obj.Reviews.Select(
-            r => new ReviewWrapper {
-                Rating = r.Rating,
-                Comment = r.Comment,
-            }).ToList();
+        var review = obj.Reviews.FirstOrDefault(r => r.CustomerId == customerId);
+        if (review != null) {
+            return new ReviewWrapper {
+                Rating = review.Rating,
+                Comment = review.Comment,
+                Author = review.Customer!.Email!
+            };
+        }
+
+        return null;
     }
 
     public void SetImage(string sudoId, int itemId, MemoryStream stream) {

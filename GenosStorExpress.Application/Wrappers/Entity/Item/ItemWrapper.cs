@@ -46,6 +46,11 @@ public class ItemWrapper: WithModelWrapper {
     /// </summary>
     [JsonPropertyName("is_in_cart")]
     public bool IsInCart { get; set; }
+    /// <summary>
+    /// Оставленный текущим покупателем отзыв
+    /// </summary>
+    [JsonPropertyName("left_review")]
+    public ReviewWrapper? LeftReview { get; set; }
 
     /// <summary>
     /// Стандартный конструктор

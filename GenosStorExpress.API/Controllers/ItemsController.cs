@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Orders;
+using GenosStorExpress.Application.Wrappers.Entity;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
 using GenosStorExpress.Application.Wrappers.Filters;
@@ -129,6 +130,12 @@ namespace GenosStorExpress.API.Controllers {
             try {
                 AnonymousItemWrapper item = _itemServiceRouter.Get(descriptor, id);
                 item.IsInCart = _isInCart(item.Id);
+                
+                User? user = _getCurrentUser();
+                if (user is not null) {
+                    item.LeftReview = _itemsService.GetReview(item.Id, user.Id);
+                }
+                
                 return Ok(item);
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
@@ -251,8 +258,14 @@ namespace GenosStorExpress.API.Controllers {
         [Authorize(Roles = "individual_entity,legal_entity")]
         [HttpPost("{id:int}/leave_review")]
         public IActionResult LeaveReview(int id, [FromBody]ReviewWrapper review) {
+            
+            User? user = _getCurrentUser();
+            if (user is null) {
+                return Unauthorized(new DetailObject("Доступ запрещён"));
+            }
+            
             try {
-                _itemsService.LeaveReview(id, review);
+                _itemsService.LeaveReview(id, user.Id, review);
                 return NoContent();
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
@@ -265,12 +278,14 @@ namespace GenosStorExpress.API.Controllers {
         /// Получение отзывов на товар
         /// </summary>
         /// <param name="id">Номер товара</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
         /// <returns>Список отзывов</returns>
         /// <response code="200">Успех</response>
         [HttpGet("{id:int}/reviews")]
-        public ActionResult<ReviewWrapper> GetReviews(int id) {
+        public ActionResult<PaginatedReviewWrapper> GetReviews(int id, [FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
             try {
-                return Ok(_itemsService.GetReviews(id));
+                return Ok(_itemsService.GetReviews(id, pageNumber, pageSize));
             } catch (NullReferenceException e) {
                 return BadRequest(new DetailObject(e.Message));
             } catch (Exception e) {

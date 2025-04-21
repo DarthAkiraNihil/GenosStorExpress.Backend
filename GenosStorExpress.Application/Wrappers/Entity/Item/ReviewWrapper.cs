@@ -12,11 +12,16 @@ public class ReviewWrapper {
     /// Комментарий к товару
     /// </summary>
     public string Comment { get; set; }
+    /// <summary>
+    /// Автор отзыва
+    /// </summary>
+    public string Author { get; set; }
 
     /// <summary>
     /// Стандартный конструктор
     /// </summary>
     public ReviewWrapper() {
         Comment = string.Empty;
+        Author = string.Empty;
     }
 }

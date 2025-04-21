@@ -100,6 +100,9 @@ namespace GenosStorExpress.Infrastructure.Context{
 			itemEntity.Navigation(i => i.ItemType).AutoInclude().IsRequired();
 			itemEntity.HasMany(i => i.Reviews).WithOne(i => i.Item);
 			
+			var reviewEntity = modelBuilder.Entity<Review>();
+			reviewEntity.Navigation(i => i.Customer).AutoInclude();
+			
 			var preparedAssemblyEntity = modelBuilder.Entity<PreparedAssembly>();
 
 			preparedAssemblyEntity.Navigation(a => a.CPU).AutoInclude().IsRequired();

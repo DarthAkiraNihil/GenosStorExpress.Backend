@@ -1,4 +1,6 @@
-﻿namespace GenosStorExpress.Application.Wrappers.Filters;
+﻿using System.Text.Json.Serialization;
+
+namespace GenosStorExpress.Application.Wrappers.Filters;
 
 /// <summary>
 /// Класс описания фильтра
@@ -15,6 +17,7 @@ public class FilterDescription {
     /// <summary>
     /// Человеческое название фильтра
     /// </summary>
+    [JsonPropertyName("verbose_name")]
     public string VerboseName { get; set; }
     /// <summary>
     /// Варианты выбора

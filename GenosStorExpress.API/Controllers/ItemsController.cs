@@ -1,4 +1,5 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
+﻿using System.Text.Json;
+using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Enum;
@@ -51,22 +52,7 @@ namespace GenosStorExpress.API.Controllers {
         /// <param name="filters">Фильтры, применяемые к списку товаров</param>
         /// <returns>Список товаров с основной информацией</returns>
         [HttpGet("{type}")]
-        public ActionResult<PaginatedAnonymousItemWrapper> List(string type, [FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10, [FromQuery] IDictionary<string, dynamic>? filters = null) {
-
-            if (filters != null) {
-                if (filters.ContainsKey("pageNumber")) {
-                    filters.Remove("pageNumber");
-                }
-
-                if (filters.ContainsKey("pageSize")) {
-                    filters.Remove("pageSize");
-                }
-
-                if (filters.Count == 0) {
-                    filters = null;
-                }
-
-            }
+        public ActionResult<PaginatedAnonymousItemWrapper> List(string type, [FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10, [FromQuery] string? filters = null) {
             
             ItemTypeDescriptor descriptor = _itemTypeService.GetDescriptor(type);
 
@@ -77,7 +63,11 @@ namespace GenosStorExpress.API.Controllers {
             try {
                 PaginatedAnonymousItemWrapper result;
                 if (filters != null) {
-                    result = _itemServiceRouter.Filter(descriptor, filters, pageNumber, pageSize);
+                    var deserializedFilters = JsonSerializer.Deserialize<IDictionary<string, dynamic>>(filters);
+                    if (deserializedFilters == null) {
+                        return BadRequest(new DetailObject("Не получилось прочитать содержимое фильтров"));
+                    }
+                    result = _itemServiceRouter.Filter(descriptor, deserializedFilters, pageNumber, pageSize);
                 } else {
                     result = _itemServiceRouter.List(descriptor, pageNumber, pageSize);
                 }

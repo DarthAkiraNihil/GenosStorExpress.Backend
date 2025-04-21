@@ -20,7 +20,7 @@ public class FilterTransformerService: IFilterTransformerService {
         
         foreach(KeyValuePair<string, dynamic> entry in filters) {
             if (entry.Key.Equals("name")) {
-                container.Name = entry.Value;
+                container.Name = entry.Value.GetString();
                 continue;
             }
             
@@ -62,7 +62,7 @@ public class FilterTransformerService: IFilterTransformerService {
     private ChoiceFilterWrapper? _getChoiceFilter(dynamic filter) {
         try {
             return new ChoiceFilterWrapper {
-                Selected = ((JsonElement) filter["selected"]).EnumerateArray().Select(x => x.GetString()!).ToList()
+                Selected = ((JsonElement) filter.GetProperty("selected")).EnumerateArray().Select(x => x.GetString()!).ToList()
             };
         } catch (Exception) {
             return null;

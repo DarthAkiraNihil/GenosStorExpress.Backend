@@ -1,4 +1,6 @@
-﻿namespace GenosStorExpress.Application.Wrappers.Entity.Orders;
+﻿using System.Text.Json.Serialization;
+
+namespace GenosStorExpress.Application.Wrappers.Entity.Orders;
 
 /// <summary>
 /// Класс-обёртка банковской карты
@@ -15,10 +17,12 @@ public class BankCardWrapper {
     /// <summary>
     /// Месяц срока действия
     /// </summary>
+    [JsonPropertyName("valid_thru_month")]
     public byte ValidThruMonth { get; set; }
     /// <summary>
     /// Год срока действия
     /// </summary>
+    [JsonPropertyName("valid_thru_year")]
     public byte ValidThruYear { get; set; }
     /// <summary>
     /// CVC
@@ -31,6 +35,7 @@ public class BankCardWrapper {
     /// <summary>
     /// Банковская система
     /// </summary>
+    [JsonPropertyName("bank_system")]
     public string BankSystem { get; set; }
 
     /// <summary>

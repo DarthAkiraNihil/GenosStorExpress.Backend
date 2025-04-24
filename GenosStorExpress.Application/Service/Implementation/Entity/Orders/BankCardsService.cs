@@ -1,6 +1,7 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.Orders;
+using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Orders;
 
@@ -23,20 +24,34 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _bankSystemService = bankSystemService;
             _bankCards = _repositories.Orders.BankCards;
         }
+        
+        private Customer? _getCustomer(string id) {
+            Customer? customer = _repositories.Users.IndividualEntities.Get(id);
+            if (customer == null) {
+                return _repositories.Users.LegalEntities.Get(id);
+            }
+            return customer;
+        }
 
         /// <summary>
         /// Создание сущности карты из обёртки
         /// </summary>
         /// <param name="item">Обёртка карты</param>
         /// <exception cref="NullReferenceException">Если банковская система не найдена</exception>
-        public void Create(BankCardWrapper item) {
+        public void Create(string customerId, BankCardWrapper item) {
+            
+            Customer? customer = _getCustomer(customerId);
+
+            if (customer == null) {
+                throw new NullReferenceException("Покупатель с указанным ID не найден");
+            }
 
             var bankSystem = _bankSystemService.GetEntityFromString(item.BankSystem);
             if (bankSystem == null) {
                 throw new NullReferenceException($"Банковской системы {item.BankSystem} не существует");
             }
             
-            _bankCards.Create(new BankCard {
+            customer.BankCards.Add(new BankCard {
                 Number = item.Number,
                 ValidThruMonth = item.ValidThruMonth,
                 ValidThruYear = item.ValidThruYear,
@@ -44,10 +59,18 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 Owner = item.Owner,
                 BankSystem = bankSystem
             });
+            // Save();
         }
 
-        public BankCardWrapper? Get(int id) {
-            var obj =  _bankCards.Get(id);
+        public BankCardWrapper? Get(string customerId, int id) {
+            
+            Customer? customer = _getCustomer(customerId);
+
+            if (customer == null) {
+                throw new NullReferenceException("Покупатель с указанным ID не найден");
+            }
+            
+            var obj =  customer.BankCards.FirstOrDefault(i => i.Id == id);
             if (obj == null) {
                 return null;
             }
@@ -61,18 +84,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 BankSystem = obj.BankSystem.Name
             };
         }
-
-        public List<BankCardWrapper> List() {
-            return _bankCards.List().Select(obj => new BankCardWrapper {
-                Id = obj.Id,
-                Number = obj.Number,
-                ValidThruMonth = obj.ValidThruMonth,
-                ValidThruYear = obj.ValidThruYear,
-                CVC = obj.CVC,
-                Owner = obj.Owner,
-                BankSystem = obj.BankSystem.Name
-            }).ToList();
-        }
+        
 
         /// <summary>
         /// Получение пагинированного списка банковских карт покупателя
@@ -81,12 +93,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// <param name="pageNumber">Номер страницы</param>
         /// <param name="pageSize">Размер страницы</param>
         /// <returns>Пагинированный список банковских карт покупателя</returns>
-        public PaginatedBackCardWrapper ListOfCustomer(string customerId, int pageNumber, int pageSize) {
+        public PaginatedBankCardWrapper List(string customerId, int pageNumber, int pageSize) {
             var cards = _bankCards
                 .List()
                 .Where(c => c.CustomerId == customerId).ToList();
 
-            return new PaginatedBackCardWrapper {
+            return new PaginatedBankCardWrapper {
                 Count = cards.Count,
                 Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
                 Next = (pageNumber + 1) * pageSize >= cards.Count ? null : (pageNumber + 1).ToString(),
@@ -104,8 +116,15 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             };
         }
 
-        public void Update(int id, BankCardWrapper item) {
-            var obj = _bankCards.Get(id);
+        public void Update(string customerId, int id, BankCardWrapper item) {
+            
+            Customer? customer = _getCustomer(customerId);
+
+            if (customer == null) {
+                throw new NullReferenceException("Покупатель с указанным ID не найден");
+            }
+            
+            var obj = customer.BankCards.FirstOrDefault(i => i.Id == id);
 
             if (obj == null) {
                 throw new NullReferenceException($"Банковской карты с номером {id} существует");
@@ -126,7 +145,18 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _bankCards.Update(obj);
         }
 
-        public void Delete(int id) {
+        public void Delete(string customerId, int id) {
+            Customer? customer = _getCustomer(customerId);
+
+            if (customer == null) {
+                throw new NullReferenceException("Покупатель с указанным ID не найден");
+            }
+            
+            var obj = customer.BankCards.FirstOrDefault(i => i.Id == id);
+
+            if (obj == null) {
+                throw new NullReferenceException($"Банковской карты с номером {id} существует");
+            }
             _repositories.Orders.BankCards.Delete(id);
         }
 

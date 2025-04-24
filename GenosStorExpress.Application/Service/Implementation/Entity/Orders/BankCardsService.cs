@@ -5,17 +5,30 @@ using GenosStorExpress.Domain.Interface;
 using GenosStorExpress.Domain.Interface.Orders;
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
+    /// <summary>
+    /// Реализация сервиса банковских карт
+    /// </summary>
     public class BankCardsService: IBankCardService {
         private readonly IGenosStorExpressRepositories _repositories;
         private readonly IBankCardRepository _bankCards;
         private readonly IBankSystemService _bankSystemService;
 
+        /// <summary>
+        /// Стандартный конструктор
+        /// </summary>
+        /// <param name="repositories">Репозитории проекта</param>
+        /// <param name="bankSystemService">Сервис банковских систем</param>
         public BankCardsService(IGenosStorExpressRepositories repositories, IBankSystemService bankSystemService) {
             _repositories = repositories;
             _bankSystemService = bankSystemService;
             _bankCards = _repositories.Orders.BankCards;
         }
 
+        /// <summary>
+        /// Создание сущности карты из обёртки
+        /// </summary>
+        /// <param name="item">Обёртка карты</param>
+        /// <exception cref="NullReferenceException">Если банковская система не найдена</exception>
         public void Create(BankCardWrapper item) {
 
             var bankSystem = _bankSystemService.GetEntityFromString(item.BankSystem);
@@ -59,6 +72,36 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 Owner = obj.Owner,
                 BankSystem = obj.BankSystem.Name
             }).ToList();
+        }
+
+        /// <summary>
+        /// Получение пагинированного списка банковских карт покупателя
+        /// </summary>
+        /// <param name="customerId">Номер покупателя</param>
+        /// <param name="pageNumber">Номер страницы</param>
+        /// <param name="pageSize">Размер страницы</param>
+        /// <returns>Пагинированный список банковских карт покупателя</returns>
+        public PaginatedBackCardWrapper ListOfCustomer(string customerId, int pageNumber, int pageSize) {
+            var cards = _bankCards
+                .List()
+                .Where(c => c.CustomerId == customerId).ToList();
+
+            return new PaginatedBackCardWrapper {
+                Count = cards.Count,
+                Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                Next = (pageNumber + 1) * pageSize >= cards.Count ? null : (pageNumber + 1).ToString(),
+                Items = cards.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                    obj => new BankCardWrapper {
+                        Id = obj.Id,
+                        Number = obj.Number,
+                        ValidThruMonth = obj.ValidThruMonth,
+                        ValidThruYear = obj.ValidThruYear,
+                        CVC = obj.CVC,
+                        Owner = obj.Owner,
+                        BankSystem = obj.BankSystem.Name
+                    }
+                ).ToList()
+            };
         }
 
         public void Update(int id, BankCardWrapper item) {

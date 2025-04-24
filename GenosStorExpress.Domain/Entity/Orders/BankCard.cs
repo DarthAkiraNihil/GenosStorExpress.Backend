@@ -18,10 +18,13 @@ namespace GenosStorExpress.Domain.Entity.Orders {
 		public string Owner { get; set; }
 		
 		public BankSystem BankSystem { get; set; }
+		
+		public string CustomerId { get; set; }
 
 		public BankCard() {
 			Owner = string.Empty;
 			BankSystem = new BankSystem();
+			CustomerId = string.Empty;
 		}
 	}
 }

@@ -80,7 +80,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
             collected.CreatedAt = last.CreatedAt.ToString("dd/MM/yyyy HH:mm");
             collected.Total = _orderService.CalculateTotal((int) last.Id);
             collected.ItemsCount = last.Items.Count;
-            collected.Orderer = _paymentService.GetOrdererInfo(last.Customer);
+            collected.Orderer = _paymentService.GetOrdererInfo(last.CustomerId);
             
             return collected;
         }

@@ -11,8 +11,22 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
         public PaymentService(IGenosStorExpressRepositories repositories) {
             _repositories = repositories;
         }
+        
+        private Customer? _getCustomer(string id) {
+            Customer? customer = _repositories.Users.IndividualEntities.Get(id);
+            if (customer == null) {
+                return _repositories.Users.LegalEntities.Get(id);
+            }
+            return customer;
+        }
 
-        public string GetOrdererInfo(Customer customer) {
+        public string GetOrdererInfo(string customerId) {
+            
+            var customer = _getCustomer(customerId);
+
+            if (customer == null) {
+                throw new NullReferenceException($"Покупатель с номером {customerId} не найден");
+            }
 
             if (customer is IndividualEntity) {
                 var ie = (IndividualEntity)customer;

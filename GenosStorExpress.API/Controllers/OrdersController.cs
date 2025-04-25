@@ -128,4 +128,109 @@ public class OrdersController: AbstractController {
         }
     }
     
+    /// <summary>
+    /// Получение списка активных заказов. Только под администратором!
+    /// </summary>
+    /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
+    /// <returns></returns>
+    [Authorize(Roles = "administrator")]
+    [HttpGet("all")]
+    public ActionResult<PaginatedShortOrderInfoWrapper> GetAll([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+
+        try {
+            PaginatedShortOrderInfoWrapper orders = _orderService.GetActiveOrders(user.Id, pageNumber, pageSize);
+            return Ok(orders);
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+    
+    /// <summary>
+    /// Получение деталей любого заказа. Только под администратором
+    /// </summary>
+    /// <param name="id">Номер заказа</param>
+    /// <returns></returns>
+    [Authorize(Roles = "administrator")]
+    [HttpGet("{id:int}/details_of_any")]
+    public ActionResult<ShortOrderWrapper> GetDetailsOfAny(int id) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+
+        try {
+            ShortOrderWrapper? order = _orderService.GetDetailsOfAny(id, user.Id);
+            if (order is null) {
+                return BadRequest(new DetailObject($"Заказа с номером {id} не существует"));
+            }
+
+            return order;
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+    
+    /// <summary>
+    /// Получение списка товаров в заказе любого покупателя. Только под администратором!
+    /// </summary>
+    /// <param name="id">Номер заказа</param>
+    /// <param name="pageNumber">Номер страницы</param>
+    /// <param name="pageSize">Размер страницы</param>
+    /// <returns></returns>
+    [Authorize(Roles = "administrator")]
+    [HttpGet("{id:int}/items_of_any")]
+    public ActionResult<PaginatedOrderItemWrapper> GetItemsOfAny(int id, [FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+
+        try {
+            PaginatedOrderItemWrapper? order = _orderService.GetItemsOfAny(id, user.Id, pageNumber, pageSize);
+            if (order is null) {
+                return BadRequest(new DetailObject($"Заказа с номером {id} не существует"));
+            }
+
+            return order;
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+    
+    /// <summary>
+    /// Продвижение заказа по цепочке обработки. Только под администратором
+    /// </summary>
+    /// <param name="id">Номер заказа</param>
+    /// <returns></returns>
+    [Authorize(Roles = "administrator")]
+    [HttpPost("{id:int}/promote")]
+    public ActionResult<ShortOrderWrapper> PromoteOrder(int id) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+
+        try {
+            ShortOrderWrapper order = _orderService.PromoteOrder(id, user.Id);
+
+            return order;
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+    
+    
 }

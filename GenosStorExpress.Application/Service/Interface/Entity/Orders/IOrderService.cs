@@ -58,7 +58,10 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
         /// Получение списка активных заказов
         /// </summary>
         /// <returns>Список активных (не отменённых и не полученных) заказов</returns>
-        List<ShortOrderWrapper> GetActiveOrders();
+        PaginatedShortOrderInfoWrapper GetActiveOrders(string sudoId, int pageNumber, int pageSize);
+        ShortOrderWrapper? GetDetailsOfAny(int orderId, string sudoId);
+        PaginatedOrderItemWrapper? GetItemsOfAny(int orderId, string sudoId, int pageNumber, int pageSize);
+        ShortOrderWrapper PromoteOrder(int orderId, string sudoId);
         /// <summary>
         /// Получение списка активных заказов в сыром виде. Только для администратора
         /// </summary>

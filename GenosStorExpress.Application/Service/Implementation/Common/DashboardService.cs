@@ -64,7 +64,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
                     return !(u as LegalEntity)!.IsVerified;
                 }).ToList().Count;
 
-            dashboardInfo.ActiveOrdersCount = _orderService.GetActiveOrders().Count;
+            //dashboardInfo.ActiveOrdersCount = _orderService.GetActiveOrders().Count;
             dashboardInfo.LastOrder = _getLastOrderDashboardInfo(sudoId);
             return dashboardInfo;
         }

@@ -284,13 +284,76 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// Получение списка активных заказов
         /// </summary>
         /// <returns>Список активных (не отменённых и не полученных) заказов</returns>
-        public List<ShortOrderWrapper> GetActiveOrders() {
-            return List().Where(
-                o => o.OrderStatus!.Name != "Cancelled" && o.OrderStatus.Name != "Received"
-            ).Select(i => new ShortOrderWrapper {
-                Id = i.Id,
-                Status = i.OrderStatus!.Name
-            }).ToList();
+        public PaginatedShortOrderInfoWrapper GetActiveOrders(string sudoId, int pageNumber, int pageSize) {
+            
+            Administrator? sudo = _repositories.Users.Administrators.Get(sudoId);
+            if (sudo == null) {
+                throw new NullReferenceException("Запрещено! Данный метод может быть вызван только администратором");
+            }
+            
+            var orders = _repositories.Orders.Orders.List();
+            
+            return new PaginatedShortOrderInfoWrapper {
+                Count = orders.Count,
+                Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                Next = (pageNumber + 1) * pageSize >= orders.Count ? null : (pageNumber + 1).ToString(),
+                Items = orders.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                    i => new ShortOrderWrapper {
+                        Id = i.Id,
+                        Count = i.Items.Count,
+                        CreatedAt = i.CreatedAt,
+                        Status = i.OrderStatus!.Name,
+                    }
+                ).ToList()
+            };
+        }
+
+        public ShortOrderWrapper? GetDetailsOfAny(int orderId, string sudoId) {
+            Administrator? sudo = _repositories.Users.Administrators.Get(sudoId);
+            if (sudo == null) {
+                throw new NullReferenceException("Запрещено! Данный метод может быть вызван только администратором");
+            }
+            
+            Order? order = _repositories.Orders.Orders.Get(orderId);
+
+            if (order == null) {
+                throw new NullReferenceException($"Заказа с номером {orderId} не существует");
+            }
+
+            return new ShortOrderWrapper {
+                Id = order.Id,
+                Status = order.OrderStatus!.Name,
+                CreatedAt = order.CreatedAt,
+                Count = order.Items.Count
+            };
+        }
+
+
+        public PaginatedOrderItemWrapper GetItemsOfAny(int orderId, string sudoId, int pageNumber, int pageSize) {
+            
+            Administrator? sudo = _repositories.Users.Administrators.Get(sudoId);
+            if (sudo == null) {
+                throw new NullReferenceException("Запрещено! Данный метод может быть вызван только администратором");
+            }
+            
+            Order? order = _repositories.Orders.Orders.Get(orderId);
+
+            if (order == null) {
+                throw new NullReferenceException($"Заказа с номером {orderId} не существует");
+            }
+
+            return new PaginatedOrderItemWrapper {
+                Count = order.Items.Count,
+                Previous = pageNumber == 1 ? null : (pageNumber - 1).ToString(),
+                Next = (pageNumber + 1) * pageSize >= order.Items.Count ? null : (pageNumber + 1).ToString(),
+                Items = order.Items.Skip((pageNumber - 1) * pageSize).Take(pageSize).Select(
+                    i => new OrderItemWrapper {
+                        Item = _allItemsService.Get(i.ItemId)!,
+                        Quantity = i.Quantity,
+                        BoughtFor = i.BoughtFor,
+                    }
+                ).ToList()
+            };
         }
 
         /// <summary>
@@ -329,6 +392,56 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             return _repositories.Save();
         }
 
-        
+        public ShortOrderWrapper PromoteOrder(int orderId, string sudoId) {
+            
+            Administrator? sudo = _repositories.Users.Administrators.Get(sudoId);
+            if (sudo == null) {
+                throw new NullReferenceException("Запрещено! Данный метод может быть вызван только администратором");
+            }
+            
+            Order? order = _repositories.Orders.Orders.Get(orderId);
+
+            if (order == null) {
+                throw new NullReferenceException($"Заказа с номером {orderId} не существует");
+            }
+
+            if (order.OrderStatus == null) {
+                throw new NullReferenceException($"У заказа с номером {orderId} нет статуса. Мы уже работаем над данной проблемой");
+            }
+
+            if (order.OrderStatus.Id == (long)OrderStatusDescriptor.Cancelled) {
+                throw new ArgumentException("Невозможно продвинуть отменённый заказ");
+            } 
+
+            switch (order.OrderStatus.Id) {
+                case (long) OrderStatusDescriptor.Created: {
+                    order.OrderStatus = _orderStatusService.GetEntityByDescriptor(OrderStatusDescriptor.Confirmed);
+                    break;
+                }
+                case (long) OrderStatusDescriptor.Confirmed: {
+                    order.OrderStatus = _orderStatusService.GetEntityByDescriptor(OrderStatusDescriptor.AwaitsPayment);
+                    break;
+                }
+                case (long) OrderStatusDescriptor.Paid: {
+                    order.OrderStatus = _orderStatusService.GetEntityByDescriptor(OrderStatusDescriptor.Processing);
+                    break;
+                }
+                case (long) OrderStatusDescriptor.Processing: {
+                    order.OrderStatus = _orderStatusService.GetEntityByDescriptor(OrderStatusDescriptor.Delivering);
+                    break;
+                }
+            }
+            
+            _repositories.Orders.Orders.Update(order);
+            _repositories.Save();
+
+            return new ShortOrderWrapper {
+                Id = order.Id,
+                Status = order.OrderStatus!.Name,
+                CreatedAt = order.CreatedAt,
+                Count = order.Items.Count
+            };
+            
+        }
     }
 }

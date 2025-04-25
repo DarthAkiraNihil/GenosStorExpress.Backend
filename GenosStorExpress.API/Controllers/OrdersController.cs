@@ -1,4 +1,6 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Orders;
+﻿using GenosStorExpress.Application.Service.Interface.Common;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
+using GenosStorExpress.Application.Service.Interface.Entity.Users;
 using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Utils;
@@ -16,14 +18,17 @@ namespace GenosStorExpress.API.Controllers;
 public class OrdersController: AbstractController {
     
     private readonly IOrderService _orderService;
+    private readonly IPaymentService _paymentService;
 
     /// <summary>
     /// Стандартный конструктор
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
     /// <param name="orderService">Сервис заказов</param>
-    public OrdersController(UserManager<User> userManager, IOrderService orderService) : base(userManager) {
+    /// <param name="paymentService">Сервис оплаты</param>
+    public OrdersController(UserManager<User> userManager, IOrderService orderService, IPaymentService paymentService) : base(userManager) {
         _orderService = orderService;
+        _paymentService = paymentService;
     }
 
     /// <summary>
@@ -225,6 +230,34 @@ public class OrdersController: AbstractController {
             ShortOrderWrapper order = _orderService.PromoteOrder(id, user.Id);
 
             return order;
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+    
+    
+    /// <summary>
+    /// Оплата заказа
+    /// </summary>
+    /// <param name="orderId">Номер заказа</param>
+    /// <param name="bankCardId">Идентификатор банковской карты</param>
+    /// <returns></returns>
+    [Authorize(Roles = "individual_entity,legal_entity")]
+    [HttpPost("{orderId:int}/pay/{bankCardId:int}")]
+    public IActionResult PayOrder(int orderId, int bankCardId) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+
+        try {
+            if (_paymentService.ProcessPayment(orderId, bankCardId, user.Id)) {
+                return NoContent();
+            }
+            
+            return BadRequest(new DetailObject("Не получилось оплатить заказ. Попробуйте позже"));
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {

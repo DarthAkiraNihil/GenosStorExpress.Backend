@@ -239,6 +239,54 @@ public class OrdersController: AbstractController {
     
     
     /// <summary>
+    /// Получение заказа (отметка заказа в качестве полученного)
+    /// </summary>
+    /// <param name="id">Номер заказа</param>
+    /// <returns></returns>
+    [Authorize(Roles = "individual_entity,legal_entity")]
+    [HttpPost("{id:int}/receive")]
+    public IActionResult ReceiveOrder(int id) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+
+        try {
+            _orderService.ReceiveOrder(id, user.Id);
+            return NoContent();
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+    
+    
+    /// <summary>
+    /// Отмена заказа
+    /// </summary>
+    /// <param name="id">Номер заказа</param>
+    /// <returns></returns>
+    [Authorize(Roles = "individual_entity,legal_entity")]
+    [HttpPost("{id:int}/cancel")]
+    public IActionResult CancelOrder(int id) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+
+        try {
+            _orderService.CancelOrder(id, user.Id);
+            return NoContent();
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+    
+    
+    /// <summary>
     /// Оплата заказа
     /// </summary>
     /// <param name="orderId">Номер заказа</param>

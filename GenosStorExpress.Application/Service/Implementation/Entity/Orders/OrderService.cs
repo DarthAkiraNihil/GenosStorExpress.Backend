@@ -225,13 +225,18 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// Перевод заказа в статус "Отменён"
         /// </summary>
         /// <param name="orderId">Номер заказа</param>
+        /// <param name="customerId">Номер покупателя</param>
         /// <exception cref="NullReferenceException">Если заказа не существует или если в базе данных нет статуса "Получен"</exception>
-        public void ReceiveOrder(int orderId) {
+        public void ReceiveOrder(int orderId, string customerId) {
             
             Order? order = _repositories.Orders.Orders.Get(orderId);
 
-            if (order == null) {
+            if (order == null || order.CustomerId != customerId) {
                 throw new NullReferenceException($"Заказа с номером {orderId} не существует");
+            }
+            
+            if (order.OrderStatus!.Id != (int) OrderStatusDescriptor.Delivering) {
+                throw new ArgumentException("Невозможно получить заказ, так как он не доставляется");
             }
 
             OrderStatus? received = _orderStatusService.GetEntityByDescriptor(OrderStatusDescriptor.Received);
@@ -250,19 +255,25 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
         /// Получение списка активных заказов
         /// </summary>
         /// <returns>Список активных (не отменённых и не полученных) заказов</returns>
+        /// <param name="orderId">Номе заказа</param>
+        /// <param name="customerId">Номер покупателя</param>
         /// <exception cref="NullReferenceException">Если заказа не существует или если в базе данных нет статуса "Отменён"</exception>
-        public void CancelOrder(int orderId) {
+        public void CancelOrder(int orderId, string customerId) {
             
             Order? order = _repositories.Orders.Orders.Get(orderId);
 
-            if (order == null) {
+            if (order == null || order.CustomerId != customerId) {
                 throw new NullReferenceException($"Заказа с номером {orderId} не существует");
             }
-
+            
             OrderStatus? cancelled = _orderStatusService.GetEntityByDescriptor(OrderStatusDescriptor.Cancelled);
 
             if (cancelled == null) {
                 throw new NullReferenceException("Невозможно перевести заказ в статус \"Отменён\", так как он отсутствует. Мы уже решаем данную проблему");
+            }
+
+            if (order.OrderStatus!.Id == cancelled.Id) {
+                throw new ArgumentException("Невозможно отменить уже отменённый заказ");
             }
             
             order.OrderStatus = cancelled;
@@ -411,6 +422,10 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
 
             if (order.OrderStatus.Id == (long)OrderStatusDescriptor.Cancelled) {
                 throw new ArgumentException("Невозможно продвинуть отменённый заказ");
+            } 
+            
+            if (order.OrderStatus.Id == (long)OrderStatusDescriptor.Received) {
+                throw new ArgumentException("Невозможно продвинуть полученный заказ");
             } 
 
             switch (order.OrderStatus.Id) {

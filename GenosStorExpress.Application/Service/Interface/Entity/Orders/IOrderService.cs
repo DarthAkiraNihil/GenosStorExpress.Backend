@@ -48,12 +48,14 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
         /// Перевод заказа в статус "Получен"
         /// </summary>
         /// <param name="orderId">Номер заказа</param>
-        void ReceiveOrder(int orderId);
+        /// <param name="customerId">Номер покупателя</param>
+        void ReceiveOrder(int orderId, string customerId);
         /// <summary>
         /// Перевод заказа в статус "Отменён"
         /// </summary>
         /// <param name="orderId">Номер заказа</param>
-        void CancelOrder(int orderId);
+        /// <param name="customerId">Номер покупателя</param>
+        void CancelOrder(int orderId, string customerId);
         /// <summary>
         /// Получение списка активных заказов
         /// </summary>

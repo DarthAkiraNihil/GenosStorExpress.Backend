@@ -23,6 +23,13 @@
         /// <param name="customerId"></param>
         /// <returns></returns>
         MemoryStream CreateOrderHistoryReport(string customerId);
-        // void GenerateSalesAnalysisReport(DateTime startDate, DateTime endDate, string path);
+        /// <summary>
+        /// Генерация отчёта по продажам
+        /// </summary>
+        /// <param name="sudoId">Номер администратора</param>
+        /// <param name="startDate">Дата начала</param>
+        /// <param name="endDate">Дата окончания</param>
+        /// <returns></returns>
+        MemoryStream GenerateSalesAnalysisReport(string sudoId, DateTime startDate, DateTime endDate);
     }
 }

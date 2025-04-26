@@ -1,4 +1,5 @@
-﻿using GenosStorExpress.Application.Service.Interface.Common;
+﻿using System.Globalization;
+using GenosStorExpress.Application.Service.Interface.Common;
 using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Utils;
 using Microsoft.AspNetCore.Authorization;
@@ -44,7 +45,7 @@ public class ReportsController: AbstractController {
                 _reportService.CreateOrderReceipt(user.Id, orderId),
                 "application/pdf"
             ) {
-                FileDownloadName = "receipt.pdf"
+                FileDownloadName = $"receipt_for_order_{orderId}_for_user_{user.Id}.pdf"
             };
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
@@ -71,7 +72,7 @@ public class ReportsController: AbstractController {
                 _reportService.CreateOrderInvoice(user.Id, orderId),
                 "application/pdf"
             ) {
-                FileDownloadName = "invoice.pdf"
+                FileDownloadName = $"invoice_for_order_{orderId}_for_user_{user.Id}.pdf"
             };
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
@@ -98,7 +99,7 @@ public class ReportsController: AbstractController {
                 _reportService.CreateOrderHistoryReport(user.Id),
                 "application/pdf"
             ) {
-                FileDownloadName = "order_history.pdf"
+                FileDownloadName = $"order_history_for_user_{user.Id}.pdf"
             };
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
@@ -106,5 +107,41 @@ public class ReportsController: AbstractController {
             return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
         }
     }
-    
+
+    /// <summary>
+    /// Генерация отчёта по продажам. Только под администратором
+    /// </summary>
+    /// <param name="startDate">Дата начала периода продаж</param>
+    /// <param name="endDate">Дата окончания периода продаж</param>
+    /// <returns></returns>
+    [Authorize(Roles = "administrator")]
+    [HttpGet("sales_report")]
+    public IActionResult GenerateSalesReport([FromQuery] string startDate, [FromQuery] string endDate) {
+        User? user = _getCurrentUser();
+        if (user == null) {
+            return Unauthorized(new { message = "Доступ запрещён" });
+        }
+        
+        try {
+            
+            string format = "dd.MM.yyyy";
+            
+            
+            return new FileStreamResult(
+                _reportService.GenerateSalesAnalysisReport(
+                    user.Id, 
+                    DateTime.ParseExact(startDate, format, CultureInfo.InvariantCulture), 
+                    DateTime.ParseExact(endDate, format, CultureInfo.InvariantCulture)
+                    ),
+                "application/pdf"
+            ) {
+                FileDownloadName = $"sales_report_{startDate}-{endDate}.pdf"
+            };
+        } catch (NullReferenceException e) {
+            return BadRequest(new DetailObject(e.Message));
+        } catch (Exception e) {
+            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
+        }
+    }
+
 }

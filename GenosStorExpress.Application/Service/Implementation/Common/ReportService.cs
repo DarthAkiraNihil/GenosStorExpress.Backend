@@ -14,6 +14,9 @@ using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
 namespace GenosStorExpress.Application.Service.Implementation.Common {
+    /// <summary>
+    /// Реализация сервиса отчётов
+    /// </summary>
     public class ReportService: IReportService {
         
         private readonly IPaymentService _paymentService;
@@ -66,7 +69,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
             }
         }
         
-
+        /// <summary>
+        /// Стандартный конструктор
+        /// </summary>
+        /// <param name="paymentService">Сервис платежей</param>
+        /// <param name="orderService">Сервис заказов</param>
+        /// <param name="itemTypeService">Сервис типов товаров</param>
+        /// <param name="repositories">Репозитории проекта</param>
         public ReportService(IPaymentService paymentService, IOrderService orderService, IItemTypeService itemTypeService, IGenosStorExpressRepositories repositories) {
             _paymentService = paymentService;
             _orderService = orderService;
@@ -83,6 +92,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
             return customer;
         }
 
+        /// <summary>
+        /// Генерация чека для заказа
+        /// </summary>
+        /// <param name="customerId">Номер покупателя</param>
+        /// <param name="orderId">Номер заказа</param>
+        /// <returns></returns>
         public MemoryStream CreateOrderReceipt(string customerId, int orderId) {
             
             var customer = _getCustomer(customerId);
@@ -180,6 +195,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
                  .Text(total.ToString("0.00"));
         }
 
+        /// <summary>
+        /// Генерация счёта-фактуры для заказа
+        /// </summary>
+        /// <param name="customerId">Номер покупателя</param>
+        /// <param name="orderId">Номер заказа</param>
+        /// <returns></returns>
         public MemoryStream CreateOrderInvoice(string customerId, int orderId) {
             
             var customer = _getCustomer(customerId);
@@ -216,7 +237,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
                     page.Content()
                         .PaddingVertical(1, Unit.Centimetre)
                         .Column(column => {
-                            _fillExtendedOrderInformation(column, entity!, order);
+                            _fillExtendedOrderInformation(column, entity!);
                             column.Item().Table(table => {
                                 table.ColumnsDefinition(columns => {
                                     columns.RelativeColumn(3);
@@ -255,7 +276,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
             return new MemoryStream(doc.GeneratePdf());
         }
 
-        private void _fillExtendedOrderInformation(ColumnDescriptor column, LegalEntity legalEntity, Order order) {
+        private void _fillExtendedOrderInformation(ColumnDescriptor column, LegalEntity legalEntity) {
             
             string orderer = _paymentService.GetOrdererInfo(legalEntity.Id);
 
@@ -302,6 +323,11 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
                  .Text(total.ToString("0.00"));
         }
 
+        /// <summary>
+        /// Генерация истории заказов
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public MemoryStream CreateOrderHistoryReport(string customerId) {
 
             var orders = _repositories.Orders.Orders.List().Where(o => o.CustomerId == customerId).ToList();
@@ -368,40 +394,53 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
         }
 
         private readonly Dictionary<string, string> _chartItemTypeColors = new Dictionary<string, string> {
-            { "Motherboard", "#00FA9A" },
-            { "CPU", "#4682B4" },
-            { "RAM", "#800080" },
-            { "GraphicsCard", "#FFC0CB" },
-            { "HDD", "#8B4513" },
-            { "NVMeSSD", "#708090" },
-            { "SataSSD", "#F0F8FF" },
-            { "CPUCooler", "#C0C0C0" },
-            { "PowerSupply", "#FFFF00" },
-            { "ComputerCase", "#FFA500" },
-            { "Display", "#FF0000" },
-            { "Keyboard", "#2E8B57" },
-            { "Mouse", "#0000CD" },
-            { "PreparedAssembly", "#000000" },
+            { "motherboard", "#00FA9A" },
+            { "cpu", "#4682B4" },
+            { "ram", "#800080" },
+            { "graphics_card", "#FFC0CB" },
+            { "hdd", "#8B4513" },
+            { "nvme_ssd", "#708090" },
+            { "sata_ssd", "#F0F8FF" },
+            { "cpu_cooler", "#C0C0C0" },
+            { "power_supply", "#FFFF00" },
+            { "computer_case", "#FFA500" },
+            { "display", "#FF0000" },
+            { "keyboard", "#2E8B57" },
+            { "mouse", "#0000CD" },
+            { "prepared_assembly", "#000000" },
         };
         
         private readonly Dictionary<string, string> _chartItemTypeTranslations = new Dictionary<string, string> {
-            { "Motherboard", "Материнская плата" },
-            { "CPU", "ЦПУ" },
-            { "RAM", "ОЗУ" },
-            { "GraphicsCard", "Видеокарта" },
-            { "HDD", "Жёсткий диск" },
-            { "NVMeSSD", "Накопитель NVMe SSD" },
-            { "SataSSD", "Накопитель Sata SSD" },
-            { "CPUCooler", "Кулер для процессора" },
-            { "PowerSupply", "Блок питания" },
-            { "ComputerCase", "Корпус" },
-            { "Display", "Монитор" },
-            { "Keyboard", "Клавиатура" },
-            { "Mouse", "Мышь" },
-            { "PreparedAssembly", "Готовая сборка" },
+            { "motherboard", "Материнская плата" },
+            { "cpu", "ЦПУ" },
+            { "ram", "ОЗУ" },
+            { "graphics_card", "Видеокарта" },
+            { "hdd", "Жёсткий диск" },
+            { "nvme_ssd", "Накопитель NVMe SSD" },
+            { "sata_ssd", "Накопитель Sata SSD" },
+            { "cpu_cooler", "Кулер для процессора" },
+            { "power_supply", "Блок питания" },
+            { "computer_case", "Корпус" },
+            { "display", "Монитор" },
+            { "keyboard", "Клавиатура" },
+            { "mouse", "Мышь" },
+            { "prepared_assembly", "Готовая сборка" },
         };
 
-        public void GenerateSalesAnalysisReport(DateTime startDate, DateTime endDate, string path) {
+        /// <summary>
+        /// Генерация отчёта по продажам
+        /// </summary>
+        /// <param name="sudoId">Номер администратора</param>
+        /// <param name="startDate">Дата начала</param>
+        /// <param name="endDate">Дата окончания</param>
+        /// <returns></returns>
+        public MemoryStream GenerateSalesAnalysisReport(string sudoId, DateTime startDate, DateTime endDate) {
+            
+            Administrator? sudo = _repositories.Users.Administrators.Get(sudoId);
+            if (sudo == null) {
+                throw new NullReferenceException("Запрещено! Данный метод может быть вызван только администратором");
+            }
+            
             var orders = _repositories.Orders.Orders
                          .List()
                          .Where(
@@ -412,7 +451,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
             
             var customers = new List<Customer>();
             foreach (var order in orders) {
-                if (customers.Count(c => c.Id == order.Customer!.Id) == 0) {
+                var customer = (_repositories.Users.Users.Get(order.CustomerId) as Customer)!;
+                if (customers.Count(c => c.Id == customer.Id) == 0) {
                     customers.Add(order.Customer!);
                 }
             }
@@ -456,7 +496,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
             
             var itemsTypesFrequency = new Dictionary<string, int>();
             var itemTypesOutcomes = new Dictionary<string, double>();
-            foreach (var type in _itemTypeService.List()) {
+            var types = _itemTypeService.List();
+            foreach (var type in types) {
                 itemsTypesFrequency.Add(type, 0);
                 itemTypesOutcomes.Add(type, 0.0);
             }
@@ -473,13 +514,14 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
                     avgRevenue += total;
                 }
                 foreach (var item in order.Items) {
-                    itemsTypesFrequency[item.Item!.ItemType.Name] += item.Quantity;
-                    itemTypesOutcomes[item.Item.ItemType.Name] += item.Quantity * item.BoughtFor;
+                    var realItem = _repositories.Items.All.Get(item.ItemId)!;
+                    itemsTypesFrequency[realItem.ItemType.Name] += item.Quantity;
+                    itemTypesOutcomes[realItem.ItemType.Name] += item.Quantity * item.BoughtFor;
                     
-                    if (!itemsFrequency.ContainsKey(item.Item.Id)) {
-                        itemsFrequency.Add(item.Item.Id, 0);
+                    if (!itemsFrequency.ContainsKey(realItem.Id)) {
+                        itemsFrequency.Add(realItem.Id, 0);
                     }
-                    itemsFrequency[item.Item.Id] += item.Quantity;
+                    itemsFrequency[realItem.Id] += item.Quantity;
                 }
             }
             
@@ -529,7 +571,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
             
             //var chart = new PieChart() {Entries = entries};
             
-            Document.Create(container => {
+            Document doc = Document.Create(container => {
                 container.Page(page => {
                     page.Size(PageSizes.A4);
                     page.Margin(2, Unit.Centimetre);
@@ -703,8 +745,9 @@ namespace GenosStorExpress.Application.Service.Implementation.Common {
                             x.CurrentPageNumber();
                         });
                 });
-            })
-            .GeneratePdf(path);
+            });
+            
+            return new MemoryStream(doc.GeneratePdf());
             
         }
 

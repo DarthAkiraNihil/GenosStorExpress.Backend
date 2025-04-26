@@ -37,8 +37,7 @@ public class AccountController : AbstractController {
     /// <param name="data">Данные для регистрации</param>
     /// <returns>Ничего в случае успеха, иначе структуру содержащую список ошибок</returns>
     [HttpPost("sign_up")]
-    public async Task<IActionResult> SignUp(SignUpDataWrapper data)
-    {
+    public async Task<IActionResult> SignUp(SignUpDataWrapper data) {
         if (!ModelState.IsValid) {
             return BadRequest(ModelState);
         }
@@ -50,17 +49,21 @@ public class AccountController : AbstractController {
             case "individual_entity": {
                 try {
                     
-                    string name = data.AdditionalData["name"].GetString();
-                    string surname = data.AdditionalData["surname"].GetString();
-                    string phone = data.AdditionalData["phone_number"].GetString();
+                    string name = data.AdditionalData.GetProperty("name").GetString()!;
+                    string surname = data.AdditionalData.GetProperty("surname").GetString()!;
+                    string phone = data.AdditionalData.GetProperty("phone_number").GetString()!;
 
                     var created = new IndividualEntity {
+                        Id = Guid.NewGuid().ToString(),
                         UserName = data.Email,
                         Email = data.Email,
                         Name = name,
                         Surname = surname,
                         PhoneNumber = phone
                     };
+                    
+                    created.CartId = created.Id;
+                    created.Cart.CustomerId = created.Id;
                     
                     var result = await _userManager.CreateAsync(created, data.Password);
                     if (result.Succeeded) {
@@ -76,13 +79,14 @@ public class AccountController : AbstractController {
             }
             case "legal_entity": {
                 try {
-                    
-                    long inn = data.AdditionalData["inn"].GetInt64();
-                    long kpp = data.AdditionalData["kpp"].GetInt64();
-                    string physicalAddress = data.AdditionalData["physical_address"].GetString();
-                    string legalAddress = data.AdditionalData["legal_address"].GetString();
+
+                    long inn = data.AdditionalData.GetProperty("inn").GetInt64();
+                    long kpp = data.AdditionalData.GetProperty("kpp").GetInt64();
+                    string physicalAddress = data.AdditionalData.GetProperty("physical_address").GetString()!;
+                    string legalAddress = data.AdditionalData.GetProperty("legal_address").GetString()!;
 
                     var created = new LegalEntity {
+                        Id = Guid.NewGuid().ToString(),
                         UserName = data.Email,
                         Email = data.Email,
                         INN = inn,
@@ -91,6 +95,9 @@ public class AccountController : AbstractController {
                         PhysicalAddress = physicalAddress,
                         IsVerified = false
                     };
+                    
+                    created.CartId = created.Id;
+                    created.Cart.CustomerId = created.Id;
                     
                     var result = await _userManager.CreateAsync(created, data.Password);
                     if (result.Succeeded) {

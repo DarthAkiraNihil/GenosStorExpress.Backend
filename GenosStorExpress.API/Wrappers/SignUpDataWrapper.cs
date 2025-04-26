@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace GenosStorExpress.API.Wrappers;
@@ -60,7 +61,8 @@ public class SignUpDataWrapper {
     /// </summary>
     [JsonPropertyName("additional_data")]
     [SuppressMessage("ReSharper", "CollectionNeverUpdated.Global")]
-    public IDictionary<string, dynamic> AdditionalData { get; }
+    public JsonElement AdditionalData { get; set; }
+    //public IDictionary<string, string> AdditionalData { get; }
 
     /// <summary>
     /// Стандартный конструктор
@@ -69,6 +71,7 @@ public class SignUpDataWrapper {
         Email = string.Empty;
         Password = string.Empty;
         UserType = string.Empty;
-        AdditionalData = new Dictionary<string, dynamic>();
+        AdditionalData = new JsonElement();
+        //AdditionalData = new Dictionary<string, string>();
     }
 }

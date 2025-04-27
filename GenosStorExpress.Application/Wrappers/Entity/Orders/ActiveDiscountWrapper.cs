@@ -1,4 +1,6 @@
-﻿namespace GenosStorExpress.Application.Wrappers.Entity.Orders;
+﻿using System.Text.Json.Serialization;
+
+namespace GenosStorExpress.Application.Wrappers.Entity.Orders;
 
 /// <summary>
 /// Обёртка скидки на товар
@@ -15,5 +17,6 @@ public class ActiveDiscountWrapper {
     /// <summary>
     /// Дата окончания скидки
     /// </summary>
+    [JsonPropertyName("ends_at")]
     public DateTime EndsAt { get; set; }
 }

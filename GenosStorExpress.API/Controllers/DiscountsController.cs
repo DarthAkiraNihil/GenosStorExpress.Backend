@@ -35,7 +35,7 @@ public class DiscountsController : AbstractController {
     /// <returns>Созданную скидку</returns>
     [Authorize(Roles = "administrator")]
     [HttpPost("{itemId:int}")]
-    public ActionResult<DetailedActiveDiscountWrapper> Activate(int itemId, [FromBody] ActiveDiscountWrapper data) {
+    public IActionResult Activate(int itemId, [FromBody] ActiveDiscountWrapper data) {
         User? user = _getCurrentUser();
         if (user == null) {
             return Unauthorized(new { message = "Доступ запрещён" });
@@ -59,7 +59,7 @@ public class DiscountsController : AbstractController {
     /// <returns>204</returns>
     [Authorize(Roles = "administrator")]
     [HttpPut("{discountId:int}")]
-    public ActionResult<DetailedActiveDiscountWrapper> Edit(int discountId, [FromBody] ActiveDiscountWrapper data) {
+    public IActionResult Edit(int discountId, [FromBody] ActiveDiscountWrapper data) {
         User? user = _getCurrentUser();
         if (user == null) {
             return Unauthorized(new { message = "Доступ запрещён" });

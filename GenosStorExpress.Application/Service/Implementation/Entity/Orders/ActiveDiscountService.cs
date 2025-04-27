@@ -39,7 +39,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             };
             _repositories.Orders.ActiveDiscounts.Create(created);
             item.ActiveDiscount = created;
-            
+            _repositories.Save();
         }
 
         /// <summary>

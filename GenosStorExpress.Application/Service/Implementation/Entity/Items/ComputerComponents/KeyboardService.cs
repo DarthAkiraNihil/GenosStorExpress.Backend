@@ -2,6 +2,7 @@
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
@@ -15,7 +16,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly IKeyboardTypesizeService _keyboardTypesizes;
         private readonly IKeyboardTypeService _keyboardTypes;
 
-        public KeyboardService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IKeyboardTypesizeService keyboardTypesizes, IKeyboardTypeService keyboardTypes) : base(itemTypeService, vendorService) {
+        public KeyboardService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IKeyboardTypesizeService keyboardTypesizes, IKeyboardTypeService keyboardTypes) : base(itemTypeService, activeDiscountService, vendorService) {
             _repositories = repositories;
             _keyboardTypesizes = keyboardTypesizes;
             _keyboardTypes = keyboardTypes;

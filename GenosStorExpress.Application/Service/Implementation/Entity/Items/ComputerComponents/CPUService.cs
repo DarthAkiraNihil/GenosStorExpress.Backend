@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Application.Wrappers.Filters;
@@ -26,12 +27,13 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         /// 
         /// </summary>
         /// <param name="itemTypeService">Сервис типов предметов</param>
+        /// <param name="activeDiscountService">Сервис скидок</param>
         /// <param name="vendorService">Сервис производителей</param>
         /// <param name="repositories">Репозитории проекта</param>
         /// <param name="cpuCoreService">Сервис ядер процессоров</param>
         /// <param name="cpusSocketService">Сервис сокетов процессоров</param>
         /// <param name="ramTypeService">Сервис типов ОЗУ</param>
-        public CPUService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, ICPUCoreService cpuCoreService, ICPUSocketService cpusSocketService, IRAMTypeService ramTypeService) : base(itemTypeService, vendorService) {
+        public CPUService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, IGenosStorExpressRepositories repositories, ICPUCoreService cpuCoreService, ICPUSocketService cpusSocketService, IRAMTypeService ramTypeService) : base(itemTypeService, activeDiscountService, vendorService) {
             _repositories = repositories;
             _cpuCoreService = cpuCoreService;
             _cpusSocketService = cpusSocketService;

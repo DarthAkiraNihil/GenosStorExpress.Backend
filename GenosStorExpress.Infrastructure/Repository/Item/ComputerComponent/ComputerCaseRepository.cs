@@ -22,6 +22,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.ComputerComponent {
         public ComputerCase? Get(int id) {
             return _context.ComputerCases
 	            .Include(i => i.SupportedMotherboardFormFactors)
+                .Include(i => i.Reviews)
                 .FirstOrDefault(i => i.Id == id);
         }
 

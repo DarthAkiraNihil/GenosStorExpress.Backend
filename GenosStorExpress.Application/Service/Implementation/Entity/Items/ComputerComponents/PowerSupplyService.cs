@@ -2,6 +2,7 @@
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
@@ -14,7 +15,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly IPowerSupplyRepository _powerSupplies;
         private readonly ICertificate80PlusService _certificate80PlusService;
 
-        public PowerSupplyService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, ICertificate80PlusService certificate80PlusService) : base(itemTypeService, vendorService) {
+        public PowerSupplyService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, IGenosStorExpressRepositories repositories, ICertificate80PlusService certificate80PlusService) : base(itemTypeService, activeDiscountService, vendorService) {
             _repositories = repositories;
             _certificate80PlusService = certificate80PlusService;
             _powerSupplies = _repositories.Items.ComputerComponents.PowerSupplies;

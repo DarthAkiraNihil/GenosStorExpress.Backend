@@ -7,11 +7,13 @@ namespace GenosStorExpress.Application.Service.Interface.Entity.Orders {
     /// Интерфейс сервиса скидок
     /// </summary>
     public interface IActiveDiscountService: 
-        ISupportsCreate<DetailedActiveDiscountWrapper>,
-        ISupportsGet<DetailedActiveDiscountWrapper>,
-        ISupportsList<ActiveDiscountWrapper>,
-        ISupportsUpdateWrapped<DetailedActiveDiscountWrapper>,
+        // ISupportsCreate<DetailedActiveDiscountWrapper>,
+        // ISupportsGet<DetailedActiveDiscountWrapper>,
+        // ISupportsList<ActiveDiscountWrapper>,
+        //ISupportsUpdateWrapped<DetailedActiveDiscountWrapper>,
         ISupportsSave {
+        void Activate(int itemId, ActiveDiscountWrapper discountData);
+        void Edit(int discountId, ActiveDiscountWrapper discountData);
         /// <summary>
         /// Деактивация скидки. Все товары с указанной скидкой теряют её
         /// </summary>

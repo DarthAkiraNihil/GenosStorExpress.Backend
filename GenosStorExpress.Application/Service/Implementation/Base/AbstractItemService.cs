@@ -1,4 +1,5 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.Item;
@@ -10,13 +11,16 @@ namespace GenosStorExpress.Application.Service.Implementation.Base;
 /// </summary>
 public abstract class AbstractItemService {
     private readonly IItemTypeService _itemTypeService;
+    private readonly IActiveDiscountService _activeDiscountService;
 
     /// <summary>
     /// Стандартный конструктор
     /// </summary>
     /// <param name="itemTypeService">Сервис типов товаров</param>
-    protected AbstractItemService(IItemTypeService itemTypeService) {
+    /// <param name="activeDiscountService">Сервис скидок</param>
+    protected AbstractItemService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService) {
         _itemTypeService = itemTypeService;
+        _activeDiscountService = activeDiscountService;
     }
 
     /// <summary>
@@ -55,11 +59,16 @@ public abstract class AbstractItemService {
         wrapper.ReviewsCount = entity.Reviews.Count;
         wrapper.OverallRating = _getOverallRating(entity);
         if (entity.ActiveDiscount != null) {
-            wrapper.ActiveDiscount = new ActiveDiscountWrapper {
-                Id = entity.ActiveDiscount.Id,
-                Value = entity.ActiveDiscount.Value,
-                EndsAt = entity.ActiveDiscount.EndsAt
-            };
+            if (DateTime.Now > entity.ActiveDiscount.EndsAt) {
+                _activeDiscountService.Deactivate(entity.ActiveDiscount.Id);
+                wrapper.ActiveDiscount = null;
+            } else {
+                wrapper.ActiveDiscount = new ActiveDiscountWrapper {
+                    Id = entity.ActiveDiscount.Id,
+                    Value = entity.ActiveDiscount.Value,
+                    EndsAt = entity.ActiveDiscount.EndsAt
+                };
+            }
         }
     }
 

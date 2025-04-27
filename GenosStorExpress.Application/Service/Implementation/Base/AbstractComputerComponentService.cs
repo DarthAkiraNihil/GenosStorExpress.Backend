@@ -1,5 +1,6 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 
@@ -15,8 +16,9 @@ public abstract class AbstractComputerComponentService: AbstractItemService {
     /// Стандартный конструктор
     /// </summary>
     /// <param name="itemTypeService">Сервис типов товаров</param>
+    /// <param name="activeDiscountService">Сервис скидок</param>
     /// <param name="vendorService">Сервис производителей</param>
-    protected AbstractComputerComponentService(IItemTypeService itemTypeService, IVendorService vendorService) : base(itemTypeService) {
+    protected AbstractComputerComponentService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService) : base(itemTypeService, activeDiscountService) {
         _vendorService = vendorService;
     }
 

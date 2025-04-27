@@ -1,6 +1,7 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
@@ -17,9 +18,10 @@ public abstract class AbstractSSDService: AbstractDiskDriveService {
     /// Стандартный конструктор
     /// </summary>
     /// <param name="itemTypeService">Сервис типов товаров</param>
+    /// <param name="activeDiscountService">Сервис скидок</param>
     /// <param name="vendorService">Сервис производителей</param>
     /// <param name="ssdControllerService">Сервис контроллеров твердотельных накопителей</param>
-    protected AbstractSSDService(IItemTypeService itemTypeService, IVendorService vendorService, ISSDControllerService ssdControllerService) : base(itemTypeService, vendorService) {
+    protected AbstractSSDService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, ISSDControllerService ssdControllerService) : base(itemTypeService, activeDiscountService, vendorService) {
         _ssdControllerService = ssdControllerService;
     }
     

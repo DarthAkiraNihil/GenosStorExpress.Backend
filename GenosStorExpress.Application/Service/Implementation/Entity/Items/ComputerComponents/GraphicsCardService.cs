@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
@@ -16,7 +17,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly IGPUService _gpuService;
         private readonly IGraphicsCardRepository _graphicsCards;
 
-        public GraphicsCardService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IVideoPortService videoPortService, IGPUService gpuService) : base(itemTypeService, vendorService) {
+        public GraphicsCardService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IVideoPortService videoPortService, IGPUService gpuService) : base(itemTypeService, activeDiscountService, vendorService) {
             _repositories = repositories;
             _videoPortService = videoPortService;
             _gpuService = gpuService;

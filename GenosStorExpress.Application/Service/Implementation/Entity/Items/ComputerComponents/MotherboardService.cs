@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Entity.Item.SimpleComputerComponent;
 using GenosStorExpress.Application.Wrappers.Filters;
@@ -500,6 +501,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         /// Стандартный конструктор
         /// </summary>
         /// <param name="itemTypeService">Сервис типов предметов</param>
+        /// <param name="activeDiscountService">Сервис скидок</param>
         /// <param name="vendorService">Сервис производителей</param>
         /// <param name="repositories">Репозитории проекта</param>
         /// <param name="cpuCoreService">Сервис ядер процессоров</param>
@@ -511,7 +513,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         /// <param name="motherboardChipsetService">Сервис чипсетов материнских плат</param>
         /// <param name="audioChipsetService">Сервис аудиочипсетов</param>
         /// <param name="networkAdapterService">Сервис сетевых адаптеров</param>
-        public MotherboardService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, ICPUCoreService cpuCoreService, IRAMTypeService ramTypeService, IVideoPortService videoPortService, IMotherboardFormFactorService motherboardFormFactorService, ICPUSocketService cpusocketService, IPCIEVersionService pCieVersionService, IMotherboardChipsetService motherboardChipsetService, IAudioChipsetService audioChipsetService, INetworkAdapterService networkAdapterService) : base(itemTypeService, vendorService) {
+        public MotherboardService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, IGenosStorExpressRepositories repositories, ICPUCoreService cpuCoreService, IRAMTypeService ramTypeService, IVideoPortService videoPortService, IMotherboardFormFactorService motherboardFormFactorService, ICPUSocketService cpusocketService, IPCIEVersionService pCieVersionService, IMotherboardChipsetService motherboardChipsetService, IAudioChipsetService audioChipsetService, INetworkAdapterService networkAdapterService) : base(itemTypeService, activeDiscountService, vendorService) {
             _repositories = repositories;
             _cpuCoreService = cpuCoreService;
             _ramTypeService = ramTypeService;

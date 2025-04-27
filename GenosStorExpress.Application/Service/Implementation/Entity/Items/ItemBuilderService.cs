@@ -31,6 +31,7 @@ public class ItemBuilderService: IItemBuilderService {
         target.Description = source.Description;
         target.ItemType = source.ItemType;
         target.Price = source.Price;
+        target.OverallRating = source.OverallRating;
     }
 
     private void _buildComputerComponent(ComputerComponentWrapper target, AnonymousItemWrapper source) {

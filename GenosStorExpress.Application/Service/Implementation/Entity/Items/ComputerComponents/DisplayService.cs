@@ -2,6 +2,7 @@
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
@@ -25,13 +26,14 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         /// Стандартный конструктор
         /// </summary>
         /// <param name="itemTypeService">Сервис типов предметов</param>
+        /// <param name="activeDiscountService">Сервис скидок</param>
         /// <param name="vendorService">Сервис производителей</param>
         /// <param name="repositories">Репозитории проекта</param>
         /// <param name="definitionService">Сервис разрешений мониторов</param>
         /// <param name="matrixTypeService">Сервис типов матриц</param>
         /// <param name="underlightService">Сервис подсветок мониторов</param>
         /// <param name="vesaSizeService">Сервис размеров Vesa</param>
-        public DisplayService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IDefinitionService definitionService, IMatrixTypeService matrixTypeService, IUnderlightService underlightService, IVesaSizeService vesaSizeService) : base(itemTypeService, vendorService) {
+        public DisplayService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, IGenosStorExpressRepositories repositories, IDefinitionService definitionService, IMatrixTypeService matrixTypeService, IUnderlightService underlightService, IVesaSizeService vesaSizeService) : base(itemTypeService, activeDiscountService, vendorService) {
             _repositories = repositories;
             _definitionService = definitionService;
             _matrixTypeService = matrixTypeService;

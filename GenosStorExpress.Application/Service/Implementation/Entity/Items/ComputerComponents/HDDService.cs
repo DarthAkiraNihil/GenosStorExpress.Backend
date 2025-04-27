@@ -2,6 +2,7 @@
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
@@ -13,7 +14,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly IGenosStorExpressRepositories _repositories;
         private readonly IHDDRepository _hdds;
 
-        public HDDService(IItemTypeService itemTypeService, IVendorService vendorService, IGenosStorExpressRepositories repositories) : base(itemTypeService, vendorService) {
+        public HDDService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, IGenosStorExpressRepositories repositories) : base(itemTypeService, activeDiscountService, vendorService) {
             _repositories = repositories;
             _hdds = _repositories.Items.ComputerComponents.HDDs;
         }

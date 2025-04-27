@@ -1,5 +1,6 @@
 ﻿using GenosStorExpress.Application.Service.Implementation.Base;
 using GenosStorExpress.Application.Service.Interface.Entity.Items;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Domain.Entity.Item;
@@ -19,8 +20,9 @@ public class AllItemsService: AbstractItemService, IAllItemsService {
     /// Стандартный конструктор
     /// </summary>
     /// <param name="itemTypeService">Сервис типов товаров</param>
+    /// <param name="activeDiscountService">Сервис скидок</param>
     /// <param name="repositories">Репозитории проекта</param>
-    public AllItemsService(IItemTypeService itemTypeService, IGenosStorExpressRepositories repositories) : base(itemTypeService) {
+    public AllItemsService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IGenosStorExpressRepositories repositories) : base(itemTypeService, activeDiscountService) {
         _repositories = repositories;
         _items = _repositories.Items.All;
     }

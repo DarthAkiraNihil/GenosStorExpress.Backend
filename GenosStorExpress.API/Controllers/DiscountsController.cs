@@ -28,64 +28,22 @@ public class DiscountsController : AbstractController {
     }
 
     /// <summary>
-    /// Создание скидки. Только под администратором
+    /// Создание скидки на товар. Только под администратором
     /// </summary>
+    /// <param name="itemId">Номер товара</param>
     /// <param name="data">Данные создаваемой скидки</param>
     /// <returns>Созданную скидку</returns>
     [Authorize(Roles = "administrator")]
-    [HttpPost]
-    public ActionResult<DetailedActiveDiscountWrapper> Create([FromBody] DetailedActiveDiscountWrapper data) {
+    [HttpPost("{itemId:int}")]
+    public ActionResult<DetailedActiveDiscountWrapper> Activate(int itemId, [FromBody] ActiveDiscountWrapper data) {
         User? user = _getCurrentUser();
         if (user == null) {
             return Unauthorized(new { message = "Доступ запрещён" });
         }
 
         try {
-            _activeDiscountService.Create(data);
+            _activeDiscountService.Activate(itemId, data);
             return Ok(data);
-        } catch (NullReferenceException e) {
-            return BadRequest(new DetailObject(e.Message));
-        } catch (Exception e) {
-            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
-        }
-    }
-
-    /// <summary>
-    /// Получение списка скидок. Только под администратором
-    /// </summary>
-    /// <returns>Список активных скидок</returns>
-    [Authorize(Roles = "administrator")]
-    [HttpGet]
-    public ActionResult<IEnumerable<ActiveDiscountWrapper>> List() {
-        User? user = _getCurrentUser();
-        if (user == null) {
-            return Unauthorized(new { message = "Доступ запрещён" });
-        }
-        
-        try {
-            return Ok(_activeDiscountService.List());
-        } catch (NullReferenceException e) {
-            return BadRequest(new DetailObject(e.Message));
-        } catch (Exception e) {
-            return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
-        }
-    }
-
-    /// <summary>
-    /// Получение информации о конкретной скидке. Только под администратором
-    /// </summary>
-    /// <param name="id">Номер скидки</param>
-    /// <returns>Скидку</returns>
-    [Authorize(Roles = "administrator")]
-    [HttpGet("{id:int}")]
-    public ActionResult<DetailedActiveDiscountWrapper> Get(int id) {
-        User? user = _getCurrentUser();
-        if (user == null) {
-            return Unauthorized(new { message = "Доступ запрещён" });
-        }
-        
-        try {
-            return Ok(_activeDiscountService.Get(id));
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {
@@ -96,19 +54,19 @@ public class DiscountsController : AbstractController {
     /// <summary>
     /// Редактирование скидки. Только под администратором
     /// </summary>
-    /// <param name="id">Номер скидки</param>
+    /// <param name="discountId">Номер скидки</param>
     /// <param name="data">Данные редактируемой скидки</param>
     /// <returns>204</returns>
     [Authorize(Roles = "administrator")]
-    [HttpPatch("{id:int}")]
-    public ActionResult<DetailedActiveDiscountWrapper> Update(int id, [FromBody] DetailedActiveDiscountWrapper data) {
+    [HttpPut("{discountId:int}")]
+    public ActionResult<DetailedActiveDiscountWrapper> Edit(int discountId, [FromBody] ActiveDiscountWrapper data) {
         User? user = _getCurrentUser();
         if (user == null) {
             return Unauthorized(new { message = "Доступ запрещён" });
         }
         
         try {
-            _activeDiscountService.Update(id, data);
+            _activeDiscountService.Edit(discountId, data);
             return NoContent();
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));

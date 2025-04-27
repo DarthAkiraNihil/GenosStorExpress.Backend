@@ -3,6 +3,7 @@ using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.Characteristics;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.ComputerComponents;
 using GenosStorExpress.Application.Service.Interface.Entity.Items.SimpleComputerComponents;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.ComputerComponent;
 using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
@@ -14,7 +15,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
         private readonly IGenosStorExpressRepositories _repositories;
         private readonly INVMeSSDRepository _nvmeSSDs;
 
-        public NVMeSSDService(IItemTypeService itemTypeService, IVendorService vendorService, ISSDControllerService ssdControllerService, IGenosStorExpressRepositories repositories) : base(itemTypeService, vendorService, ssdControllerService) {
+        public NVMeSSDService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IVendorService vendorService, ISSDControllerService ssdControllerService, IGenosStorExpressRepositories repositories) : base(itemTypeService, activeDiscountService, vendorService, ssdControllerService) {
             _repositories = repositories;
             _nvmeSSDs = _repositories.Items.ComputerComponents.NVMeSSDs;
         }

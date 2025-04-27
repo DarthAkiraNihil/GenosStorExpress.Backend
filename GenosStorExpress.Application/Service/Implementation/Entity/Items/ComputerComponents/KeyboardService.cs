@@ -200,24 +200,24 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "typesize",
-                    VerboseName = "typesize",
+                    VerboseName = "Типоразмер",
                     Choices = _repositories.Items.Characteristics.KeyboardTypesizes.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "type",
-                    VerboseName = "types",
+                    VerboseName = "Тип",
                     Choices = _repositories.Items.Characteristics.KeyboardTypes.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Having,
                     Name = "has_rgb_lighting",
-                    VerboseName = "has_rgb_lighting",
+                    VerboseName = "Наличие RGB подсветки",
                 },
             };
         }

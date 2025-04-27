@@ -270,38 +270,38 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "max_fan_rpm",
-                    VerboseName = "max_fan_rpm"
+                    VerboseName = "Максимальное скорость оборота вентилятора"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tubes_count",
-                    VerboseName = "tubes_count"
+                    VerboseName = "Количество трубок"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tubes_diameter",
-                    VerboseName = "tubes_diameter"
+                    VerboseName = "Диаметр трубок"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "fan_count",
-                    VerboseName = "fan_count"
+                    VerboseName = "Количество вентиляторов"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "foundation_material",
-                    VerboseName = "foundation_material",
+                    VerboseName = "Материал основания",
                     Choices = _repositories.Items.Characteristics.CoolerMaterials.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "radiator_material",
-                    VerboseName = "radiator_material",
+                    VerboseName = "Материал радиатора",
                     Choices = _repositories.Items.Characteristics.CoolerMaterials.List().Select(i => i.Name).ToList()
                 },
             };

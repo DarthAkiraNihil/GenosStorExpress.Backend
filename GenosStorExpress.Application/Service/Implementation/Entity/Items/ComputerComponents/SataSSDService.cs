@@ -171,37 +171,37 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "capacity",
-                    VerboseName = "capacity"
+                    VerboseName = "Ёмкость"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "read_speed",
-                    VerboseName = "read_speed"
+                    VerboseName = "Скорость чтения"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "write_speed",
-                    VerboseName = "write_speed"
+                    VerboseName = "Скорость записи"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tbw",
-                    VerboseName = "tbw"
+                    VerboseName = "TBW"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "dwpd",
-                    VerboseName = "dwpd"
+                    VerboseName = "DWPD"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "bits_for_cell",
-                    VerboseName = "bits_for_cell"
+                    VerboseName = "Количество бит на ячейку"
                 },
             };
         }

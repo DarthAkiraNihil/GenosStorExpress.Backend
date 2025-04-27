@@ -296,34 +296,34 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "width",
-                    VerboseName = "width"
+                    VerboseName = "Ширина"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "height",
-                    VerboseName = "height"
+                    VerboseName = "Высота"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "drive_slots_count",
-                    VerboseName = "drive_slots_count"
+                    VerboseName = "Количество слотов под диски"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "typesize",
-                    VerboseName = "typesize",
+                    VerboseName = "Типоразмер",
                     Choices = _repositories.Items.Characteristics.ComputerCaseTypesizes.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "supported_motherboard_form_factors",
-                    VerboseName = "supported_motherboard_form_factors",
+                    VerboseName = "Подд. форм-факторы материнских плат",
                     Choices = _repositories.Items.Characteristics.MotherboardFormFactors.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Having,
                     Name = "has_argb_lighting",
-                    VerboseName = "has_argb_lighting",
+                    VerboseName = "Наличие ARBG подсветки",
                 },
             };
         }

@@ -293,35 +293,35 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "matrix_type",
-                    VerboseName = "matrix_type",
+                    VerboseName = "Тип матрицы",
                     Choices = _repositories.Items.Characteristics.MatrixTypes.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "underlight",
-                    VerboseName = "underlight",
+                    VerboseName = "Тип подсветки",
                     Choices = _repositories.Items.Characteristics.Underlights.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "vesa_size",
-                    VerboseName = "vesa_size",
+                    VerboseName = "Размер Vesa",
                     Choices = _repositories.Items.Characteristics.VesaSizes.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "max_update_frequency",
-                    VerboseName = "max_update_frequency"
+                    VerboseName = "Макс. частота обновления"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "screen_diagonal",
-                    VerboseName = "screen_diagonal"
+                    VerboseName = "Размер диагонали"
                 },
             };
         }

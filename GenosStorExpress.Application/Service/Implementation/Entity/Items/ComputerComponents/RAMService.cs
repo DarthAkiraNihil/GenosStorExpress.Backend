@@ -214,28 +214,28 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "type",
-                    VerboseName = "type",
+                    VerboseName = "Тип",
                     Choices = _repositories.Items.Characteristics.RAMTypes.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "total_size",
-                    VerboseName = "total_size"
+                    VerboseName = "Общий размер"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "module_size",
-                    VerboseName = "module_size"
+                    VerboseName = "Размер модуля"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "frequency",
-                    VerboseName = "frequency"
+                    VerboseName = "Частота"
                 },
             };
         }

@@ -194,28 +194,28 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "certificates_80plus",
-                    VerboseName = "certificates_80plus",
+                    VerboseName = "Сертификат 80Plus",
                     Choices = _repositories.Items.Characteristics.Certificates80Plus.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "power_output",
-                    VerboseName = "power_output"
+                    VerboseName = "Выходная мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "sata_ports",
-                    VerboseName = "sata_ports"
+                    VerboseName = "Количество портов Sata"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "molex_ports",
-                    VerboseName = "molex_ports"
+                    VerboseName = "Количество портов Molex"
                 },
             };
         }

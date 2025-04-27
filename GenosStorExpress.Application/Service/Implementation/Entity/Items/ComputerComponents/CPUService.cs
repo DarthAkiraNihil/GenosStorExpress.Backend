@@ -327,49 +327,49 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "socket",
-                    VerboseName = "socket",
+                    VerboseName = "Сокет",
                     Choices = _repositories.Items.Characteristics.CPUSockets.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "supported_ram_types",
-                    VerboseName = "supported_ram_types",
+                    VerboseName = "Поддерживаемые типы ОЗУ",
                     Choices = _repositories.Items.Characteristics.RAMTypes.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "cores_count",
-                    VerboseName = "cores_count"
+                    VerboseName = "Количество ядер"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "threads_count",
-                    VerboseName = "threads_count"
+                    VerboseName = "Количество потоков"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "technical_process",
-                    VerboseName = "technical_process"
+                    VerboseName = "Техпроцесс"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "base_frequency",
-                    VerboseName = "base_frequency"
+                    VerboseName = "Базовая частота"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "supported_ram_size",
-                    VerboseName = "supported_ram_size"
+                    VerboseName = "Подд. размер ОЗУ"
                 },
                 new FilterDescription {
                     Type = FilterType.Having,
                     Name = "has_integrated_graphics",
-                    VerboseName = "has_integrated_graphics"
+                    VerboseName = "Наличие встроенной графики"
                 },
             };
         }

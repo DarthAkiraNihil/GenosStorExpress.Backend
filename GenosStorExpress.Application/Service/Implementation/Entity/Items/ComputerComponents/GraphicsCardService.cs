@@ -221,29 +221,29 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "gpu",
-                    VerboseName = "gpu",
+                    VerboseName = "Модель ГП",
                     Choices = _repositories.Items.SimpleComputerComponents.GPUs.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "video_port",
-                    VerboseName = "video_port",
+                    VerboseName = "Видеопорты",
                     Choices = _repositories.Items.Characteristics.VideoPorts.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "video_ram",
-                    VerboseName = "video_ram"
+                    VerboseName = "Размер видеопамяти"
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "max_displays_supported",
-                    VerboseName = "max_displays_supported"
+                    VerboseName = "Максимальное количество подд. дисплеев"
                 },
             };
         }

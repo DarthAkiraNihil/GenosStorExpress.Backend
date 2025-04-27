@@ -198,23 +198,23 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "dpi",
-                    VerboseName = "dpi",
+                    VerboseName = "Режимы работы DPI",
                     Choices = _repositories.Items.Characteristics.DPIModes.List().Select(i => i.DPI.ToString()).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Having,
                     Name = "has_programmable_buttons",
-                    VerboseName = "has_programmable_buttons",
+                    VerboseName = "Наличие программируемых кнопок",
                 },
                 new FilterDescription {
                     Type = FilterType.Having,
                     Name = "is_wireless",
-                    VerboseName = "is_wireless",
+                    VerboseName = "Беспроводная",
                 },
             };
         }

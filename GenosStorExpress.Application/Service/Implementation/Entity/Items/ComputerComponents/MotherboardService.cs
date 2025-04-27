@@ -435,56 +435,56 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "tdp",
-                    VerboseName = "tdp"
+                    VerboseName = "Потребляемая мощность"
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "form_factor",
-                    VerboseName = "form_factor",
+                    VerboseName = "Форм-фактор",
                     Choices = _repositories.Items.Characteristics.MotherboardFormFactors.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "socket",
-                    VerboseName = "socket",
+                    VerboseName = "Сокеты процессора",
                     Choices = _repositories.Items.Characteristics.CPUSockets.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "supported_cpu_cores",
-                    VerboseName = "supported_cpu_cores",
+                    VerboseName = "Подд. ядра процессоров",
                     Choices = _repositories.Items.SimpleComputerComponents.CPUCores.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Choice,
                     Name = "supported_ram_types",
-                    VerboseName = "supported_ram_types",
+                    VerboseName = "Подд. типы ОЗУ",
                     Choices = _repositories.Items.Characteristics.RAMTypes.List().Select(i => i.Name).ToList()
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "ram_slots_count",
-                    VerboseName = "ram_slots_count",
+                    VerboseName = "Количество слотов ОЗУ",
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "pcie_slots_count",
-                    VerboseName = "pcie_slots_count",
+                    VerboseName = "Количество слотов PCI-e",
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "sata_ports_count",
-                    VerboseName = "sata_ports_count",
+                    VerboseName = "Количество портов Sata",
                 },
                 new FilterDescription {
                     Type = FilterType.Range,
                     Name = "usb_ports_count",
-                    VerboseName = "usb_ports_count",
+                    VerboseName = "Количество портов USB",
                 },
                 new FilterDescription {
                     Type = FilterType.Having,
                     Name = "has_nvme_support",
-                    VerboseName = "has_nvme_support",
+                    VerboseName = "Наличие поддержки NVMe",
                 },
             };
         }

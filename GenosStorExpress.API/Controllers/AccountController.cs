@@ -24,9 +24,10 @@ public class AccountController : AbstractController {
     /// Конструктор контроллера
     /// </summary>
     /// <param name="userManager">Стандартный менеджер пользователей</param>
+    /// <param name="logger">Логгер</param>
     /// <param name="signInManager">Менеджер аутентификации</param>
     /// <param name="configuration">Конфигурация</param>
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IConfiguration configuration) : base(userManager) {
+    public AccountController(UserManager<User> userManager, ILogger<AccountController> logger, SignInManager<User> signInManager, IConfiguration configuration) : base(userManager, logger) {
         _signInManager = signInManager;
         _configuration = configuration;
     }

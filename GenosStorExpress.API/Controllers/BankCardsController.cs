@@ -23,7 +23,8 @@ public class BankCardsController: AbstractController {
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
     /// <param name="bankCardService">Сервис банковских карт</param>
-    public BankCardsController(UserManager<User> userManager, IBankCardService bankCardService) : base(userManager) {
+    /// <param name="logger">Логгер</param>
+    public BankCardsController(UserManager<User> userManager, ILogger<BankCardsController> logger, IBankCardService bankCardService) : base(userManager, logger) {
         _bankCardService = bankCardService;
     }
     

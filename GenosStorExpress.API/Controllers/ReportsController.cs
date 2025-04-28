@@ -21,8 +21,9 @@ public class ReportsController: AbstractController {
     /// Стандартный конструктор
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
+    /// <param name="logger">Логгер</param>
     /// <param name="reportService">Сервис отчётов</param>
-    public ReportsController(UserManager<User> userManager, IReportService reportService) : base(userManager) {
+    public ReportsController(UserManager<User> userManager, ILogger<ReportsController> logger, IReportService reportService) : base(userManager, logger) {
         _reportService = reportService;
     }
 

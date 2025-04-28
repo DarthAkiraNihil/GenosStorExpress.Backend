@@ -20,8 +20,9 @@ public class LegalEntitiesController: AbstractController {
     /// Стандартный конструктор
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
+    /// <param name="logger">Логгер</param>
     /// <param name="legalEntityService">Сервис юридических лиц</param>
-    public LegalEntitiesController(UserManager<User> userManager, ILegalEntityService legalEntityService) : base(userManager) {
+    public LegalEntitiesController(UserManager<User> userManager, ILogger<LegalEntitiesController> logger, ILegalEntityService legalEntityService) : base(userManager, logger) {
         _legalEntityService = legalEntityService;
     }
     

@@ -31,12 +31,13 @@ namespace GenosStorExpress.API.Controllers {
         /// Стандартный конструктор
         /// </summary>
         /// <param name="itemServiceRouter">Маршрутизатор сервисов товаров по типам</param>
+        /// <param name="logger">Логгер</param>
         /// <param name="itemTypeService">Сервис типов товаров</param>
         /// <param name="itemImageService">Сервис изображений товаров</param>
         /// <param name="itemsService">Общий сервис товаров</param>
         /// <param name="userManager">Менеджер пользователей</param>
         /// <param name="cartService">Сервис корзин</param>
-        public ItemsController(UserManager<User> userManager, IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService, IItemImageService itemImageService, IAllItemsService itemsService, ICartService cartService) : base(userManager) {
+        public ItemsController(UserManager<User> userManager, ILogger<ItemsController> logger, IItemServiceRouter itemServiceRouter, IItemTypeService itemTypeService, IItemImageService itemImageService, IAllItemsService itemsService, ICartService cartService) : base(userManager, logger) {
             _itemServiceRouter = itemServiceRouter;
             _itemTypeService = itemTypeService;
             _itemImageService = itemImageService;
@@ -77,11 +78,13 @@ namespace GenosStorExpress.API.Controllers {
                     result.Previous = null;
                     result.Next = null;
                 }
-                
+                _logger.LogInformation($"Executed List (GET /). Result = Success. Params: type = {type}, pageNumber = {pageNumber}, pageSize = {pageSize}, filters = {filters}");
                 return Ok(result);
             } catch (NullReferenceException e) {
+                _logger.LogError($"Executed List (GET /). Result = Error. Detail = {e.Message}. Params: type = {type}, pageNumber = {pageNumber}, pageSize = {pageSize}, filters = {filters}");
                 return BadRequest(new DetailObject(e.Message));
             } catch (Exception e) {
+                _logger.LogError($"Executed List (GET /). Result = Error. Detail = {e.Message}. Params: type = {type}, pageNumber = {pageNumber}, pageSize = {pageSize}, filters = {filters}");
                 return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
             }
             

@@ -1,6 +1,5 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Common;
 using GenosStorExpress.Application.Service.Interface.Entity.Orders;
-using GenosStorExpress.Application.Service.Interface.Entity.Users;
 using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Utils;
@@ -24,9 +23,10 @@ public class OrdersController: AbstractController {
     /// Стандартный конструктор
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
+    /// <param name="logger">Логгер</param>
     /// <param name="orderService">Сервис заказов</param>
     /// <param name="paymentService">Сервис оплаты</param>
-    public OrdersController(UserManager<User> userManager, IOrderService orderService, IPaymentService paymentService) : base(userManager) {
+    public OrdersController(UserManager<User> userManager, ILogger<OrdersController> logger, IOrderService orderService, IPaymentService paymentService) : base(userManager, logger) {
         _orderService = orderService;
         _paymentService = paymentService;
     }

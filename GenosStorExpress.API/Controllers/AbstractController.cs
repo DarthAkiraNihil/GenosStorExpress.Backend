@@ -12,13 +12,16 @@ public abstract class AbstractController: ControllerBase {
     /// Менеджер пользователей
     /// </summary>
     protected readonly UserManager<User> _userManager;
+    protected readonly ILogger _logger;
 
     /// <summary>
     /// Стандартный конструктор
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
-    protected AbstractController(UserManager<User> userManager) {
+    /// <param name="logger">Логгер</param>
+    protected AbstractController(UserManager<User> userManager, ILogger<AbstractController> logger) {
         _userManager = userManager;
+        _logger = logger;
     }
     
     /// <summary>

@@ -22,8 +22,9 @@ public class DiscountsController : AbstractController {
     /// Стандартный конструктор
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
+    /// <param name="logger">Логгер</param>
     /// <param name="activeDiscountService">Сервис скидок</param>
-    public DiscountsController(UserManager<User> userManager, IActiveDiscountService activeDiscountService) : base(userManager) {
+    public DiscountsController(UserManager<User> userManager, ILogger<DiscountsController> logger, IActiveDiscountService activeDiscountService) : base(userManager, logger) {
         _activeDiscountService = activeDiscountService;
     }
 

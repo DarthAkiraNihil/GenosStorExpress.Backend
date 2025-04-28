@@ -34,6 +34,9 @@ QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 builder.Services.AddDbContext<GenosStorExpressDatabaseContext>(
 	options => options.UseNpgsql(
 	builder.Configuration.GetConnectionString("DefaultConnection")

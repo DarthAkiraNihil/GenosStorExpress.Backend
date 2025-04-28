@@ -21,8 +21,9 @@ public class CartsController: AbstractController {
     /// Стандартный конструктор
     /// </summary>
     /// <param name="userManager">Менеджер пользователей</param>
+    /// <param name="logger">Логгер</param>
     /// <param name="cartService">Сервис корзин</param>
-    public CartsController(UserManager<User> userManager, ICartService cartService) : base(userManager) {
+    public CartsController(UserManager<User> userManager, ILogger<CartsController> logger, ICartService cartService) : base(userManager, logger) {
         _cartService = cartService;
     }
 

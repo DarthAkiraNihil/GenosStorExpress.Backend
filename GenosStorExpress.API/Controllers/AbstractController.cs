@@ -36,4 +36,25 @@ public abstract class AbstractController: ControllerBase {
         }
         return null;
     }
+
+    /// <summary>
+    /// Метод логирования сообщения
+    /// </summary>
+    /// <param name="methodName">Метод контроллера, откуда было вызвано логирование</param>
+    /// <param name="parameters">Список параметров метода со значениями</param>
+    /// <param name="detail">Сообщение</param>
+    /// <param name="user">Текущий пользователь</param>
+    /// <param name="isError">Флаг ошибки</param>
+    protected void _log(string methodName, IList<string> parameters, string detail, User? user = null, bool isError = false) {
+        string formattedParameters = string.Join(", ", parameters);
+        if (isError) {
+            _logger.LogError($"Executed {methodName} ({Request.Method} {Request.Path}). User = {user?.Email}, Status = Error: {detail}. Params: {formattedParameters}");
+        } else {
+            if (detail.Length == 0) {
+                _logger.LogInformation($"Executed {methodName} ({Request.Method} {Request.Path}). User = {user?.Email}, Status = Success. Params: {formattedParameters}");
+            } else {
+                _logger.LogInformation($"Executed {methodName} ({Request.Method} {Request.Path}). User = {user?.Email}, Status = Success. Detail = {detail}, Params: {formattedParameters}");
+            }
+        }
+    }
 }

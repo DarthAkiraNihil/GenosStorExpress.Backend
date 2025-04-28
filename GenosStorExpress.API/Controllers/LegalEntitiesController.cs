@@ -1,4 +1,5 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Users;
+﻿using System.Reflection;
+using GenosStorExpress.Application.Service.Interface.Entity.Users;
 using GenosStorExpress.Application.Wrappers.Entity.Users;
 using GenosStorExpress.Domain.Entity.User;
 using GenosStorExpress.Utils;
@@ -34,13 +35,20 @@ public class LegalEntitiesController: AbstractController {
     [Authorize(Roles = "administrator")]
     [HttpPost("{legalEntityId:guid}/verify")]
     public IActionResult Verify(string legalEntityId) {
+
+        IList<string> parameters = new List<string> {
+            $"legalEntityId = {legalEntityId}",
+        };
+        
         User? user = _getCurrentUser();
         if (user is null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access denied", _getCurrentUser(), true);
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
             
         try {
             _legalEntityService.Verify(user.Id, legalEntityId);
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "", _getCurrentUser());
             return NoContent();
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
@@ -58,13 +66,20 @@ public class LegalEntitiesController: AbstractController {
     [Authorize(Roles = "administrator")]
     [HttpPost("{legalEntityId:guid}/revoke")]
     public IActionResult Revoke(string legalEntityId) {
+
+        IList<string> parameters = new List<string> {
+            $"legalEntityId = {legalEntityId}",
+        };
+        
         User? user = _getCurrentUser();
         if (user is null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access denied", _getCurrentUser(), true);
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
             
         try {
             _legalEntityService.Revoke(user.Id, legalEntityId);
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "", _getCurrentUser());
             return NoContent();
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
@@ -83,14 +98,22 @@ public class LegalEntitiesController: AbstractController {
     [Authorize(Roles = "administrator")]
     [HttpGet("verified")]
     public ActionResult<PaginatedLegalEntityWrapper> GetVerified([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
+
+        IList<string> parameters = new List<string> {
+            $"pageNumber = {pageNumber}",
+            $"pageSize = {pageSize}",
+        };
             
         User? user = _getCurrentUser();
         if (user is null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access denied", _getCurrentUser(), true);
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
             
         try {
-            return Ok(_legalEntityService.GetVerified(user.Id, pageNumber, pageSize));
+            var result = _legalEntityService.GetVerified(user.Id, pageNumber, pageSize);
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "", _getCurrentUser());
+            return Ok(result);
         } catch (NullReferenceException e) {
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {
@@ -108,17 +131,27 @@ public class LegalEntitiesController: AbstractController {
     [Authorize(Roles = "administrator")]
     [HttpGet("awaiting")]
     public ActionResult<PaginatedLegalEntityWrapper> GetAwaiting([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
+
+        IList<string> parameters = new List<string> {
+            $"pageNumber = {pageNumber}",
+            $"pageSize = {pageSize}",
+        };
             
         User? user = _getCurrentUser();
         if (user is null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access denied", _getCurrentUser(), true);
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
             
         try {
-            return Ok(_legalEntityService.GetWaitingForVerification(user.Id, pageNumber, pageSize));
+            var result = _legalEntityService.GetWaitingForVerification(user.Id, pageNumber, pageSize);
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "", _getCurrentUser());
+            return Ok(result);
         } catch (NullReferenceException e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
         }
             

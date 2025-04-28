@@ -1,4 +1,5 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Orders;
+﻿using System.Reflection;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item;
 using GenosStorExpress.Application.Wrappers.Entity.Orders;
 using GenosStorExpress.Domain.Entity.User;
@@ -38,9 +39,15 @@ public class BankCardsController: AbstractController {
     [Authorize(Roles = "individual_entity,legal_entity")]
     [HttpGet]
     public ActionResult<PaginatedBankCardWrapper> List([FromQuery] int pageNumber = 0, [FromQuery] int pageSize = 10) {
+
+        IList<string> parameters = new List<string> {
+            $"pageNumber = {pageNumber}",
+            $"pageSize = {pageSize}",
+        };
         
         User? user = _getCurrentUser();
         if (user is null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access denied", _getCurrentUser(), true);
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
 
@@ -51,11 +58,13 @@ public class BankCardsController: AbstractController {
                 result.Previous = null;
                 result.Next = null;
             }
-            
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "", _getCurrentUser());
             return Ok(result);
         } catch (NullReferenceException e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
         }
         
@@ -70,19 +79,27 @@ public class BankCardsController: AbstractController {
     [Authorize(Roles = "individual_entity,legal_entity")]
     [HttpPost]
     public ActionResult<AnonymousItemWrapper> Create([FromBody]BankCardWrapper value) {
+
+        IList<string> parameters = new List<string> {
+            $"value = {value}",
+        };
         
         User? user = _getCurrentUser();
         if (user is null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access denied", _getCurrentUser(), true);
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
 
         try {
             _bankCardService.Create(user.Id, value);
             _bankCardService.Save();
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "", _getCurrentUser());
             return CreatedAtAction(nameof(Create), new { id = value.Id }, value);
         } catch (NullReferenceException e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
         }
         
@@ -97,9 +114,15 @@ public class BankCardsController: AbstractController {
     [Authorize(Roles = "individual_entity,legal_entity")]
     [HttpPut("{id:int}")]
     public IActionResult Update(int id, [FromBody]BankCardWrapper value) {
+
+        IList<string> parameters = new List<string> {
+            $"id = {id}",
+            $"value = {value}",
+        };
         
         User? user = _getCurrentUser();
         if (user is null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access denied", _getCurrentUser(), true);
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
         
@@ -110,10 +133,13 @@ public class BankCardsController: AbstractController {
         try {
             _bankCardService.Update(user.Id, id, value);
             _bankCardService.Save();
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "", _getCurrentUser());
             return NoContent();
         } catch (NullReferenceException e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
         }
         
@@ -127,19 +153,27 @@ public class BankCardsController: AbstractController {
     [Authorize(Roles = "individual_entity,legal_entity")]
     [HttpDelete("{id:int}")]
     public IActionResult Delete(int id) {
+
+        IList<string> parameters = new List<string> {
+            $"id = {id}",
+        };
         
         User? user = _getCurrentUser();
         if (user is null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access denied", _getCurrentUser(), true);
             return Unauthorized(new DetailObject("Доступ запрещён"));
         }
         
         try {
             _bankCardService.Delete(user.Id, id);
             _bankCardService.Save();
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "", _getCurrentUser());
             return NoContent();
         } catch (NullReferenceException e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject(e.Message));
         } catch (Exception e) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
             return BadRequest(new DetailObject($"Произошла ошибка - {e.Message}"));
         }
         

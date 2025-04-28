@@ -1,4 +1,5 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using GenosStorExpress.API.Wrappers;
@@ -39,13 +40,21 @@ public class AccountController : AbstractController {
     /// <returns>Ничего в случае успеха, иначе структуру содержащую список ошибок</returns>
     [HttpPost("sign_up")]
     public async Task<IActionResult> SignUp(SignUpDataWrapper data) {
+
+        IList<string> parameters = new List<string> {
+            $"data = {data}",
+        };
+        
         if (!ModelState.IsValid) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Something is wrong with model state", _getCurrentUser(), true);
             return BadRequest(ModelState);
         }
 
         switch (data.UserType) {
             case "administrator": {
-                return BadRequest(new DetailObject("Создавать новых администраторов таким способом запрещено!"));
+                var msg = "Создавать новых администраторов таким способом запрещено!";
+                _log(MethodBase.GetCurrentMethod()!.Name, parameters, msg, _getCurrentUser(), true);
+                return BadRequest(new DetailObject(msg));
             }
             case "individual_entity": {
                 try {
@@ -69,12 +78,16 @@ public class AccountController : AbstractController {
                     var result = await _userManager.CreateAsync(created, data.Password);
                     if (result.Succeeded) {
                         await _userManager.AddToRoleAsync(created, data.UserType);
-                        return Ok(new { Message = $"Физическое лицо {data.Email} было успешно создано" });
+                        var msg = $"Физическое лицо {data.Email} было успешно создано";
+                        _log(MethodBase.GetCurrentMethod()!.Name, parameters, msg, _getCurrentUser());
+                        return Ok(new { Message = msg });
                     }
                     
+                    _log(MethodBase.GetCurrentMethod()!.Name, parameters, result.Errors.ToString()!, _getCurrentUser(), true);
                     return BadRequest(result.Errors);
                     
                 } catch (Exception e) {
+                    _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
                     return BadRequest(new DetailObject(e.Message));
                 }
             }
@@ -103,17 +116,22 @@ public class AccountController : AbstractController {
                     var result = await _userManager.CreateAsync(created, data.Password);
                     if (result.Succeeded) {
                         await _userManager.AddToRoleAsync(created, data.UserType);
-                        return Ok(new { Message = $"Юридическое лицо {data.Email} было успешно создано. Ожидайте верификации" });
+                        var msg = $"Юридическое лицо {data.Email} было успешно создано. Ожидайте верификации";
+                        _log(MethodBase.GetCurrentMethod()!.Name, parameters, msg, _getCurrentUser());
+                        return Ok(new { Message = msg });
                     }
                     
                     return BadRequest(result.Errors);
                     
                 } catch (Exception e) {
+                    _log(MethodBase.GetCurrentMethod()!.Name, parameters, e.Message, _getCurrentUser(), true);
                     return BadRequest(new DetailObject(e.Message));
                 }
             }
             default: {
-                return BadRequest(new DetailObject($"Неизвестный тип пользователя - {data.UserType}"));
+                var msg = $"Неизвестный тип пользователя - {data.UserType}";
+                _log(MethodBase.GetCurrentMethod()!.Name, parameters, msg, _getCurrentUser(), true);
+                return BadRequest(new DetailObject(msg));
             }
                 
         }
@@ -126,9 +144,14 @@ public class AccountController : AbstractController {
     /// <param name="model">Данные для входа</param>
     /// <returns>Токен и роль пользователя в случае успеха, иначе 401</returns>
     [HttpPost("sign_in")]
-    public async Task<IActionResult> SignIn(SignInDataWrapper model)
-    {
+    public async Task<IActionResult> SignIn(SignInDataWrapper model) {
+
+        IList<string> parameters = new List<string> {
+            $"model = {model}",
+        };
+        
         if (!ModelState.IsValid) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Something is wrong with model state", _getCurrentUser(), true);
             return BadRequest(ModelState);
         }
         
@@ -136,13 +159,16 @@ public class AccountController : AbstractController {
         if (result.Succeeded) {
             var user = await _userManager.FindByNameAsync(model.Username);
             if (user == null) {
+                _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Неверное имя пользователя", _getCurrentUser(), true);
                 return BadRequest(new DetailObject("Неверное имя пользователя"));
             }
             if (user is LegalEntity legalEntity && !legalEntity.IsVerified) {
+                _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Юридическое лицо не подтверждено", _getCurrentUser(), true);
                 return BadRequest(new DetailObject("Юридическое лицо не подтверждено"));
             }
 
             var token = GenerateJwtToken(user);
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access granted", _getCurrentUser());
             return Ok(new { Token = token, Role = user.UserType.ToString(), Username = user.Email });
         }
         return Unauthorized();
@@ -165,12 +191,20 @@ public class AccountController : AbstractController {
     /// <returns>201 в случае успеха, иначе 401</returns>
     [HttpGet("validate")]
     public async Task<IActionResult> ValidateToken() {
+
+        IList<string> parameters = new List<string> {
+            "<no parameters>",
+        };
+        
+        
         User? user = await _userManager.GetUserAsync(HttpContext.User);
         if (user == null) {
+            _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Unauthorized", _getCurrentUser(), true);
             return Unauthorized(new { message = "Доступ запрещён" });
         }
         IList<string> roles = await _userManager.GetRolesAsync(user);
         string? userRole = roles.FirstOrDefault();
+        _log(MethodBase.GetCurrentMethod()!.Name, parameters, "Access granted", _getCurrentUser());
         return Ok(new { message = "ACCESS GRANTED", username = user.UserName, userRole });
 
     }

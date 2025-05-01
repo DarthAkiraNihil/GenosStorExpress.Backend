@@ -186,7 +186,8 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             var order = new Order {
                 CustomerId = customerId,
                 CreatedAt = DateTime.Now,
-                OrderStatusId = status.Id
+                OrderStatusId = status.Id,
+                OrderStatus = status
             };
             
             _repositories.Orders.Orders.Create(order);
@@ -212,7 +213,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
             _cartService.ClearCart(customerId);
             // Create(order);
             _repositories.Save();
-            transaction.Commit();
+            transaction?.Commit();
             return new ShortOrderWrapper {
                 Id = order.Id,
                 Status = order.OrderStatus!.Name,
@@ -302,7 +303,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 throw new NullReferenceException("Запрещено! Данный метод может быть вызван только администратором");
             }
             
-            var orders = _repositories.Orders.Orders.List();
+            var orders = GetActiveOrdersRaw(sudoId);
             
             return new PaginatedShortOrderInfoWrapper {
                 Count = orders.Count,

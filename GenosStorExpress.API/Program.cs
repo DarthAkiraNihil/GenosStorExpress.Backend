@@ -39,7 +39,7 @@ builder.Logging.AddConsole();
 
 builder.Services.AddDbContext<GenosStorExpressDatabaseContext>(
 	options => options.UseNpgsql(
-	builder.Configuration.GetConnectionString("DefaultConnection")
+		builder.Configuration.GetConnectionString("DefaultConnection")
 	)
 );
 
@@ -215,3 +215,5 @@ using (var scope = app.Services.CreateScope()) {
 }
 
 app.Run();
+
+public partial class Program { }

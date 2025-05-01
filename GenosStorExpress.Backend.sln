@@ -13,13 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Applicatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Utils", "GenosStorExpress.Utils\GenosStorExpress.Utils.csproj", "{690AC603-F1E2-49FC-85EC-BB69940728C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Tests", "GenosStorExpress.Tests\GenosStorExpress.Tests.csproj", "{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Элементы решения", "Элементы решения", "{754FC069-D67B-A9D7-50A1-8D1CA196D8F1}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.yml = docker-compose.yml
 		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenosStorExpress.Tests", "GenosStorExpress.Tests\GenosStorExpress.Tests.csproj", "{83FEBA40-8715-43A9-8908-972FEFDD724E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +47,10 @@ Global
 		{690AC603-F1E2-49FC-85EC-BB69940728C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{690AC603-F1E2-49FC-85EC-BB69940728C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{690AC603-F1E2-49FC-85EC-BB69940728C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9AE356FB-99C5-4FC3-8184-249AB1CA33A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83FEBA40-8715-43A9-8908-972FEFDD724E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83FEBA40-8715-43A9-8908-972FEFDD724E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83FEBA40-8715-43A9-8908-972FEFDD724E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83FEBA40-8715-43A9-8908-972FEFDD724E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

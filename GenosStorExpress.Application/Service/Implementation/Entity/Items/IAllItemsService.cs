@@ -158,6 +158,15 @@ public class AllItemsService: AbstractItemService, IAllItemsService {
     }
 
     public void SetImage(string sudoId, int itemId, MemoryStream stream) {
-        throw new NotImplementedException();
+        Item? obj =  _items.Get(itemId);
+
+        if (obj == null) {
+            throw new NullReferenceException($"Товара с номером {itemId} не существует");
+        }
+        
+        obj.ImageBase64 = Convert.ToBase64String(stream.ToArray());
+        _items.Update(obj);
+        _repositories.Save();
+        
     }
 }

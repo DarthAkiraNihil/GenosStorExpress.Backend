@@ -163,7 +163,7 @@ namespace GenosStorExpress.API.Controllers {
                 AnonymousItemWrapper item = _itemServiceRouter.Get(descriptor, id);
                 item.IsInCart = _isInCart(item.Id);
                 User? user = _getCurrentUser();
-                if (user is not null) {
+                if (user is not null && user.UserType != UserType.Administrator) {
                     item.LeftReview = _itemsService.GetReview(item.Id, user.Id);
                 }
                 _log(MethodBase.GetCurrentMethod()!.Name, parameters, "");
@@ -390,7 +390,7 @@ namespace GenosStorExpress.API.Controllers {
         /// <param name="file">Изображение товара</param>
         /// <returns>204 в случае успеха</returns>
         [Authorize(Roles = "administrator")]
-        [HttpGet("{id:int}/set_image")]
+        [HttpPost("{id:int}/set_image")]
         public IActionResult SetImage(int id, IFormFile file) {
 
             IList<string> parameters = new List<string> {
@@ -421,7 +421,7 @@ namespace GenosStorExpress.API.Controllers {
 
         private bool _isInCart(int itemId) {
             User? user = _getCurrentUser();
-            if (user == null) {
+            if (user == null || user.UserType == UserType.Administrator) {
                 return false;
             }
 

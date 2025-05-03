@@ -1,5 +1,6 @@
 ﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
 using GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly;
+using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item;
 using GenosStorExpress.Domain.Entity.Item.ComputerComponent;
 using GenosStorExpress.Domain.Interface;
@@ -258,6 +259,35 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
             return new PreparedAssemblyItemWrapper {
                 Id = wrapped.Id, Model = wrapped.Model
             };
+        }
+
+        /// <summary>
+        /// Фильтрация списка сущностей готовых сборок
+        /// </summary>
+        /// <param name="filters">Список фильтров</param>
+        /// <returns>Отфильтрованный список обёрток готовых сборок</returns>
+        public IList<PreparedAssemblyWrapper> Filter(FilterContainerWrapper filters) {
+            var filters_ = new List<Func<PreparedAssemblyWrapper, bool>>();
+            
+            if (filters.Name.Length != 0) {
+                filters_.Add(
+                    i => i.Name.Contains(filters.Name)
+                );
+            }
+            
+            var result = List();
+            foreach (var filter in filters_) {
+                result = result.Where(filter).ToList();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Получение данных о возможных фильтрах товара
+        /// </summary>
+        /// <returns>Список возможных фильтров</returns>
+        public IList<FilterDescription> FilterData() {
+            return new List<FilterDescription>();
         }
 
         private PreparedAssemblyDiskDriveWrapper _wrap(DiskDrive wrapped) {

@@ -72,7 +72,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Simpl
         }
 
         public CPUCore GetRaw(int id) {
-            throw new NotImplementedException();
+            return _cpuCores.Get(id);
         }
 
         public int Save() {

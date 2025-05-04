@@ -17,7 +17,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public NetworkAdapter? Get(int id) {
-            return _context.NetworkAdapters.Find(id);
+            return _context.NetworkAdapters.Find((long) id);
         }
 
         public void Create(NetworkAdapter networkAdapter) {

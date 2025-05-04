@@ -17,7 +17,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public MotherboardChipset? Get(int id) {
-            return _context.MotherboardChipsets.Find(id);
+            return _context.MotherboardChipsets.Find((long) id);
         }
 
         public void Create(MotherboardChipset motherboardChipset) {

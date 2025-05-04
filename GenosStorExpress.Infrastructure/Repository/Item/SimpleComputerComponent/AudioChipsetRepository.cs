@@ -17,7 +17,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public AudioChipset? Get(int id) {
-            return _context.AudioChipsets.Find(id);
+            return _context.AudioChipsets.Find((long) id);
         }
 
         public void Create(AudioChipset audioChipset) {

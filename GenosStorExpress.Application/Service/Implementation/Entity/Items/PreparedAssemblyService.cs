@@ -1,4 +1,6 @@
-﻿using GenosStorExpress.Application.Service.Interface.Entity.Items;
+﻿using GenosStorExpress.Application.Service.Implementation.Base;
+using GenosStorExpress.Application.Service.Interface.Entity.Items;
+using GenosStorExpress.Application.Service.Interface.Entity.Orders;
 using GenosStorExpress.Application.Wrappers.Entity.Item.PreaparedAssembly;
 using GenosStorExpress.Application.Wrappers.Filters;
 using GenosStorExpress.Domain.Entity.Item;
@@ -9,7 +11,7 @@ using GenosStorExpress.Domain.Interface.Item.ComputerComponent;
 
 
 namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
-    public class PreparedAssemblyService: IPreparedAssemblyService {
+    public class PreparedAssemblyService: AbstractItemService, IPreparedAssemblyService {
         private readonly IGenosStorExpressRepositories _repositories;
         
         private readonly IPreparedAssemblyRepository _preparedAssemblies;
@@ -25,7 +27,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
         private readonly IMouseRepository _mouses;
         private readonly ICPUCoolerRepository _cpuCoolers;
 
-        public PreparedAssemblyService(IGenosStorExpressRepositories repositories) {
+        public PreparedAssemblyService(IItemTypeService itemTypeService, IActiveDiscountService activeDiscountService, IGenosStorExpressRepositories repositories) : base(itemTypeService, activeDiscountService) {
             _repositories = repositories;
             _rams = _repositories.Items.ComputerComponents.RAMs;
             _diskDrives = _repositories.Items.ComputerComponents.DiskDrives;
@@ -115,35 +117,49 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items {
             if (obj == null) {
                 return null;
             }
+
+            var wrapped = new PreparedAssemblyWrapper();
             
-            return new PreparedAssemblyWrapper {
-                RAMs = obj.RAM.Select(i => _wrap(i)).ToList(),
-                DiskDrives = obj.Disks.Select(i => _wrap(i)).ToList(),
-                CPU = _wrap(obj.CPU),
-                Motherboard = _wrap(obj.Motherboard),
-                GraphicsCard = _wrap(obj.GraphicsCard),
-                PowerSupply = _wrap(obj.PowerSupply),
-                Display = obj.Display == null ? null : _wrap(obj.Display),
-                ComputerCase = _wrap(obj.ComputerCase),
-                Keyboard = obj.Keyboard == null ? null : _wrap(obj.Keyboard),
-                Mouse = obj.Mouse == null ? null : _wrap(obj.Mouse),
-                CPUCooler = _wrap(obj.CPUCooler),
-            };
+            _setWrapperPropertiesFromEntity(obj, wrapped);
+            
+            wrapped.RAMs = obj.RAM.Select(i => _wrap(i)).ToList();
+            wrapped.DiskDrives = obj.Disks.Select(i => _wrap(i)).ToList();
+            wrapped.CPU = _wrap(obj.CPU);
+            wrapped.Motherboard = _wrap(obj.Motherboard);
+            wrapped.GraphicsCard = _wrap(obj.GraphicsCard);
+            wrapped.PowerSupply = _wrap(obj.PowerSupply);
+            wrapped.Display = obj.Display == null ? null : _wrap(obj.Display);
+            wrapped.ComputerCase = _wrap(obj.ComputerCase);
+            wrapped.Keyboard = obj.Keyboard == null ? null : _wrap(obj.Keyboard);
+            wrapped.Mouse = obj.Mouse == null ? null : _wrap(obj.Mouse);
+            wrapped.CPUCooler = _wrap(obj.CPUCooler);
+
+            return wrapped;
+
         }
 
         public List<PreparedAssemblyWrapper> List() {
-            return _preparedAssemblies.List().Select(obj => new PreparedAssemblyWrapper {
-                RAMs = obj.RAM.Select(i => _wrap(i)).ToList(),
-                DiskDrives = obj.Disks.Select(i => _wrap(i)).ToList(),
-                CPU = _wrap(obj.CPU),
-                Motherboard = _wrap(obj.Motherboard),
-                GraphicsCard = _wrap(obj.GraphicsCard),
-                PowerSupply = _wrap(obj.PowerSupply),
-                Display = obj.Display == null ? null : _wrap(obj.Display),
-                ComputerCase = _wrap(obj.ComputerCase),
-                Keyboard = obj.Keyboard == null ? null : _wrap(obj.Keyboard),
-                Mouse = obj.Mouse == null ? null : _wrap(obj.Mouse),
-                CPUCooler = _wrap(obj.CPUCooler),
+            return _preparedAssemblies.List().Select(obj => {
+                
+                var wrapped = new PreparedAssemblyWrapper();
+            
+                _setWrapperPropertiesFromEntity(obj, wrapped);
+                
+                
+                wrapped.RAMs = obj.RAM.Select(i => _wrap(i)).ToList();
+                wrapped.DiskDrives = obj.Disks.Select(i => _wrap(i)).ToList();
+                wrapped.CPU = _wrap(obj.CPU);
+                wrapped.Motherboard = _wrap(obj.Motherboard);
+                wrapped.GraphicsCard = _wrap(obj.GraphicsCard);
+                wrapped.PowerSupply = _wrap(obj.PowerSupply);
+                wrapped.Display = obj.Display == null ? null : _wrap(obj.Display);
+                wrapped.ComputerCase = _wrap(obj.ComputerCase);
+                wrapped.Keyboard = obj.Keyboard == null ? null : _wrap(obj.Keyboard);
+                wrapped.Mouse = obj.Mouse == null ? null : _wrap(obj.Mouse);
+                wrapped.CPUCooler = _wrap(obj.CPUCooler);
+
+                return wrapped;
+                
             }).ToList();
         }
 

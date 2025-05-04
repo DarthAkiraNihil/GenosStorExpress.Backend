@@ -108,7 +108,7 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Items.Compu
             }
             created.AudioChipset = audioChipset;
             
-            var networkAdapter = _networkAdapterService.GetRaw((int) item.MotherboardChipset.Id);
+            var networkAdapter = _networkAdapterService.GetRaw((int) item.NetworkAdapter.Id);
             if (networkAdapter == null) {
                 throw new NullReferenceException($"Сетевого адаптера с номером {item.NetworkAdapter.Id} ({item.NetworkAdapter.Name}) не существует");
             }

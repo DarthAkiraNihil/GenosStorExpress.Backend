@@ -60,7 +60,7 @@ public class ItemBuilderService: IItemBuilderService {
     
     private void _buildSSD(SSDWrapper target, AnonymousItemWrapper source) {
         target.TBW = source.Characteristics["tbw"].GetInt32();
-        target.DWPD = source.Characteristics["dwpd"].GetFloat();
+        target.DWPD = (float) source.Characteristics["dwpd"].GetDouble();
         target.BitsForCell = source.Characteristics["bits_for_cell"].GetByte();
 
         var controller = source.Characteristics["controller"];
@@ -117,7 +117,7 @@ public class ItemBuilderService: IItemBuilderService {
         
         built.MaxFanRPM = wrapper.Characteristics["max_fan_rpm"].GetInt64();
         built.TubesCount = wrapper.Characteristics["tubes_count"].GetByte();
-        built.TubesDiameter = wrapper.Characteristics["tubes_diameter"].GetInt();
+        built.TubesDiameter = wrapper.Characteristics["tubes_diameter"].GetInt32();
         built.FanCount = wrapper.Characteristics["fan_count"].GetByte();
         built.FoundationMaterial = wrapper.Characteristics["foundation_material"].GetString();
         built.RadiatorMaterial = wrapper.Characteristics["radiator_material"].GetString();
@@ -138,10 +138,10 @@ public class ItemBuilderService: IItemBuilderService {
         built.Socket = wrapper.Characteristics["socket"].GetString();
         built.CoresCount = wrapper.Characteristics["cores_count"].GetInt32();
         built.ThreadsCount = wrapper.Characteristics["threads_count"].GetInt32();
-        built.L2CacheSize = wrapper.Characteristics["l2_cache_size"].GetFloat();
-        built.L3CacheSize = wrapper.Characteristics["l3_cache_size"].GetFloat();
-        built.TechnicalProcess = wrapper.Characteristics["technical_process"].GetFloat();
-        built.BaseFrequency = wrapper.Characteristics["base_frequency"].GetFloat();
+        built.L2CacheSize = (float) wrapper.Characteristics["l2_cache_size"].GetDouble();
+        built.L3CacheSize = (float) wrapper.Characteristics["l3_cache_size"].GetDouble();
+        built.TechnicalProcess = (float) wrapper.Characteristics["technical_process"].GetDouble();
+        built.BaseFrequency = (float) wrapper.Characteristics["base_frequency"].GetDouble();
         built.SupportedRAMSize = wrapper.Characteristics["supported_ram_size"].GetInt32();
         built.HasIntegratedGraphics = wrapper.Characteristics["has_integrated_graphics"].GetBoolean();
         
@@ -169,7 +169,7 @@ public class ItemBuilderService: IItemBuilderService {
         _buildBase(built, wrapper);
         _buildComputerComponent(built, wrapper);
 
-        built.MaxUpdateFrequency = wrapper.Characteristics["max_ram_frequency"].GetInt32();
+        built.MaxUpdateFrequency = wrapper.Characteristics["max_update_frequency"].GetInt32();
         built.ScreenDiagonal = wrapper.Characteristics["screen_diagonal"].GetDouble();
         built.MatrixType = wrapper.Characteristics["matrix_type"].GetString();
         built.Underlight = wrapper.Characteristics["underlight"].GetString();
@@ -270,14 +270,14 @@ public class ItemBuilderService: IItemBuilderService {
         built.USBPortsCount = wrapper.Characteristics["usb_ports_count"].GetByte();
         built.RJ45PortsCount = wrapper.Characteristics["rj45_ports_count"].GetByte();
         built.DigitalAudioPortsCount = wrapper.Characteristics["digital_audio_ports_count"].GetByte();
-        built.NetworkAdapterSpeed = wrapper.Characteristics["network_adapter_speed"].GetFloat();
+        built.NetworkAdapterSpeed = (float) wrapper.Characteristics["network_adapter_speed"].GetDouble();
         built.FormFactor = wrapper.Characteristics["form_factor"].GetString();
         built.CPUSocket = wrapper.Characteristics["cpu_socket"].GetString();
         built.PCIEVersion = wrapper.Characteristics["pcie_version"].GetString();
         
         built.SupportedRAMTypes = ((JsonElement) wrapper.Characteristics["supported_ram_types"])
             .EnumerateArray().Select(x => x.GetString()!).ToList();
-        built.VideoPorts = ((JsonElement) wrapper.Characteristics["supported_ram_types"])
+        built.VideoPorts = ((JsonElement) wrapper.Characteristics["video_ports"])
             .EnumerateArray().Select(x => x.GetString()!).ToList();
         
         built.SupportedCPUCores = ((JsonElement) wrapper.Characteristics["supported_cpu_cores"])
@@ -381,7 +381,7 @@ public class ItemBuilderService: IItemBuilderService {
         built.TotalSize = wrapper.Characteristics["total_size"].GetInt32();
         built.ModuleSize = wrapper.Characteristics["module_size"].GetInt32();
         built.ModulesCount = wrapper.Characteristics["modules_count"].GetByte();
-        built.Frequency = wrapper.Characteristics["frequency"].GetInt();
+        built.Frequency = wrapper.Characteristics["frequency"].GetInt32();
         built.CL = wrapper.Characteristics["cl"].GetByte();
         built.tRCD = wrapper.Characteristics["trcd"].GetByte();
         built.tRP = wrapper.Characteristics["trp"].GetByte();
@@ -706,9 +706,9 @@ public class ItemBuilderService: IItemBuilderService {
         built.ComputerCase = _buildPreparedAssemblyItem(characteristics["computer_case"]);
         built.CPUCooler = _buildPreparedAssemblyItem(characteristics["cpu_cooler"]);
         
-        built.Display = characteristics["display"] == null ? null : _buildPreparedAssemblyItem(characteristics["display"]);
-        built.Keyboard = characteristics["keyboard"] == null ? null : _buildPreparedAssemblyItem(characteristics["keyboard"]);
-        built.Mouse = characteristics["mouse"] == null ? null : _buildPreparedAssemblyItem(characteristics["mouse"]);
+        built.Display = characteristics["display"].ToString() == null ? null : _buildPreparedAssemblyItem(characteristics["display"]);
+        built.Keyboard = characteristics["keyboard"].ToString() == null ? null : _buildPreparedAssemblyItem(characteristics["keyboard"]);
+        built.Mouse = characteristics["mouse"].ToString() == null ? null : _buildPreparedAssemblyItem(characteristics["mouse"]);
         
         built.RAMs = ((JsonElement) wrapper.Characteristics["rams"])
                      .EnumerateArray().Select(x => _buildPreparedAssemblyItem(x))

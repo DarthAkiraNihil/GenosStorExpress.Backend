@@ -17,7 +17,7 @@ namespace GenosStorExpress.Infrastructure.Repository.Item.SimpleComputerComponen
         }
 
         public SSDController? Get(int id) {
-            return _context.SSDControllers.Find(id);
+            return _context.SSDControllers.Find((long) id);
         }
 
         public void Create(SSDController ssdController) {

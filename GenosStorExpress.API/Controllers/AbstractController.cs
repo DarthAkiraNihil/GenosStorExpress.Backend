@@ -12,6 +12,9 @@ public abstract class AbstractController: ControllerBase {
     /// Менеджер пользователей
     /// </summary>
     protected readonly UserManager<User> _userManager;
+    /// <summary>
+    /// Логгер
+    /// </summary>
     protected readonly ILogger _logger;
 
     /// <summary>

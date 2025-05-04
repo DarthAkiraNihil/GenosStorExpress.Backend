@@ -187,11 +187,12 @@ namespace GenosStorExpress.Application.Service.Implementation.Entity.Orders {
                 CustomerId = customerId,
                 CreatedAt = DateTime.Now,
                 OrderStatusId = status.Id,
-                OrderStatus = status
+                //OrderStatus = status
             };
             
             _repositories.Orders.Orders.Create(order);
             _repositories.Save();
+            order.OrderStatus = status;
 
             if (cart.Items.Count == 0) {
                 throw new InvalidOperationException("Корзина пуста. Создать заказ невозможно");
